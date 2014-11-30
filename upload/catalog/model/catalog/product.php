@@ -52,7 +52,7 @@ class ModelCatalogProduct extends Model {
 		if (!$description) {
 			$sql .= " AND pd.name LIKE '%" . $this->db->escape($keyword) . "%'";
 		} else {
-			$sql .= " AND (pd.name LIKE '%" . $this->db->escape($keyword) . "%' OR pd.long_description LIKE '%" . $this->db->escape($keyword) . "%')";
+			$sql .= " AND (pd.name LIKE '%" . $this->db->escape($keyword) . "%' OR pd.description LIKE '%" . $this->db->escape($keyword) . "%')";
 		}
 		
 		$sql .= " AND p.date_available < NOW() AND p.status = '1'";
