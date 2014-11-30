@@ -59,7 +59,7 @@
       <tbody>
         <?php foreach ($products as $product) { ?>
         <tr>
-          <td style="text-align: center;"><?php if ($product['selected']) { ?>
+          <td style="text-align: center; vertical-align: middle;"><?php if ($product['selected']) { ?>
             <input type="checkbox" name="selected[]" value="<?php echo $product['order_product_id']; ?>" checked="checked" />
             <?php } else { ?>
             <input type="checkbox" name="selected[]" value="<?php echo $product['order_product_id']; ?>" />
@@ -79,8 +79,7 @@
       <tfoot>
         <?php foreach ($totals as $total) { ?>
         <tr>
-          <td colspan="4"></td>
-          <td class="right"><b><?php echo $total['title']; ?></b></td>
+          <td colspan="5" class="right"><b><?php echo $total['title']; ?></b></td>
           <td class="right"><?php echo $total['text']; ?></td>
         </tr>
         <?php } ?>
