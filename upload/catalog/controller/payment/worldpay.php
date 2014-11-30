@@ -10,7 +10,7 @@ class ControllerPaymentWorldPay extends Controller {
 		
 		$this->load->library('encryption');
 		
-		$this->data['action'] = 'https://select.worldpay.com/wcc/purchase';
+		$this->data['action'] = 'https://secure.wp3.rbsworldpay.com/wcc/purchase';
 
 		$this->data['merchant'] = $this->config->get('worldpay_merchant');
 		$this->data['order_id'] = $order_info['order_id'];

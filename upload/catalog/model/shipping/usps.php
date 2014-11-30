@@ -340,10 +340,10 @@ class ModelShippingUsps extends Model {
 
 				if ($result) {
 
-					//if ($this->config->get('usps_debug')) {
+					if ($this->config->get('usps_debug')) {
 						$this->log->write("USPS DATA SENT: " . urldecode($request));
 						$this->log->write("USPS DATA RECV: " . $result);
-					//}
+					}
 
 					$dom = new DOMDocument('1.0', 'UTF-8');
 					$dom->loadXml($result);

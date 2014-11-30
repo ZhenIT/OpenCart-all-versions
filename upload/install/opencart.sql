@@ -5963,5 +5963,4 @@ CREATE TABLE `oc_zone_to_geo_zone` (
 
 INSERT INTO `oc_zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_id`, `geo_zone_id`, `date_added`, `date_modified`) VALUES
 (57, 222, 0, 3, '2010-02-26 22:33:24', '0000-00-00 00:00:00'),
-(51, 81, 0, 5, '2010-02-09 16:27:20', '0000-00-00 00:00:00'),
 (61, 222, 0, 4, '2010-03-05 17:26:04', '0000-00-00 00:00:00');

@@ -1,3 +1,28 @@
+== OpenCart v1.4.9.6 ==
+
+FIXES:
+- Fixed php error for deleted products due to bad check for admin catalog controllers (long time bug) with !empty.
+- Removed secret key required field in moneybookers and added the uppercase validation
+- Fixed missing classification field in ups.php
+- Fixed Customer filter to be case-insensitive
+- Fixed continuity with HTTPS vs HTTP in the cart, module, and checkout pages
+- Added callback to nochex.php and updated it for token support
+- Fixed Flat and Free modules overriding the main status
+- Fixed orphaned Germany zone to geozone (for new installs)
+
+ADDED:
+- Added Patched CURL-Based payment extensions with better curl error handling.
+- Changed Worldpay to use quicker form url
+- Updated royal mail rates
+- changed header.tpl to use variable for theme name
+- Updated common_form.tpl
+- Default dimensions for UPS if left empty
+
+DELETED:
+- Empty placeholder files
+
+
+
 == OpenCart v1.4.9.5 ==
 
 FIXES:
@@ -24,6 +49,7 @@ ADDED:
 - Updated admin product controller to use new array_merge languages
 - Added Max Qty for products
 - Added callback code to nochex
+- Added $_REQUEST clean and $this->request->request option for payment callbacks that support both POST and GET
 
 DELETED:
 - setMinQty() function removed. Min and Max qty check moved and simplified in main the getProducts() function in the cart library

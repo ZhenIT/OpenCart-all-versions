@@ -13,38 +13,38 @@ class ModelShippingFree extends Model {
       		} else {
         		$status = FALSE;
       		}
-		} else {
-			$status = FALSE;
-		}
+			
+			// If any products in the cart are not eligible for this shipping, then don't show free shipping option
+			if ($this->config->get('free_product')) {
+				$products = unserialize($this->config->get('free_product'));
 
-		if ($this->cart->getSubTotal() < $this->config->get('free_total')) {
-			$status = FALSE;
-		}
-
-		// If any products in the cart are not eligible for this shipping, then don't show free shipping option
-		if ($this->config->get('free_product')) {
-			$products = unserialize($this->config->get('free_product'));
-
-			foreach ($this->cart->getProducts() as $product) {
-				if (!in_array($product['product_id'], $products)) {
-					if ($this->config->get('free_inclusive')) {
-						$status = false;
-						break;
+				foreach ($this->cart->getProducts() as $product) {
+					if (!in_array($product['product_id'], $products)) {
+						if ($this->config->get('free_inclusive')) {
+							$status = false;
+							break;
+						} else {
+							$status = true;
+						}
 					} else {
-						$status = true;
-					}
-				} else {
-					if ($this->config->get('free_inclusive')) {
-						$status = true;
-					} else {
-						$status = false;
-						break;
+						if ($this->config->get('free_inclusive')) {
+							$status = true;
+						} else {
+							$status = false;
+							break;
+						}
 					}
 				}
 			}
-
+		
+			if ($this->cart->getSubTotal() < $this->config->get('free_total')) {
+				$status = FALSE;
+			}
+			
+		} else {
+			$status = FALSE;
 		}
-
+				
 		$method_data = array();
 
 		if ($status) {

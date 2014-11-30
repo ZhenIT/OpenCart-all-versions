@@ -44,9 +44,24 @@ class ControllerPaymentNOCHEX extends Controller {
 
 		$this->data['tab_general'] = $this->language->get('tab_general');
 
-		$this->data['error_warning'] = @$this->error['warning'];
-		$this->data['error_email'] = @$this->error['email'];
-		$this->data['error_merchant'] = @$this->error['merchant'];
+		if (isset($this->error['warning'])) {
+			$this->data['error_warning'] = $this->error['warning'];
+		} else {
+			$this->data['error_warning'] = '';
+		}
+		
+		if (isset($this->error['email'])) {
+			$this->data['error_email'] = $this->error['email'];
+		} else {
+			$this->data['error_email'] = '';
+		}
+		
+		if (isset($this->error['merchant'])) {
+			$this->data['error_merchant'] = $this->error['merchant'];
+		} else {
+			$this->data['error_merchant'] = '';
+		}
+		
 
   		$this->document->breadcrumbs = array();
 
@@ -134,11 +149,13 @@ class ControllerPaymentNOCHEX extends Controller {
 			$this->data['nochex_sort_order'] = $this->config->get('nochex_sort_order');
 		}
 
-		$this->id       = 'content';
 		$this->template = 'payment/nochex.tpl';
-		$this->layout   = 'common/layout';
+		$this->children = array(
+			'common/header',	
+			'common/footer'	
+		);
 		
- 		$this->render();
+		$this->response->setOutput($this->render(TRUE), $this->config->get('config_compression'));
 	}
 
 	private function validate() {

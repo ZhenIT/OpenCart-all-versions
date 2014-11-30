@@ -183,10 +183,6 @@ class ControllerPaymentMoneyBookers extends Controller {
 			$this->error['email'] = $this->language->get('error_email');
 		}
 
-		if (!$this->request->post['moneybookers_secret']) {
-			$this->error['secret'] = $this->language->get('error_secret');
-		}
-
 		if (!$this->error) {
 			return TRUE;
 		} else {

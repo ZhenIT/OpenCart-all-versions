@@ -377,7 +377,7 @@ class ControllerCatalogReview extends Controller {
 			} else {
 				$this->data['product'] = '';
 			}
-		} elseif (isset($review_info)) {
+		} elseif (!empty($review_info)) {
 			$this->data['product_id'] = $review_info['product_id'];
 			
 			$product_info = $this->model_catalog_product->getProduct($review_info['product_id']);
@@ -393,7 +393,7 @@ class ControllerCatalogReview extends Controller {
 		
 		if (isset($this->request->post['author'])) {
 			$this->data['author'] = $this->request->post['author'];
-		} elseif (isset($review_info)) {
+		} elseif (!empty($review_info)) {
 			$this->data['author'] = $review_info['author'];
 		} else {
 			$this->data['author'] = '';
@@ -401,7 +401,7 @@ class ControllerCatalogReview extends Controller {
 
 		if (isset($this->request->post['text'])) {
 			$this->data['text'] = $this->request->post['text'];
-		} elseif (isset($review_info)) {
+		} elseif (!empty($review_info)) {
 			$this->data['text'] = $review_info['text'];
 		} else {
 			$this->data['text'] = '';
@@ -409,7 +409,7 @@ class ControllerCatalogReview extends Controller {
 
 		if (isset($this->request->post['rating'])) {
 			$this->data['rating'] = $this->request->post['rating'];
-		} elseif (isset($review_info)) {
+		} elseif (!empty($review_info)) {
 			$this->data['rating'] = $review_info['rating'];
 		} else {
 			$this->data['rating'] = '';
@@ -417,7 +417,7 @@ class ControllerCatalogReview extends Controller {
 
 		if (isset($this->request->post['status'])) {
 			$this->data['status'] = $this->request->post['status'];
-		} elseif (isset($review_info)) {
+		} elseif (!empty($review_info)) {
 			$this->data['status'] = $review_info['status'];
 		} else {
 			$this->data['status'] = '';

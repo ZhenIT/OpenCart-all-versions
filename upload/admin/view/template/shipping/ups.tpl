@@ -719,6 +719,18 @@
           <td><?php echo $entry_sort_order; ?></td>
           <td><input type="text" name="ups_sort_order" value="<?php echo $ups_sort_order; ?>" size="1" /></td>
         </tr>
+		<tr>
+          <td><?php echo $entry_debug; ?></td>
+          <td><select name="ups_debug">
+              <?php if ($ups_debug) { ?>
+              <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
+              <option value="0"><?php echo $text_disabled; ?></option>
+              <?php } else { ?>
+              <option value="1"><?php echo $text_enabled; ?></option>
+              <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
+              <?php } ?>
+            </select></td>
+        </tr>
       </table>
     </form>
   </div>

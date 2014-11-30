@@ -440,6 +440,10 @@ class ControllerPaymentPPStandard extends Controller {
 
 			$response = curl_exec($ch);
 
+			if (curl_error($ch)) {
+				$this->log->write("PP_STANDARD :: CURL ERROR: " . curl_errno($ch) . "::" . curl_error($ch));
+			}
+			
 			curl_close($ch);
 
 			if ($this->config->get('pp_standard_debug')) {

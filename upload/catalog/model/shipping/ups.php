@@ -40,6 +40,11 @@ class ModelShippingUps extends Model {
 			$height = (isset($dimensions['height'])) ? $dimensions['height'] : $this->config->get('ups_height');
 			$height = $this->length->convert($height, $this->config->get('config_length_class'), $this->config->get('ups_measurement_class'));
 			
+			// Default 10x10x10 if dimensions are blank
+			if (!$length) { $length = '10'; }
+			if (!$width) { $width = '10'; }
+			if (!$height) { $height = '10'; }
+			
 			$service_code = array(
 				// US Origin
 				'US' => array(
@@ -231,7 +236,13 @@ class ModelShippingUps extends Model {
 			
 			$quote_data = array();
 			
-			if ($result) { 
+			if ($result) {
+			
+				if ($this->config->get('ups_debug')) {
+					$this->log->write("UPS DATA SENT: " . urldecode($request));
+					$this->log->write("UPS DATA RECV: " . $result);
+				}
+					
 				$dom = new DOMDocument('1.0', 'UTF-8');
 				$dom->loadXml($result);	
 				

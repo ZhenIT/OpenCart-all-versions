@@ -18,16 +18,7 @@ class ControllerPaymentNochex extends Controller {
 
 		$this->data['error'] = (isset($this->session->data['error'])) ? $this->session->data['error'] : NULL;
 		unset($this->session->data['error']);
-		
-		// Check for supported currency, otherwise convert to GBP.
-        $supported_currencies = array('GBP');
-        
-		if (in_array($order_info['currency'], $supported_currencies)) {
-            $currency = $order_info['currency'];
-        } else {
-            $currency = 'GBP';
-        }
-		
+				
 		$this->data['fields'] = array();
 		
         // Nochex minimum requirements
@@ -38,7 +29,7 @@ class ControllerPaymentNochex extends Controller {
             $this->data['fields']['merchant_id']      = $this->config->get('nochex_merchant');
         }
         
-        $this->data['fields']['amount']               = $this->currency->format($order_info['total'], $currency, FALSE, FALSE);
+        $this->data['fields']['amount']               = $this->currency->format($order_info['total'], 'GBP', FALSE, FALSE);
         // End minimum requirements
 
         $this->data['fields']['order_id']             = $this->session->data['order_id'];

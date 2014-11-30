@@ -9,7 +9,7 @@ $_['text_moneybookers']	            = '<a onclick="window.open(\'https://www.mon
 
 // Entry
 $_['entry_email']		            = 'E-Mail:';
-$_['entry_secret']		            = 'Secret:';
+$_['entry_secret']		            = 'Secret:<br/><span class="html">Recommended. Get this from your Moneybookers account under the "Merchant Tools" section. Only for Moneybookers business accounts.</span>';
 $_['entry_order_status']            = 'Order Status:';
 $_['entry_order_status_pending']    = 'Order Status Pending:';
 $_['entry_order_status_canceled']   = 'Order Status Canceled:';

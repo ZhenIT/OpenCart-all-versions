@@ -50,7 +50,7 @@ class ControllerModuleBestSeller extends Controller {
 			if ($options) {
 				$add = $this->model_tool_seo_url->rewrite(HTTP_SERVER . 'index.php?route=product/product&amp;product_id=' . $result['product_id']);
 			} else {
-				$add = HTTPS_SERVER . 'index.php?route=checkout/cart&amp;product_id=' . $result['product_id'];
+				$add = HTTP_SERVER . 'index.php?route=checkout/cart&amp;product_id=' . $result['product_id'];
 			}
 
 			$this->data['products'][] = array(

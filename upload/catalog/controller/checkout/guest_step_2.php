@@ -290,7 +290,7 @@ class ControllerCheckoutGuestStep2 extends Controller {
 			$this->data['agree'] = '';
 		}
 		
-		$this->data['back'] = HTTP_SERVER . 'index.php?route=checkout/guest_step_1';
+		$this->data['back'] = HTTPS_SERVER . 'index.php?route=checkout/guest_step_1';
 		
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/checkout/guest_step_2.tpl')) {
 			$this->template = $this->config->get('config_template') . '/template/checkout/guest_step_2.tpl';

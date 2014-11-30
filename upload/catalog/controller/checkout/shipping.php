@@ -14,7 +14,7 @@ class ControllerCheckoutShipping extends Controller {
     	}
 		
 		if (!$this->cart->hasProducts() || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
-	  		$this->redirect(HTTPS_SERVER . 'index.php?route=checkout/cart');
+	  		$this->redirect(HTTP_SERVER . 'index.php?route=checkout/cart');
     	}
 		
 		if (!$this->customer->isLogged()) {
@@ -193,7 +193,7 @@ class ControllerCheckoutShipping extends Controller {
 			$this->data['comment'] = '';
 		}
 		
-    	$this->data['back'] = HTTPS_SERVER . 'index.php?route=checkout/cart';
+    	$this->data['back'] = HTTP_SERVER . 'index.php?route=checkout/cart';
 		
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/checkout/shipping.tpl')) {
 			$this->template = $this->config->get('config_template') . '/template/checkout/shipping.tpl';

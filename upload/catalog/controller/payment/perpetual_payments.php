@@ -2,37 +2,37 @@
 class ControllerPaymentPerpetualPayments extends Controller {
 	protected function index() {
     	$this->language->load('payment/perpetual_payments');
-		
+
 		$this->data['text_credit_card'] = $this->language->get('text_credit_card');
 		$this->data['text_start_date'] = $this->language->get('text_start_date');
 		$this->data['text_issue'] = $this->language->get('text_issue');
 		$this->data['text_wait'] = $this->language->get('text_wait');
-		
+
 		$this->data['entry_cc_number'] = $this->language->get('entry_cc_number');
 		$this->data['entry_cc_start_date'] = $this->language->get('entry_cc_start_date');
 		$this->data['entry_cc_expire_date'] = $this->language->get('entry_cc_expire_date');
 		$this->data['entry_cc_cvv2'] = $this->language->get('entry_cc_cvv2');
 		$this->data['entry_cc_issue'] = $this->language->get('entry_cc_issue');
-		
+
 		$this->data['button_confirm'] = $this->language->get('button_confirm');
 		$this->data['button_back'] = $this->language->get('button_back');
-	
+
 		$this->data['months'] = array();
-		
+
 		for ($i = 1; $i <= 12; $i++) {
 			$this->data['months'][] = array(
-				'text'  => strftime('%B', mktime(0, 0, 0, $i, 1, 2000)), 
+				'text'  => strftime('%B', mktime(0, 0, 0, $i, 1, 2000)),
 				'value' => sprintf('%02d', $i)
 			);
 		}
-		
+
 		$today = getdate();
-		
+
 		$this->data['year_valid'] = array();
-		
-		for ($i = $today['year'] - 10; $i < $today['year'] + 1; $i++) {	
+
+		for ($i = $today['year'] - 10; $i < $today['year'] + 1; $i++) {
 			$this->data['year_valid'][] = array(
-				'text'  => strftime('%Y', mktime(0, 0, 0, 1, 1, $i)), 
+				'text'  => strftime('%Y', mktime(0, 0, 0, 1, 1, $i)),
 				'value' => strftime('%Y', mktime(0, 0, 0, 1, 1, $i))
 			);
 		}
@@ -42,7 +42,7 @@ class ControllerPaymentPerpetualPayments extends Controller {
 		for ($i = $today['year']; $i < $today['year'] + 11; $i++) {
 			$this->data['year_expire'][] = array(
 				'text'  => strftime('%Y', mktime(0, 0, 0, 1, 1, $i)),
-				'value' => strftime('%Y', mktime(0, 0, 0, 1, 1, $i)) 
+				'value' => strftime('%Y', mktime(0, 0, 0, 1, 1, $i))
 			);
 		}
 
@@ -51,23 +51,23 @@ class ControllerPaymentPerpetualPayments extends Controller {
 		} else {
 			$this->data['back'] = HTTPS_SERVER . 'index.php?route=checkout/guest_step_2';
 		}
-		
+
 		$this->id = 'payment';
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/payment/perpetual_payments.tpl')) {
 			$this->template = $this->config->get('config_template') . '/template/payment/perpetual_payments.tpl';
 		} else {
 			$this->template = 'default/template/payment/perpetual_payments.tpl';
-		}	
-			
-		$this->render();		
+		}
+
+		$this->render();
 	}
 
 	public function send() {
 		$this->language->load('payment/perpetual_payments');
-		
+
 		$this->load->model('checkout/order');
-		
+
 		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 
 		$payment_data = array(
@@ -93,7 +93,7 @@ class ControllerPaymentPerpetualPayments extends Controller {
 		);
 
 		$curl = curl_init('https://secure.voice-pay.com/gateway/remote');
-		
+
 		curl_setopt($curl, CURLOPT_PORT, 443);
 		curl_setopt($curl, CURLOPT_HEADER, 0);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
@@ -101,24 +101,31 @@ class ControllerPaymentPerpetualPayments extends Controller {
         curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
         curl_setopt($curl, CURLOPT_FRESH_CONNECT, 1);
         curl_setopt($curl, CURLOPT_POST, 1);
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
+		curl_setopt($curl, CURLOPT_TIMEOUT, 10);
         curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($payment_data));
 
 		$response = curl_exec($curl);
- 		
-		curl_close($curl);
+
+		$json = array();
+
+		if (curl_error($curl)) {
 		
-		if ($response) {
-			$data = explode('|', $response);
+			$json['error'] = 'CURL ERROR: ' . curl_errno($curl) . '::' . curl_error($curl);
+			$this->log->write('PERPETUAL PAYMENTS CURL ERROR: ' . curl_errno($curl) . '::' . curl_error($curl));	
 			
+		} elseif ($response) {
+			$data = explode('|', $response);
+
 			if (isset($data[0]) && $data[0] == 'A') {
 				$this->model_checkout_order->confirm($this->session->data['order_id'], $this->config->get('config_order_status_id'));
-				
+
 				$message = '';
-				
+
 				if (isset($data[1])) {
 					$message .= $this->language->get('text_transaction') . ' ' . $data[1] . "\n";
 				}
-				
+
 				if (isset($data[2])) {
 					if ($data[2] == '232') {
 						$message .= $this->language->get('text_avs') . ' ' . $this->language->get('text_avs_full_match') . "\n";
@@ -126,21 +133,26 @@ class ControllerPaymentPerpetualPayments extends Controller {
 						$message .= $this->language->get('text_avs') . ' ' . $this->language->get('text_avs_not_match') . "\n";
 					}
 				}
-				
+
 				if (isset($data[3])) {
 					$message .= $this->language->get('text_authorisation') . ' ' . $data[3] . "\n";
 				}
-				
+
 				$this->model_checkout_order->update($this->session->data['order_id'], $this->config->get('perpetual_payments_order_status_id'), $message, FALSE);
-					
+
 				$json['success'] = HTTPS_SERVER . 'index.php?route=checkout/success';
 			} else {
 				$json['error'] = end($data);
 			}
+		} else {
+			$json['error'] = 'Empty Gateway Response';
+			$this->log->write('PERPETUAL PAYMENTS CURL ERROR: Empty Gateway Response');
 		}
+
+		curl_close($curl);
 		
 		$this->load->library('json');
-		
+
 		$this->response->setOutput(Json::encode($json));
 	}
 }

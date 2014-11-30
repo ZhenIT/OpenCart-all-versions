@@ -26,7 +26,7 @@ class ControllerCheckoutCart extends Controller {
 			
 			$this->cart->add($this->request->get['product_id'], $quantity, $option);
 			
-			$this->redirect(HTTPS_SERVER . 'index.php?route=checkout/cart');
+			$this->redirect(HTTP_SERVER . 'index.php?route=checkout/cart');
 			
 		} elseif ($this->request->server['REQUEST_METHOD'] == 'POST') {
 		
@@ -67,7 +67,7 @@ class ControllerCheckoutCart extends Controller {
 				unset($this->session->data['payment_methods']);
 				unset($this->session->data['payment_method']);	
 				
-				$this->redirect(HTTPS_SERVER . 'index.php?route=checkout/cart');
+				$this->redirect(HTTP_SERVER . 'index.php?route=checkout/cart');
 			}
     	}
 
@@ -115,7 +115,7 @@ class ControllerCheckoutCart extends Controller {
 				$this->data['error_warning'] = '';
 			}
 		
-			$this->data['action'] = HTTPS_SERVER . 'index.php?route=checkout/cart';
+			$this->data['action'] = HTTP_SERVER . 'index.php?route=checkout/cart';
 			
 			$this->load->model('tool/seo_url'); 
 			$this->load->model('tool/image');

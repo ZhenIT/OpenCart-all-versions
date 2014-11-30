@@ -23,7 +23,7 @@ class ModelShippingRoyalMail extends Model {
 			$weight = $this->cart->getWeight();
 			$sub_total = $this->cart->getSubTotal();
 			
-			if ($this->config->get('royal_mail_1st_class_standard') && $address['iso_code_2'] == 'GB') {
+			if ($this->config->get('royal_mail_1st_class_standard') && $address['iso_code_2'] == 'GB' && $sub_total < 41 ) {
 				$cost = 0;
 				$compensation = 0;
 				$rates = explode(',', '.1:1.58,.25:1.96,.5:2.48,.75:3.05,1:3.71,1.25:4.90,1.5:5.66,1.75:6.42,2:7.18,4:8.95,6:12.00,8:15.05,10:18.10');
@@ -324,7 +324,7 @@ class ModelShippingRoyalMail extends Model {
 				}
 			}
 			
-			if ($this->config->get('royal_mail_international_signed')) {
+			if ($this->config->get('royal_mail_international_signed') && $address['iso_code_2'] != 'GB') {
 				$cost = 0;
 				$compensation = 0;
 				

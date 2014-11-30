@@ -245,6 +245,7 @@ class ControllerShippingUPS extends Controller {
 			'ups_other_65',
 			'ups_display_weight',
 			'ups_insurance',
+			'ups_classification',
 			'ups_measurement_code',
 			'ups_measurement_class',
 			'ups_length',
@@ -255,7 +256,8 @@ class ControllerShippingUPS extends Controller {
 			'ups_tax_class_id',
 			'ups_geo_zone_id',
 			'ups_status',
-			'ups_sort_order'
+			'ups_sort_order',
+			'ups_debug'
 		);
 		
 		foreach ($fields as $field) {

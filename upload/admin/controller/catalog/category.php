@@ -213,7 +213,7 @@ class ControllerCatalogCategory extends Controller {
 
 		if (isset($this->request->post['category_description'])) {
 			$this->data['category_description'] = $this->request->post['category_description'];
-		} elseif (isset($category_info)) {
+		} elseif (!empty($category_info)) {
 			$this->data['category_description'] = $this->model_catalog_category->getCategoryDescriptions($this->request->get['category_id']);
 		} else {
 			$this->data['category_description'] = array();
@@ -221,7 +221,7 @@ class ControllerCatalogCategory extends Controller {
 
 		if (isset($this->request->post['status'])) {
 			$this->data['status'] = $this->request->post['status'];
-		} elseif (isset($category_info)) {
+		} elseif (!empty($category_info)) {
 			$this->data['status'] = $category_info['status'];
 		} else {
 			$this->data['status'] = 1;
@@ -230,7 +230,7 @@ class ControllerCatalogCategory extends Controller {
 		$categories = $this->model_catalog_category->getCategories(0);
 
 		// Remove own id from list
-		if (isset($category_info)) {
+		if (!empty($category_info)) {
 			foreach ($categories as $key => $category) {
 				if ($category['category_id'] == $category_info['category_id']) {
 					unset($categories[$key]);
@@ -242,7 +242,7 @@ class ControllerCatalogCategory extends Controller {
 
 		if (isset($this->request->post['parent_id'])) {
 			$this->data['parent_id'] = $this->request->post['parent_id'];
-		} elseif (isset($category_info)) {
+		} elseif (!empty($category_info)) {
 			$this->data['parent_id'] = $category_info['parent_id'];
 		} else {
 			$this->data['parent_id'] = 0;
@@ -254,7 +254,7 @@ class ControllerCatalogCategory extends Controller {
 		
 		if (isset($this->request->post['category_store'])) {
 			$this->data['category_store'] = $this->request->post['category_store'];
-		} elseif (isset($category_info)) {
+		} elseif (!empty($category_info)) {
 			$this->data['category_store'] = $this->model_catalog_category->getCategoryStores($this->request->get['category_id']);
 		} else {
 			$this->data['category_store'] = array(0);
@@ -262,7 +262,7 @@ class ControllerCatalogCategory extends Controller {
 		
 		if (isset($this->request->post['keyword'])) {
 			$this->data['keyword'] = $this->request->post['keyword'];
-		} elseif (isset($category_info)) {
+		} elseif (!empty($category_info)) {
 			$this->data['keyword'] = $category_info['keyword'];
 		} else {
 			$this->data['keyword'] = '';
@@ -270,7 +270,7 @@ class ControllerCatalogCategory extends Controller {
 
 		if (isset($this->request->post['image'])) {
 			$this->data['image'] = $this->request->post['image'];
-		} elseif (isset($category_info)) {
+		} elseif (!empty($category_info)) {
 			$this->data['image'] = $category_info['image'];
 		} else {
 			$this->data['image'] = '';
@@ -278,7 +278,7 @@ class ControllerCatalogCategory extends Controller {
 		
 		$this->load->model('tool/image');
 
-		if (isset($category_info) && $category_info['image'] && file_exists(DIR_IMAGE . $category_info['image'])) {
+		if (!empty($category_info) && $category_info['image'] && file_exists(DIR_IMAGE . $category_info['image'])) {
 			$this->data['preview'] = $this->model_tool_image->resize($category_info['image'], 100, 100);
 		} else {
 			$this->data['preview'] = $this->model_tool_image->resize('no_image.jpg', 100, 100);
@@ -286,7 +286,7 @@ class ControllerCatalogCategory extends Controller {
 		
 		if (isset($this->request->post['sort_order'])) {
 			$this->data['sort_order'] = $this->request->post['sort_order'];
-		} elseif (isset($category_info)) {
+		} elseif (!empty($category_info)) {
 			$this->data['sort_order'] = $category_info['sort_order'];
 		} else {
 			$this->data['sort_order'] = 0;
