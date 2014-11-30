@@ -1,10 +1,14 @@
 <?php
 class ModelCatalogImage extends Model {	
 	public function addImage($data) {
-	  	$this->db->query("INSERT INTO image SET filename = '" . $this->db->escape($data['image']['name']) . "', date_added = NOW()");
+		if (!@move_uploaded_file($data['image']['tmp_name'], DIR_IMAGE . basename($data['image']['name']))) {
+			@unlink($data['image']['tmp_name']);
+	  	}
+	  	
+		$this->db->query("INSERT INTO image SET filename = '" . $this->db->escape($data['image']['name']) . "', date_added = NOW()");
 
       	$image_id = $this->db->getLastId();
-
+		
       	foreach ($data['image_description'] as $language_id => $value) {
         	$this->db->query("INSERT INTO image_description SET image_id = '" . (int)$image_id . "', language_id = '" . (int)$language_id . "', title = '" . $this->db->escape($value['title']) . "'");
       	}
@@ -13,6 +17,10 @@ class ModelCatalogImage extends Model {
 	}
 	
 	public function editImage($image_id, $data) {
+		if (!@move_uploaded_file($data['image']['tmp_name'], DIR_IMAGE . basename($data['image']['name']))) {
+			@unlink($data['image']['tmp_name']);
+	  	}
+		
       	if ($data['image']['name']) {
         	$this->db->query("UPDATE image set filename = '" . $this->db->escape($data['image']['name']) . "' WHERE image_id = '" . (int)$image_id . "'");
       	}

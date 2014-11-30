@@ -23,13 +23,6 @@
     <span class="error"><?php echo $error_file; ?></span>
     <?php } ?>
     <br />
-    <?php echo $entry_mask; ?><br />
-    <input type="input" name="mask" value="<?php echo $mask; ?>" />
-    <br />
-    <?php if ($error_mask) { ?>
-    <span class="error"><?php echo $error_mask; ?></span>
-    <?php } ?>
-    <br />
     <?php echo $entry_remaining; ?><br />
     <input type="input" name="remaining" value="<?php echo $remaining; ?>" size="6" />
   </div>

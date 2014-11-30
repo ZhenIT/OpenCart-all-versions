@@ -357,14 +357,6 @@ class ControllerCatalogImage extends Controller {
 			if ($this->request->files['image']['error'] != UPLOAD_ERR_OK) {
 				$this->error['warning'] = $this->language->get('error_upload_' . $this->request->files['image']['error']);
 			}
-			
-			if (!$this->error) {
-				if (!@move_uploaded_file($this->request->files['image']['tmp_name'], DIR_IMAGE . basename($this->request->files['image']['name']))) {
-					@unlink($this->request->files['image']['tmp_name']);
-
-	    			$this->error['file'] = $this->language->get('error_upload');
-	  			}
-			}	
 		}
 		
 		if (!$this->error) {

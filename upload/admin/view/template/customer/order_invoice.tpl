@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="view/stylesheet/invoice.css" />
 </head>
 <body>
-<h1>Invoice</h1>
+<h1><?php echo $text_invoice; ?></h1>
 <div class="div1">
   <div class="div2"><?php echo $store; ?><br />
     <?php echo $address; ?><br />
@@ -54,8 +54,7 @@
       <?php foreach ($product['option'] as $option) { ?>
       <br />
       &nbsp;<small> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
-      <?php } ?>
-    </td>
+      <?php } ?></td>
     <td><?php echo $product['model']; ?></td>
     <td align="right"><?php echo $product['quantity']; ?></td>
     <td align="right"><?php if (!$product['discount']) { ?>
@@ -75,4 +74,4 @@
   <?php } ?>
 </table>
 </body>
-</html>
+</html>

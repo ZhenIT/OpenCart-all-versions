@@ -57,20 +57,6 @@
     <input type="text" name="config_fax" value="<?php echo $config_fax; ?>" />
     <br />
     <br />
-    <?php echo $entry_url_alias; ?><br />
-    <?php if ($config_url_alias) { ?>
-    <input type="radio" name="config_url_alias" value="1" checked="checked" />
-    <?php echo $text_yes; ?>
-    <input type="radio" name="config_url_alias" value="0" />
-    <?php echo $text_no; ?>
-    <?php } else { ?>
-    <input type="radio" name="config_url_alias" value="1" />
-    <?php echo $text_yes; ?>
-    <input type="radio" name="config_url_alias" value="0" checked="checked" />
-    <?php echo $text_no; ?>
-    <?php } ?>
-    <br />
-    <br />
     <?php echo $entry_parse_time; ?><br />
     <?php if ($config_parse_time) { ?>
     <input type="radio" name="config_parse_time" value="1" checked="checked" />

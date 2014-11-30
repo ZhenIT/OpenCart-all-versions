@@ -103,6 +103,12 @@ switch ($step) {
         <td><?php echo (!ini_get('register_globals') ? '<span class="good">Good</span>' : '<span class="bad">Error</span>'); ?></td>
       </tr>
       <tr>
+        <td>Magic Quotes GPC:</td>
+        <td><?php echo (ini_get('magic_quotes_gpc') ? 'On' : 'Off'); ?></td>
+        <td>Off</td>
+        <td><?php echo (!ini_get('magic_quotes_gpc') ? '<span class="good">Good</span>' : '<span class="bad">Error</span>'); ?></td>
+      </tr>      
+      <tr>
         <td>File Uploads:</td>
         <td><?php echo (ini_get('file_uploads') ? 'On' : 'Off'); ?></td>
         <td>On</td>

@@ -18,16 +18,6 @@
           <?php } else { ?>
           <a href="<?php echo $sort_name; ?>"><?php echo $column_name; ?></a>
           <?php } ?></td>
-        <td class="left"><?php if ($sort == 'd.filename') { ?>
-          <a href="<?php echo $sort_filename; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_filename; ?></a>
-          <?php } else { ?>
-          <a href="<?php echo $sort_filename; ?>"><?php echo $column_filename; ?></a>
-          <?php } ?></td>
-        <td class="left"><?php if ($sort == 'd.mask') { ?>
-          <a href="<?php echo $sort_mask; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_mask; ?></a>
-          <?php } else { ?>
-          <a href="<?php echo $sort_mask; ?>"><?php echo $column_mask; ?></a>
-          <?php } ?></td>
         <td class="right"><?php if ($sort == 'd.remaining') { ?>
           <a href="<?php echo $sort_remaining; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_remaining; ?></a>
           <?php } else { ?>
@@ -48,8 +38,6 @@
           <input type="checkbox" name="delete[]" value="<?php echo $download['download_id']; ?>" />
           <?php } ?></td>
         <td class="left"><?php echo $download['name']; ?></td>
-        <td class="left"><?php echo $download['filename']; ?></td>
-        <td class="left"><?php echo $download['mask']; ?></td>
         <td class="right"><?php echo $download['remaining']; ?></td>
         <td class="right"><?php foreach ($download['action'] as $action) { ?>
           [ <a href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a> ]
@@ -64,4 +52,4 @@
     </tbody>
   </table>
 </form>
-<div class="pagination"><?php echo $pagination; ?></div>
+<div class="pagination"><?php echo $pagination; ?></div>

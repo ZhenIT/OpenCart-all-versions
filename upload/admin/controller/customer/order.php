@@ -384,7 +384,6 @@ class ControllerCustomerOrder extends Controller {
 		$this->data['button_cancel'] = $this->language->get('button_cancel');
 		$this->data['button_back'] = $this->language->get('button_back');
 		$this->data['button_invoice'] = $this->language->get('button_invoice');
-		$this->data['button_print'] = $this->language->get('button_print');
 
 		$this->data['error_warning'] = @$this->error['warning'];
 
@@ -565,7 +564,7 @@ class ControllerCustomerOrder extends Controller {
     	foreach ($results as $result) {
       		$this->data['downloads'][] = array(
         		'name'      => $result['name'],
-        		'filename'  => $result['filename'],
+        		'filename'  => $result['mask'],
         		'remaining' => $result['remaining']
       		);
     	}
@@ -597,7 +596,8 @@ class ControllerCustomerOrder extends Controller {
 		$this->data['base'] = (@$this->request->server['HTTPS'] != 'on') ? HTTP_SERVER : HTTPS_SERVER;
 		$this->data['direction'] = $this->language->get('direction');
 		$this->data['language'] = $this->language->get('code');	
-
+		
+		$this->data['text_invoice'] = $this->language->get('text_invoice');
     	$this->data['text_invoice_date'] = $this->language->get('text_invoice_date');
 		$this->data['text_invoice_no'] = $this->language->get('text_invoice_no');
 		$this->data['text_telephone'] = $this->language->get('text_telephone');

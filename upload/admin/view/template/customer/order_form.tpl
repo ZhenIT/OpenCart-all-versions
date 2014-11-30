@@ -3,9 +3,9 @@
 <?php } ?>
 <div class="heading">
   <h1><?php echo $heading_title; ?></h1>
-  <div class="buttons"><a onclick="openMyModal('<?php echo $invoice; ?>');" class="button"><span class="button_left button_invoice"></span><span class="button_middle"><?php echo $button_invoice; ?></span><span class="button_right"></span></a><a onclick="iprint('<?php echo $invoice; ?>'); " class="button"><span class="button_left button_print"></span><span class="button_middle"><?php echo $button_print; ?></span><span class="button_right"></span></a><a onclick="location='<?php echo $cancel; ?>';" class="button"><span class="button_left button_back"></span><span class="button_middle"><?php echo $button_back; ?></span><span class="button_right"></span></a></div>
+  <div class="buttons"><a onclick="window.open('<?php echo $invoice; ?>');" class="button"><span class="button_left button_invoice"></span><span class="button_middle"><?php echo $button_invoice; ?></span><span class="button_right"></span></a><a onclick="location='<?php echo $cancel; ?>';" class="button"><span class="button_left button_back"></span><span class="button_middle"><?php echo $button_back; ?></span><span class="button_right"></span></a></div>
 </div>
-<div id="invoice">
+<div id="order">
   <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
     <table>
       <thead>
@@ -197,21 +197,4 @@
       </tbody>
     </table>
   </form>
-</div>
-<script type="text/javascript" src="view/javascript/jquery/modal/modal.js"></script>
-<link rel="stylesheet" type="text/css" href="view/javascript/jquery/modal/modal.css" />
-<script type="text/javascript"><!--
-function openMyModal(source) {   
-    modalWindow.windowId = 'myModal';   
-    modalWindow.width    = 700;   
-    modalWindow.height   = 600;   
-    modalWindow.content  = '<iframe name="invoice" width="700" height="570" frameborder="0" scrolling="auto" allowtransparency="true" src="' + source + '"></iframe><div style="background: #303F4A; padding: 8px; text-align: right;"><a onclick="modalWindow.close();" style="color: #FFFFFF;"><u><?php echo $text_close; ?></u></a></div>';   
-    modalWindow.open();   
-};  
-
-function iprint(source) {
-	openMyModal(source);
-	frames['invoice'].focus(); 
-	frames['invoice'].print(); 
-} 
-//--></script>
+</div>

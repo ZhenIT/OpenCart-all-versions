@@ -22,8 +22,8 @@ class ModelCheckoutOrder extends Model {
 
 		$order_id = $this->db->getLastId();
 
-		foreach ($data['products'] as $product) {
-			$this->db->query("INSERT INTO order_product SET order_id = '" . (int)$order_id . "', name = '" . $this->db->escape($product['name']) . "', model = '" . $this->db->escape($product['model']) . "', price = '" . (float)$product['price'] . "', discount = '" . (float)$product['discount'] . "', total = '" . (float)$product['total'] . "', tax = '" . (float)$product['tax'] . "', quantity = '" . (int)$product['quantity'] . "'");
+		foreach ($data['products'] as $product) { 
+			$this->db->query("INSERT INTO order_product SET order_id = '" . (int)$order_id . "', product_id = '" . (int)$product['product_id'] . "', name = '" . $this->db->escape($product['name']) . "', model = '" . $this->db->escape($product['model']) . "', price = '" . (float)$product['price'] . "', discount = '" . (float)$product['discount'] . "', total = '" . (float)$product['total'] . "', tax = '" . (float)$product['tax'] . "', quantity = '" . (int)$product['quantity'] . "'");
  
 			$order_product_id = $this->db->getLastId();
 

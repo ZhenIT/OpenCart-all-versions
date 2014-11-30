@@ -501,21 +501,21 @@ input, textarea, select, form iframe {
 	width: 45%;
 	height: 200px;
 }
-#invoice {
+#order {
 	border-top: 1px solid #CDDDDD;
 }
-#invoice table {
+#order table {
 	border-collapse: collapse;
 	border-left: 1px solid #E5E5E5;
 	width: 100%;
 }
-#invoice table td {
+#order table td {
 	padding: 5px;
 	background:  #FFFFFF;
 	border-right: 1px solid #E5E5E5;
 	border-bottom: 1px solid #E5E5E5;
 }
-#invoice table thead td {
+#order table thead td {
 	background: #303F4A;
 	color: #FFFFFF;
 }

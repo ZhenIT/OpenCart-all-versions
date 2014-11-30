@@ -13,7 +13,6 @@ $_['entry_address']         = 'Address:';
 $_['entry_email']           = 'E-Mail:';
 $_['entry_telephone']       = 'Telephone:';
 $_['entry_fax']             = 'Fax:';
-$_['entry_url_alias']       = 'Use URL Alias:';
 $_['entry_parse_time']      = 'Display Parse Time:';
 $_['entry_ssl']             = 'Use SSL:';
 $_['entry_country']         = 'Country:';

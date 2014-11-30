@@ -30,7 +30,6 @@ class ControllerSettingSetting extends Controller {
 		$this->data['entry_email'] = $this->language->get('entry_email');
 		$this->data['entry_telephone'] = $this->language->get('entry_telephone');
 		$this->data['entry_fax'] = $this->language->get('entry_fax');
-		$this->data['entry_url_alias'] = $this->language->get('entry_url_alias');
 		$this->data['entry_parse_time'] = $this->language->get('entry_parse_time');
 		$this->data['entry_ssl'] = $this->language->get('entry_ssl');
 		$this->data['entry_country'] = $this->language->get('entry_country');
@@ -145,12 +144,6 @@ class ControllerSettingSetting extends Controller {
 			$this->data['config_fax'] = $this->request->post['config_fax'];
 		} else {
 			$this->data['config_fax'] = $this->config->get('config_fax');
-		}
-
-		if (isset($this->request->post['config_url_alias'])) {
-			$this->data['config_url_alias'] = $this->request->post['config_url_alias'];
-		} else {
-			$this->data['config_url_alias'] = $this->config->get('config_url_alias');
 		}
 		
 		if (isset($this->request->post['config_parse_time'])) {

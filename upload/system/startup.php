@@ -8,13 +8,19 @@ if (version_compare(phpversion(), '5.1.0', '<') == TRUE) {
 }
 
 // Maximum Execution Time;
-set_time_limit(10);
+set_time_limit(30);
 
 // Security
 ini_set('register_globals', 'Off');
 
 if (ini_get('register_globals')) {
 	exit('Error: register_globals is enabled!');
+}
+
+ini_set('magic_quotes_gpc', 'Off');
+
+if (ini_get('magic_quotes_gpc')) {
+	exit('Error: magic_quotes_gpc is enabled!');
 }
 
 // Engine
