@@ -7,18 +7,6 @@ final class Request {
 	public $server = array();
 	
   	public function __construct() {
-		if (ini_get('register_globals')) {
-			$globals = array('_REQUEST', '_SERVER', '_ENV', '_FILES');
-
-			foreach ($globals as $global) {
-				foreach ($GLOBALS[$global] as $key => $value) {
-					if ($value === @$GLOBALS[$key]) {
-						unset($GLOBALS[$key]);
-					}
-				}
-			}
-		}
-		
 		$this->get    =& $this->clean($_GET);
 		$this->post   =& $this->clean($_POST);
 		$this->cookie =& $this->clean($_COOKIE);
