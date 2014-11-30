@@ -9,7 +9,7 @@ class ControllerPaymentTwoCheckout extends Controller {
 		
 		$this->load->model('setting/setting');
 			
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->validate())) {
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$this->model_setting_setting->editSetting('twocheckout', $this->request->post);				
 			
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -137,7 +137,6 @@ class ControllerPaymentTwoCheckout extends Controller {
 			$this->data['twocheckout_sort_order'] = $this->config->get('twocheckout_sort_order');
 		}
 
-		$this->layout = 'common/layout';
 		$this->template = 'payment/twocheckout.tpl';
 		$this->children = array(
 			'common/header',

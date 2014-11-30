@@ -37,10 +37,10 @@ $('#button-confirm').bind('click', function() {
 	$.ajax({
 		type: 'POST',
 		url: 'index.php?route=payment/authorizenet_aim/send',
-		data: $('#authorizenet :input'),
+		data: $('#payment :input'),
 		dataType: 'json',		
 		beforeSend: function() {
-			$('#button-confirm').attr('disabled', 'disabled');
+			$('#button-confirm').attr('disabled', true);
 			
 			$('#payment').before('<div class="attention"><img src="catalog/view/theme/default/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
 		},
@@ -48,7 +48,7 @@ $('#button-confirm').bind('click', function() {
 			if (json['error']) {
 				alert(json['error']);
 				
-				$('#button-confirm').attr('disabled', '');
+				$('#button-confirm').attr('disabled', false);
 			}
 			
 			$('.attention').remove();

@@ -43,6 +43,7 @@ class ControllerCheckoutCart extends Controller {
 				unset($this->session->data['shipping_method']);
 				unset($this->session->data['payment_methods']);
 				unset($this->session->data['payment_method']);	
+				unset($this->session->data['reward']);	
 				
 				$this->redirect($this->url->link('checkout/cart'));
 			}
@@ -109,7 +110,7 @@ class ControllerCheckoutCart extends Controller {
 			$this->data['action'] = $this->url->link('checkout/cart');
 						
 			if ($this->config->get('config_cart_weight')) {
-				$this->data['weight'] = $this->weight->format($this->cart->getWeight(), $this->config->get('config_weight_class'));
+				$this->data['weight'] = $this->weight->format($this->cart->getWeight(), $this->config->get('config_weight_class_id'), $this->language->get('decimal_point'), $this->language->get('thousand_point'));
 			} else {
 				$this->data['weight'] = false;
 			}
@@ -134,11 +135,15 @@ class ControllerCheckoutCart extends Controller {
 							'value' => (strlen($option['option_value']) > 20 ? substr($option['option_value'], 0, 20) . '..' : $option['option_value'])
 						);
 					} else {
-						$filename = substr($option['option_value'], 0, strrpos($option['option_value'], '.'));
+						$this->load->library('encryption');
+						
+						$encryption = new Encryption($this->config->get('config_encryption'));
+						
+						$file = substr($encryption->decrypt($option['option_value']), 0, strrpos($encryption->decrypt($option['option_value']), '.'));
 						
 						$option_data[] = array(
 							'name'  => $option['name'],
-							'value' => (strlen($filename) > 20 ? substr($filename, 0, 20) . '..' : $filename)
+							'value' => (strlen($file) > 20 ? substr($file, 0, 20) . '..' : $file)
 						);						
 					}
         		}
@@ -342,7 +347,7 @@ class ControllerCheckoutCart extends Controller {
 				unset($this->session->data['payment_methods']);
 				unset($this->session->data['payment_method']);			
 			} else {
-				$json['redirect'] = $this->url->link('product/product', 'product_id=' . $this->request->post['product_id']);
+				$json['redirect'] = str_replace('&amp;', '&', $this->url->link('product/product', 'product_id=' . $this->request->post['product_id']));
 			}
 		}	
 		
@@ -375,10 +380,23 @@ class ControllerCheckoutCart extends Controller {
 			$option_data = array();
 
 			foreach ($result['option'] as $option) {
-				$option_data[] = array(
-					'name'  => $option['name'],
-					'value' => (strlen($option['option_value']) > 20 ? substr($option['option_value'], 0, 20) . '..' : $option['option_value'])
-				);
+				if ($option['type'] != 'file') {
+					$option_data[] = array(
+						'name'  => $option['name'],
+						'value' => (strlen($option['option_value']) > 20 ? substr($option['option_value'], 0, 20) . '..' : $option['option_value'])
+					);
+				} else {
+					$this->load->library('encryption');
+					
+					$encryption = new Encryption($this->config->get('config_encryption'));
+					
+					$file = substr($encryption->decrypt($option['option_value']), 0, strrpos($encryption->decrypt($option['option_value']), '.'));
+					
+					$option_data[] = array(
+						'name'  => $option['name'],
+						'value' => (strlen($file) > 20 ? substr($file, 0, 20) . '..' : $file)
+					);					
+				}
 			}
 				
 			if (($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) {
@@ -455,7 +473,7 @@ class ControllerCheckoutCart extends Controller {
 			array_multisort($sort_order, SORT_ASC, $total_data);
 		}
 					
-		$json['total'] = sprintf($this->language->get('text_items'), $this->cart->countProducts() + (isset($this->session->data['voucher']) ? count($this->session->data['voucher']) : 0), $this->currency->format($total));
+		$json['total'] = sprintf($this->language->get('text_items'), $this->cart->countProducts() + (isset($this->session->data['vouchers']) ? count($this->session->data['vouchers']) : 0), $this->currency->format($total));
 		
 		$this->data['totals'] = $total_data;
 		

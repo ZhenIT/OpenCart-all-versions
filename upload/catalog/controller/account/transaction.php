@@ -67,7 +67,7 @@ class ControllerAccountTransaction extends Controller {
 			$this->data['transactions'][] = array(
 				'amount'      => $this->currency->format($result['amount'], $this->config->get('config_currency')),
 				'description' => $result['description'],
-				'date_added'  => date('d/m/Y', strtotime($result['date_added']))
+				'date_added'  => date($this->language->get('date_format_short'), strtotime($result['date_added']))
 			);
 		}	
 
@@ -75,6 +75,7 @@ class ControllerAccountTransaction extends Controller {
 		$pagination->total = $transaction_total;
 		$pagination->page = $page;
 		$pagination->limit = 10; 
+		$pagination->text = $this->language->get('text_pagination');
 		$pagination->url = $this->url->link('account/transaction', 'page={page}', 'SSL');
 			
 		$this->data['pagination'] = $pagination->render();

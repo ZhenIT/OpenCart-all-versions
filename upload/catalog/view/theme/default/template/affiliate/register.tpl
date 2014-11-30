@@ -225,4 +225,11 @@ $('input[name=\'payment\']').bind('change', function() {
 
 $('input[name=\'payment\']:checked').trigger('change');
 //--></script> 
+<script type="text/javascript"><!--
+$('.fancybox').fancybox({
+	width: 560,
+	height: 560,
+	autoDimensions: false
+});
+//--></script>  
 <?php echo $footer; ?>

@@ -15,7 +15,7 @@ $_['entry_to_email']   = 'Recipient\'s Email:';
 $_['entry_from_name']  = 'Your Name:';
 $_['entry_from_email'] = 'Your Email:';
 $_['entry_message']    = 'Message:<br /><span class="help">(Optional)</span>';
-$_['entry_amount']     = 'Amount:<br /><span class="help">(Value must be between $1.00 and $1,000.00)</span>';
+$_['entry_amount']     = 'Amount:<br /><span class="help">(Value must be between %s and %s)</span>';
 $_['entry_theme']      = 'Gift Certificate Theme:';
 
 // Error
@@ -24,5 +24,5 @@ $_['error_from_name']  = 'Your Name must be between 1 and 64 characters!';
 $_['error_email']      = 'E-Mail Address does not appear to be valid!';
 $_['error_amount']     = 'Amount must be between %s and %s!';
 $_['error_theme']      = 'You must select a theme!';
-$_['error_agree']      = 'Error: You must agree that the gift certificates are non-refundable!';
+$_['error_agree']      = 'Warning: You must agree that the gift certificates are non-refundable!';
 ?>

@@ -1,5 +1,7 @@
 <?php 
 class ControllerFeedGoogleSitemap extends Controller {
+	private $error = array(); 
+	
 	public function index() {
 		$this->load->language('feed/google_sitemap');
 
@@ -7,7 +9,7 @@ class ControllerFeedGoogleSitemap extends Controller {
 		
 		$this->load->model('setting/setting');
 			
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->validate())) {
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$this->model_setting_setting->editSetting('google_sitemap', $this->request->post);				
 			
 			$this->session->data['success'] = $this->language->get('text_success');

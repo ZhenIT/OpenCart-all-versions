@@ -10,7 +10,7 @@ $_['text_your_details']    = 'Your Personal Details';
 $_['text_your_address']    = 'Your Address';
 $_['text_newsletter']      = 'Newsletter';
 $_['text_your_password']   = 'Your Password';
-$_['text_agree']           = 'I have read and agree to the <a class="thickbox" href="%s" alt="%s"><b>%s</b></a>';
+$_['text_agree']           = 'I have read and agree to the <a class="fancybox" href="%s" alt="%s"><b>%s</b></a>';
 
 // Entry
 $_['entry_firstname']      = 'First Name:';
@@ -30,7 +30,7 @@ $_['entry_password']       = 'Password:';
 $_['entry_confirm']        = 'Password Confirm:';
 
 // Error
-$_['error_exists']         = 'Error: E-Mail Address is already registered!';
+$_['error_exists']         = 'Warning: E-Mail Address is already registered!';
 $_['error_firstname']      = 'First Name must be between 1 and 32 characters!';
 $_['error_lastname']       = 'Last Name must be between 1 and 32 characters!';
 $_['error_email']          = 'E-Mail Address does not appear to be valid!';
@@ -42,5 +42,5 @@ $_['error_city']           = 'City must be between 2 and 128 characters!';
 $_['error_postcode']       = 'Postcode must be between 2 and 10 characters!';
 $_['error_country']        = 'Please select a country!';
 $_['error_zone']           = 'Please select a region / state!';
-$_['error_agree']          = 'Error: You must agree to the %s!';
+$_['error_agree']          = 'Warning: You must agree to the %s!';
 ?>

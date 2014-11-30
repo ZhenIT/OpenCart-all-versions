@@ -40,6 +40,12 @@ class ControllerProductProduct extends Controller {
 		$this->load->model('catalog/manufacturer');	
 		
 		if (isset($this->request->get['manufacturer_id'])) {
+			$this->data['breadcrumbs'][] = array( 
+				'text'      => $this->language->get('text_brand'),
+				'href'      => $this->url->link('product/manufacturer'),
+				'separator' => $this->language->get('text_separator')
+			);	
+				
 			$manufacturer_info = $this->model_catalog_manufacturer->getManufacturer($this->request->get['manufacturer_id']);
 
 			if ($manufacturer_info) {	
@@ -51,9 +57,13 @@ class ControllerProductProduct extends Controller {
 			}
 		}
 		
-		if (isset($this->request->get['filter_name'])) {
+		if (isset($this->request->get['filter_name']) || isset($this->request->get['filter_tag'])) {
 			$url = '';
 			
+			if (isset($this->request->get['filter_name'])) {
+				$url .= '&filter_name=' . $this->request->get['filter_name'];
+			}
+						
 			if (isset($this->request->get['filter_tag'])) {
 				$url .= '&filter_tag=' . $this->request->get['filter_tag'];
 			}
@@ -68,7 +78,7 @@ class ControllerProductProduct extends Controller {
 						
 			$this->data['breadcrumbs'][] = array(
 				'text'      => $this->language->get('text_search'),
-				'href'      => $this->url->link('product/search', 'filter_name=' . $this->request->get['filter_name'] . $url),
+				'href'      => $this->url->link('product/search', $url),
 				'separator' => $this->language->get('text_separator')
 			);	
 		}
@@ -307,7 +317,7 @@ class ControllerProductProduct extends Controller {
 					$special = false;
 				}
 				
-				if ($this->config->get('config_review')) {
+				if ($this->config->get('config_review_status')) {
 					$rating = (int)$result['rating'];
 				} else {
 					$rating = false;
@@ -538,9 +548,16 @@ class ControllerProductProduct extends Controller {
 		
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && !isset($json['error'])) {
 			if (is_uploaded_file($this->request->files['file']['tmp_name']) && file_exists($this->request->files['file']['tmp_name'])) {
-				$json['file'] = basename($this->request->files['file']['name']) . '.' . md5(rand());
+				$file = basename($this->request->files['file']['name']) . '.' . md5(rand());
 				
-				move_uploaded_file($this->request->files['file']['tmp_name'], DIR_DOWNLOAD . $json['file']);
+				// Hide the uploaded file name sop people can not link to it directly.
+				$this->load->library('encryption');
+				
+				$encryption = new Encryption($this->config->get('config_encryption'));
+				
+				$json['file'] = $encryption->encrypt($file);
+				
+				move_uploaded_file($this->request->files['file']['tmp_name'], DIR_DOWNLOAD . $file);
 			}
 						
 			$json['success'] = $this->language->get('text_upload');

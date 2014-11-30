@@ -9,7 +9,7 @@ class ControllerModuleLatest extends Controller {
 		
 		$this->load->model('setting/setting');
 				
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->validate())) {
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$this->model_setting_setting->editSetting('latest', $this->request->post);		
 			
 			$this->cache->delete('product');
@@ -45,7 +45,13 @@ class ControllerModuleLatest extends Controller {
 		} else {
 			$this->data['error_warning'] = '';
 		}
-
+		
+		if (isset($this->error['image'])) {
+			$this->data['error_image'] = $this->error['image'];
+		} else {
+			$this->data['error_image'] = array();
+		}
+		
   		$this->data['breadcrumbs'] = array();
 
    		$this->data['breadcrumbs'][] = array(
@@ -70,69 +76,17 @@ class ControllerModuleLatest extends Controller {
 		
 		$this->data['cancel'] = $this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL');
 
+		$this->data['modules'] = array();
+		
 		if (isset($this->request->post['latest_module'])) {
-			$modules = explode(',', $this->request->post['latest_module']);
-		} elseif ($this->config->get('latest_module') != '') {
-			$modules = explode(',', $this->config->get('latest_module'));
-		} else {
-			$modules = array();
-		}		
+			$this->data['modules'] = $this->request->post['latest_module'];
+		} elseif ($this->config->get('latest_module')) { 
+			$this->data['modules'] = $this->config->get('latest_module');
+		}				
 				
 		$this->load->model('design/layout');
 		
 		$this->data['layouts'] = $this->model_design_layout->getLayouts();
-				
-		foreach ($modules as $module) {
-			if (isset($this->request->post['latest_' . $module . '_limit'])) {
-				$this->data['latest_' . $module . '_limit'] = $this->request->post['latest_' . $module . '_limit'];
-			} else {
-				$this->data['latest_' . $module . '_limit'] = $this->config->get('latest_' . $module . '_limit');
-			}			
-
-			if (isset($this->request->post['latest_' . $module . '_image_width'])) {
-				$this->data['latest_' . $module . '_image_width'] = $this->request->post['latest_' . $module . '_image_width'];
-			} else {
-				$this->data['latest_' . $module . '_image_width'] = $this->config->get('latest_' . $module . '_image_width');
-			}
-			
-			if (isset($this->request->post['latest_' . $module . '_image_height'])) {
-				$this->data['latest_' . $module . '_image_height'] = $this->request->post['latest_' . $module . '_image_height'];
-			} else {
-				$this->data['latest_' . $module . '_image_height'] = $this->config->get('latest_' . $module . '_image_height');
-			}
-						
-			if (isset($this->request->post['latest_' . $module . '_layout_id'])) {
-				$this->data['latest_' . $module . '_layout_id'] = $this->request->post['latest_' . $module . '_layout_id'];
-			} else {
-				$this->data['latest_' . $module . '_layout_id'] = $this->config->get('latest_' . $module . '_layout_id');
-			}	
-			
-			if (isset($this->request->post['latest_' . $module . '_position'])) {
-				$this->data['latest_' . $module . '_position'] = $this->request->post['latest_' . $module . '_position'];
-			} else {
-				$this->data['latest_' . $module . '_position'] = $this->config->get('latest_' . $module . '_position');
-			}	
-			
-			if (isset($this->request->post['latest_' . $module . '_status'])) {
-				$this->data['latest_' . $module . '_status'] = $this->request->post['latest_' . $module . '_status'];
-			} else {
-				$this->data['latest_' . $module . '_status'] = $this->config->get('latest_' . $module . '_status');
-			}	
-						
-			if (isset($this->request->post['latest_' . $module . '_sort_order'])) {
-				$this->data['latest_' . $module . '_sort_order'] = $this->request->post['latest_' . $module . '_sort_order'];
-			} else {
-				$this->data['latest_' . $module . '_sort_order'] = $this->config->get('latest_' . $module . '_sort_order');
-			}				
-		}
-		
-		$this->data['modules'] = $modules;
-		
-		if (isset($this->request->post['latest_module'])) {
-			$this->data['latest_module'] = $this->request->post['latest_module'];
-		} else {
-			$this->data['latest_module'] = $this->config->get('latest_module');
-		}
 
 		$this->template = 'module/latest.tpl';
 		$this->children = array(
@@ -148,6 +102,14 @@ class ControllerModuleLatest extends Controller {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		
+		if (isset($this->request->post['latest_module'])) {
+			foreach ($this->request->post['latest_module'] as $key => $value) {
+				if (!$value['image_width'] || !$value['image_height']) {
+					$this->error['image'][$key] = $this->language->get('error_image');
+				}
+			}
+		}		
+				
 		if (!$this->error) {
 			return true;
 		} else {

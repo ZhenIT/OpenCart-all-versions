@@ -9,7 +9,7 @@ class ControllerShippingRoyalMail extends Controller {
 		
 		$this->load->model('setting/setting');
 				
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->validate())) {
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$this->model_setting_setting->editSetting('royal_mail', $this->request->post);		
 					
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -25,6 +25,8 @@ class ControllerShippingRoyalMail extends Controller {
 		$this->data['text_none'] = $this->language->get('text_none');
 		$this->data['text_yes'] = $this->language->get('text_yes');
 		$this->data['text_no'] = $this->language->get('text_no');
+		$this->data['text_select_all'] = $this->language->get('text_select_all');
+		$this->data['text_unselect_all'] = $this->language->get('text_unselect_all');		
 		$this->data['text_1st_class_standard'] = $this->language->get('text_1st_class_standard');
 		$this->data['text_1st_class_recorded'] = $this->language->get('text_1st_class_recorded');
 		$this->data['text_2nd_class_standard'] = $this->language->get('text_2nd_class_standard');
@@ -158,10 +160,10 @@ class ControllerShippingRoyalMail extends Controller {
 			$this->data['royal_mail_display_time'] = $this->config->get('royal_mail_display_time');
 		}
 
-		if (isset($this->request->post['royal_mail_weight_class'])) {
-			$this->data['royal_mail_weight_class'] = $this->request->post['royal_mail_weight_class'];
+		if (isset($this->request->post['royal_mail_weight_class_id'])) {
+			$this->data['royal_mail_weight_class_id'] = $this->request->post['royal_mail_weight_class_id'];
 		} else {
-			$this->data['royal_mail_weight_class'] = $this->config->get('royal_mail_weight_class');
+			$this->data['royal_mail_weight_class_id'] = $this->config->get('royal_mail_weight_class_id');
 		}
 		
 		$this->load->model('localisation/weight_class');

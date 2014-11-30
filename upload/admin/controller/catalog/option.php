@@ -252,7 +252,6 @@ class ControllerCatalogOption extends Controller {
 		$this->data['sort'] = $sort;
 		$this->data['order'] = $order;
 
-		$this->layout = 'common/layout';
 		$this->template = 'catalog/option_list.tpl';
 		$this->children = array(
 			'common/header',
@@ -398,7 +397,7 @@ class ControllerCatalogOption extends Controller {
 		}
 
 		foreach ($this->request->post['option_description'] as $language_id => $value) {
-			if ((strlen(utf8_decode($value['name'])) < 3) || (strlen(utf8_decode($value['name'])) > 128)) {
+			if ((strlen(utf8_decode($value['name'])) < 1) || (strlen(utf8_decode($value['name'])) > 128)) {
 				$this->error['name'][$language_id] = $this->language->get('error_name');
 			}
 		}
@@ -410,7 +409,7 @@ class ControllerCatalogOption extends Controller {
 		if (isset($this->request->post['option_value'])) {
 			foreach ($this->request->post['option_value'] as $option_value_id => $option_value) {
 				foreach ($option_value['option_value_description'] as $language_id => $option_value_description) {
-					if ((strlen(utf8_decode($option_value_description['name'])) < 3) || (strlen(utf8_decode($option_value_description['name'])) > 128)) {
+					if ((strlen(utf8_decode($option_value_description['name'])) < 1) || (strlen(utf8_decode($option_value_description['name'])) > 128)) {
 						$this->error['option_value'][$option_value_id][$language_id] = $this->language->get('error_option_value'); 
 					}					
 				}

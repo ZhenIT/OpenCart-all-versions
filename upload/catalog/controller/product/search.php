@@ -192,7 +192,7 @@ class ControllerProductSearch extends Controller {
 		
 		$this->data['products'] = array();
 		
-		if (isset($this->request->get['filter_name'])) {
+		if (isset($this->request->get['filter_name']) || isset($this->request->get['filter_tag'])) {
 			$data = array(
 				'filter_name'         => $filter_name, 
 				'filter_tag'          => $filter_tag, 
@@ -234,7 +234,7 @@ class ControllerProductSearch extends Controller {
 					$tax = false;
 				}				
 				
-				if ($this->config->get('config_review')) {
+				if ($this->config->get('config_review_status')) {
 					$rating = (int)$result['rating'];
 				} else {
 					$rating = false;

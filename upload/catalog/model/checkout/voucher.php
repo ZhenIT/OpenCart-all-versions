@@ -70,17 +70,16 @@ class ModelCheckoutVoucher extends Model {
 				// HTML Mail
 				$template = new Template();
 				
-				$template->data['title'] = sprintf($this->language->get('text_subject'), $voucher['from_name']);
+				$template->data['title'] = sprintf($language->get('text_subject'), $voucher['from_name']);
 				
 				$template->data['text_greeting'] = sprintf($language->get('text_greeting'), $this->currency->format($voucher['amount'], $order_info['currency_code'], $order_info['currency_value']));
 				$template->data['text_from'] = sprintf($language->get('text_from'), $voucher['from_name']);
-				$template->data['text_message'] = $language->get('text_message');
 				$template->data['text_message'] = $language->get('text_message');
 				$template->data['text_redeem'] = sprintf($language->get('text_redeem'), $voucher['code']);
 				$template->data['text_footer'] = $language->get('text_footer');
 				
 				if (file_exists(DIR_IMAGE . $voucher['image'])) {
-					$template->data['image'] = 'cid:' . basename($voucher['image']);
+					$template->data['image'] = 'cid:' . md5(basename($voucher['image']));
 				} else {
 					$template->data['image'] = '';
 				}
@@ -110,7 +109,7 @@ class ModelCheckoutVoucher extends Model {
 				$mail->setHtml($html);
 				
 				if (file_exists(DIR_IMAGE . $voucher['image'])) {
-					$mail->addAttachment(DIR_IMAGE . $voucher['image']);
+					$mail->addAttachment(DIR_IMAGE . $voucher['image'], md5(basename($voucher['image'])));
 				}
 				
 				$mail->send();		

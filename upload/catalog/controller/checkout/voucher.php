@@ -52,7 +52,7 @@ class ControllerCheckoutVoucher extends Controller {
 		$this->data['entry_from_name'] = $this->language->get('entry_from_name');
 		$this->data['entry_from_email'] = $this->language->get('entry_from_email');
 		$this->data['entry_message'] = $this->language->get('entry_message');
-		$this->data['entry_amount'] = $this->language->get('entry_amount');
+		$this->data['entry_amount'] = sprintf($this->language->get('entry_amount'), $this->currency->format(1, false, 1), $this->currency->format(1000, false, 1));
 		$this->data['entry_theme'] = $this->language->get('entry_theme');
 		
 		$this->data['button_continue'] = $this->language->get('button_continue');
@@ -238,7 +238,7 @@ class ControllerCheckoutVoucher extends Controller {
     	}
 		
 		if (($this->request->post['amount'] < 1) || ($this->request->post['amount'] > 1000)) {
-      		$this->error['amount'] = sprintf($this->language->get('error_amount'), $this->currency->format(1, $this->currency->getCode(), 1), $this->currency->format(1000, $this->currency->getCode(), 1) . ' ' . $this->currency->getCode());
+      		$this->error['amount'] = sprintf($this->language->get('error_amount'), $this->currency->format(1, false, 1), $this->currency->format(1000, false, 1) . ' ' . $this->currency->getCode());
     	}
 		
 		if (!isset($this->request->post['voucher_theme_id'])) {

@@ -9,7 +9,7 @@ class ControllerPaymentSagepayUS extends Controller {
 		
 		$this->load->model('setting/setting');
 			
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->validate())) {
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$this->model_setting_setting->editSetting('sagepay_us', $this->request->post);				
 			
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -128,7 +128,6 @@ class ControllerPaymentSagepayUS extends Controller {
 			$this->data['sagepay_us_sort_order'] = $this->config->get('sagepay_us_sort_order');
 		}
 
-		$this->layout = 'common/layout';
 		$this->template = 'payment/sagepay_us.tpl';
 		$this->children = array(
 			'common/header',

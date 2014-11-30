@@ -70,6 +70,14 @@ class ControllerTotalShipping extends Controller {
 		}	
 		
 		if (isset($this->request->post['country_id']) && isset($this->request->post['zone_id']) && isset($this->request->post['postcode'])) {
+			if ($this->request->post['country_id'] == '') {
+				$json['error']['country'] = $this->language->get('error_country');
+			}
+			
+			if ($this->request->post['zone_id'] == '') {
+				$json['error']['zone'] = $this->language->get('error_zone');
+			}	
+				
 			$this->load->model('localisation/country');
 			
 			$country_info = $this->model_localisation_country->getCountry($this->request->post['country_id']);
@@ -77,21 +85,55 @@ class ControllerTotalShipping extends Controller {
 			if ($country_info && $country_info['postcode_required'] && (strlen(utf8_decode($this->request->post['postcode'])) < 2) || (strlen(utf8_decode($this->request->post['postcode'])) > 10)) {
 				$json['error']['postcode'] = $this->language->get('error_postcode');
 			}
-	
-			if ($this->request->post['country_id'] == '') {
-				$json['error']['country'] = $this->language->get('error_country');
-			}
-			
-			if ($this->request->post['zone_id'] == '') {
-				$json['error']['zone'] = $this->language->get('error_zone');
-			}		
-				
+							
 			if (!isset($json['error'])) {		
 				$this->tax->setZone($this->request->post['country_id'], $this->request->post['zone_id']);
 			
 				$this->session->data['country_id'] = $this->request->post['country_id'];
 				$this->session->data['zone_id'] = $this->request->post['zone_id'];
 				$this->session->data['postcode'] = $this->request->post['postcode'];
+			
+				if ($country_info) {
+					$country = $country_info['name'];
+					$iso_code_2 = $country_info['iso_code_2'];
+					$iso_code_3 = $country_info['iso_code_3'];
+					$address_format = $country_info['address_format'];
+				} else {
+					$country = '';
+					$iso_code_2 = '';
+					$iso_code_3 = '';	
+					$address_format = '';
+				}
+				
+				$this->load->model('localisation/zone');
+			
+				$zone_info = $this->model_localisation_zone->getZone($this->request->post['zone_id']);
+				
+				if ($zone_info) {
+					$zone = $zone_info['name'];
+					$code = $zone_info['code'];
+				} else {
+					$zone = '';
+					$code = '';
+				}	
+			 
+				$address_data = array(
+					'firstname'      => '',
+					'lastname'       => '',
+					'company'        => '',
+					'address_1'      => '',
+					'address_2'      => '',
+					'postcode'       => $this->request->post['postcode'],
+					'city'           => '',
+					'zone_id'        => $this->request->post['zone_id'],
+					'zone'           => $zone,
+					'zone_code'      => $code,
+					'country_id'     => $this->request->post['country_id'],
+					'country'        => $country,	
+					'iso_code_2'     => $iso_code_2,
+					'iso_code_3'     => $iso_code_3,
+					'address_format' => $address_format
+				);
 			
 				$quote_data = array();
 				
@@ -103,7 +145,7 @@ class ControllerTotalShipping extends Controller {
 					if ($this->config->get($result['code'] . '_status')) {
 						$this->load->model('shipping/' . $result['code']);
 						
-						$quote = $this->{'model_shipping_' . $result['code']}->getQuote($this->request->post); 
+						$quote = $this->{'model_shipping_' . $result['code']}->getQuote($address_data); 
 			
 						if ($quote) {
 							$quote_data[$result['code']] = array( 
@@ -146,22 +188,22 @@ class ControllerTotalShipping extends Controller {
 		
 		$json = array();
 		
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && isset($this->request->post['shipping_method'])) {
+		if (isset($this->request->post['shipping_method']) && $this->request->post['shipping_method']) {
 			$shipping = explode('.', $this->request->post['shipping_method']);
 					
-			if (!isset($this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]])) {			
+			if (!isset($shipping[0]) || !isset($shipping[1]) || !isset($this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]])) {			
 				$json['error'] = $this->language->get('error_shipping');
-			}
-								
-			if (!isset($json['error'])) {			
-				$this->session->data['shipping_method'] = $this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]];
-				
-				$this->session->data['success'] = $this->language->get('text_success');
-				
-				$json['redirect'] = $this->url->link('checkout/cart', '', 'SSL');
 			}
 		} else {
 			$json['error'] = $this->language->get('error_shipping');
+		}
+		
+		if (!isset($json['error'])) {
+			$this->session->data['shipping_method'] = $this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]];
+				
+			$this->session->data['success'] = $this->language->get('text_success');
+				
+			$json['redirect'] = $this->url->link('checkout/cart', '', 'SSL');			
 		}
 		
 		$this->load->library('json');

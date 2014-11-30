@@ -9,7 +9,7 @@ class ControllerShippingWeight extends Controller {
 		
 		$this->load->model('setting/setting');
 				 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->validate())) {
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$this->model_setting_setting->editSetting('weight', $this->request->post);	
 
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -24,7 +24,6 @@ class ControllerShippingWeight extends Controller {
 		$this->data['text_disabled'] = $this->language->get('text_disabled');
 		
 		$this->data['entry_rate'] = $this->language->get('entry_rate');
-		$this->data['entry_weight_class'] = $this->language->get('entry_weight_class');
 		$this->data['entry_tax'] = $this->language->get('entry_tax');
 		$this->data['entry_status'] = $this->language->get('entry_status');
 		$this->data['entry_sort_order'] = $this->language->get('entry_sort_order');

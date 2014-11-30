@@ -1,6 +1,6 @@
 <?php
 class ControllerModuleFeatured extends Controller {
-	protected function index($module) {
+	protected function index($setting) {
 		$this->language->load('module/featured'); 
 
       	$this->data['heading_title'] = $this->language->get('heading_title');
@@ -20,7 +20,7 @@ class ControllerModuleFeatured extends Controller {
 			
 			if ($product_info) {
 				if ($product_info['image']) {
-					$image = $this->model_tool_image->resize($product_info['image'], $this->config->get('featured_' . $module . '_image_width'), $this->config->get('featured_' . $module . '_image_height'));
+					$image = $this->model_tool_image->resize($product_info['image'], $setting['image_width'], $setting['image_height']);
 				} else {
 					$image = false;
 				}
@@ -37,7 +37,7 @@ class ControllerModuleFeatured extends Controller {
 					$special = false;
 				}
 				
-				if ($this->config->get('config_review')) {
+				if ($this->config->get('config_review_status')) {
 					$rating = $product_info['rating'];
 				} else {
 					$rating = false;

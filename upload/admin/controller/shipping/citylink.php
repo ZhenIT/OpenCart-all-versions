@@ -9,7 +9,7 @@ class ControllerShippingCitylink extends Controller {
 		
 		$this->load->model('setting/setting');
 				
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->validate())) {
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$this->model_setting_setting->editSetting('citylink', $this->request->post);		
 					
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -25,7 +25,6 @@ class ControllerShippingCitylink extends Controller {
 		$this->data['text_none'] = $this->language->get('text_none');
 		
 		$this->data['entry_rate'] = $this->language->get('entry_rate');
-		$this->data['entry_weight_class'] = $this->language->get('entry_weight_class');
 		$this->data['entry_tax'] = $this->language->get('entry_tax');
 		$this->data['entry_geo_zone'] = $this->language->get('entry_geo_zone');
 		$this->data['entry_status'] = $this->language->get('entry_status');

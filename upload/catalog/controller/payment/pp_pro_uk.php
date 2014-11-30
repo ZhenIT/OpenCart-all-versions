@@ -97,13 +97,13 @@ class ControllerPaymentPPProUK extends Controller {
 			$payment_type = 'S';
 		}
 		
-		$request  = 'USER=' .urlencode($this->config->get('pp_pro_uk_user'));
+		$request  = 'USER=' . urlencode($this->config->get('pp_pro_uk_user'));
 		$request .= '&VENDOR=' . urlencode($this->config->get('pp_pro_uk_vendor'));
 		$request .= '&PARTNER=' . urlencode($this->config->get('pp_pro_uk_partner'));
 		$request .= '&PWD=' . urlencode($this->config->get('pp_pro_uk_password'));
 		$request .= '&TENDER=C';
 		$request .= '&TRXTYPE=' . $payment_type;
-		$request .= '&AMT=' . $this->currency->format($order_info['total'], $order_info['currency'], false, false);
+		$request .= '&AMT=' . $this->currency->format($order_info['total'], $order_info['currency_code'], false, false);
 		$request .= '&CURRENCY=' . urlencode($order_info['currency_code']);
 		$request .= '&NAME=' . urlencode($this->request->post['cc_owner']);
 		$request .= '&STREET=' . urlencode($order_info['payment_address_1']);

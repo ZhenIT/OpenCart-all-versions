@@ -9,7 +9,7 @@ class ControllerPaymentSagepayDirect extends Controller {
 		
 		$this->load->model('setting/setting');
 			
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->validate())) {
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$this->model_setting_setting->editSetting('sagepay_direct', $this->request->post);				
 			
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -142,7 +142,6 @@ class ControllerPaymentSagepayDirect extends Controller {
 			$this->data['sagepay_direct_sort_order'] = $this->config->get('sagepay_direct_sort_order');
 		}
 
-		$this->layout = 'common/layout';
 		$this->template = 'payment/sagepay_direct.tpl';
 		$this->children = array(
 			'common/header',

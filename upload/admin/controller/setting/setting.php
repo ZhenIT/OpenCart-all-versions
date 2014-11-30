@@ -385,20 +385,20 @@ class ControllerSettingSetting extends Controller {
 		
 		$this->data['currencies'] = $this->model_localisation_currency->getCurrencies();
 		
-		if (isset($this->request->post['config_length_class'])) {
-			$this->data['config_length_class'] = $this->request->post['config_length_class'];
+		if (isset($this->request->post['config_length_class_id'])) {
+			$this->data['config_length_class_id'] = $this->request->post['config_length_class_id'];
 		} else {
-			$this->data['config_length_class'] = $this->config->get('config_length_class');
+			$this->data['config_length_class_id'] = $this->config->get('config_length_class_id');
 		}
 		
 		$this->load->model('localisation/length_class');
 		
 		$this->data['length_classes'] = $this->model_localisation_length_class->getLengthClasses();
 		
-		if (isset($this->request->post['config_weight_class'])) {
-			$this->data['config_weight_class'] = $this->request->post['config_weight_class'];
+		if (isset($this->request->post['config_weight_class_id'])) {
+			$this->data['config_weight_class_id'] = $this->request->post['config_weight_class_id'];
 		} else {
-			$this->data['config_weight_class'] = $this->config->get('config_weight_class');
+			$this->data['config_weight_class_id'] = $this->config->get('config_weight_class_id');
 		}
 		
 		$this->load->model('localisation/weight_class');
@@ -857,7 +857,7 @@ class ControllerSettingSetting extends Controller {
 			$this->error['address'] = $this->language->get('error_address');
 		}
 		
-    	if ((strlen(utf8_decode($this->request->post['config_email'])) > 96) || !filter_var($this->request->post['config_email'], FILTER_VALIDATE_EMAIL)) {
+    	if ((strlen(utf8_decode($this->request->post['config_email'])) > 96) || !preg_match('/^[^\@]+@.*\.[a-z]{2,6}$/i', $this->request->post['config_email'])) {
       		$this->error['email'] = $this->language->get('error_email');
     	}
 

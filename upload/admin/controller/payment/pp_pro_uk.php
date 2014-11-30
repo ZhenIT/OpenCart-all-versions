@@ -9,7 +9,7 @@ class ControllerPaymentPPProUK extends Controller {
 		
 		$this->load->model('setting/setting');
 			
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->validate())) {
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$this->model_setting_setting->editSetting('pp_pro_uk', $this->request->post);				
 			
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -118,8 +118,10 @@ class ControllerPaymentPPProUK extends Controller {
 		
 		if (isset($this->request->post['pp_pro_uk_partner'])) {
 			$this->data['pp_pro_uk_partner'] = $this->request->post['pp_pro_uk_partner'];
-		} else {
+		} elseif ($this->config->has('pp_pro_uk_partner')) {
 			$this->data['pp_pro_uk_partner'] = $this->config->get('pp_pro_uk_partner');
+		} else {
+			$this->data['pp_pro_uk_test'] = 'PayPal';
 		}
 		
 		if (isset($this->request->post['pp_pro_uk_test'])) {

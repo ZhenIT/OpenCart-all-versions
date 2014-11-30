@@ -176,24 +176,24 @@
             </tr>
             <tr>
               <td><?php echo $entry_length_class; ?></td>
-              <td><select name="config_length_class">
+              <td><select name="config_length_class_id">
                   <?php foreach ($length_classes as $length_class) { ?>
-                  <?php if ($length_class['unit'] == $config_length_class) { ?>
-                  <option value="<?php echo $length_class['unit']; ?>" selected="selected"><?php echo $length_class['title']; ?></option>
+                  <?php if ($length_class['length_class_id'] == $config_length_class_id) { ?>
+                  <option value="<?php echo $length_class['length_class_id']; ?>" selected="selected"><?php echo $length_class['title']; ?></option>
                   <?php } else { ?>
-                  <option value="<?php echo $length_class['unit']; ?>"><?php echo $length_class['title']; ?></option>
+                  <option value="<?php echo $length_class['length_class_id']; ?>"><?php echo $length_class['title']; ?></option>
                   <?php } ?>
                   <?php } ?>
                 </select></td>
             </tr>
             <tr>
               <td><?php echo $entry_weight_class; ?></td>
-              <td><select name="config_weight_class">
+              <td><select name="config_weight_class_id">
                   <?php foreach ($weight_classes as $weight_class) { ?>
-                  <?php if ($weight_class['unit'] == $config_weight_class) { ?>
-                  <option value="<?php echo $weight_class['unit']; ?>" selected="selected"><?php echo $weight_class['title']; ?></option>
+                  <?php if ($weight_class['weight_class_id'] == $config_weight_class_id) { ?>
+                  <option value="<?php echo $weight_class['weight_class_id']; ?>" selected="selected"><?php echo $weight_class['title']; ?></option>
                   <?php } else { ?>
-                  <option value="<?php echo $weight_class['unit']; ?>"><?php echo $weight_class['title']; ?></option>
+                  <option value="<?php echo $weight_class['weight_class_id']; ?>"><?php echo $weight_class['title']; ?></option>
                   <?php } ?>
                   <?php } ?>
                 </select></td>
@@ -474,12 +474,12 @@
             <tr>
               <td><?php echo $entry_logo; ?></td>
               <td><input type="hidden" name="config_logo" value="<?php echo $config_logo; ?>" id="logo" />
-                <img src="<?php echo $logo; ?>" alt="" id="preview-logo" class="image" onclick="image_upload('logo', 'preview_logo');" /></td>
+                <img src="<?php echo $logo; ?>" alt="" id="preview-logo" class="image" onclick="image_upload('logo', 'preview-logo');" /></td>
             </tr>
             <tr>
               <td><?php echo $entry_icon; ?></td>
               <td><input type="hidden" name="config_icon" value="<?php echo $config_icon; ?>" id="icon" />
-                <img src="<?php echo $icon; ?>" alt="" id="preview-icon" class="image" onclick="image_upload('icon', 'preview_icon');" /></td>
+                <img src="<?php echo $icon; ?>" alt="" id="preview-icon" class="image" onclick="image_upload('icon', 'preview-icon');" /></td>
             </tr>
             <tr>
               <td><span class="required">*</span> <?php echo $entry_image_thumb; ?></td>
@@ -746,7 +746,7 @@
   </div>
 </div>
 <script type="text/javascript"><!--
-$('#template').load('index.php?route=setting/setting/template&token=<?php echo $token; ?>&template=' + encodeURIComponent($('select[name=\'template\']').attr('value')));
+$('#template').load('index.php?route=setting/setting/template&token=<?php echo $token; ?>&template=' + encodeURIComponent($('select[name=\'config_template\']').attr('value')));
 
 $('select[name=\'config_zone_id\']').load('index.php?route=setting/setting/zone&token=<?php echo $token; ?>&country_id=<?php echo $config_country_id; ?>&zone_id=<?php echo $config_zone_id; ?>');
 //--></script> 
@@ -772,7 +772,7 @@ function image_upload(field, preview) {
 			}
 		},	
 		bgiframe: false,
-		width: 700,
+		width: 800,
 		height: 400,
 		resizable: false,
 		modal: false
