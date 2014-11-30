@@ -12,6 +12,7 @@ final class Cache {
       			if ($time < time()) {
 					if (file_exists($file)) {
 						unlink($file);
+						clearstatcache();
 					}
       			}
     		}
@@ -23,6 +24,7 @@ final class Cache {
 
 		if ($files) {
 			$cache = file_get_contents($files[0]);
+			
 			return unserialize($cache);
 		}
 	}

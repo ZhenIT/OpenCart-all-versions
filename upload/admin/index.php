@@ -1,6 +1,6 @@
 <?php
 // Version
-define('VERSION', '1.5.1');
+define('VERSION', '1.5.1.3');
 
 // Configuration
 require_once('config.php');
@@ -47,7 +47,7 @@ foreach ($query->rows as $setting) {
 }
 
 // Url
-$url = new Url(HTTP_SERVER, HTTPS_SERVER);	
+$url = new Url(HTTP_SERVER, $config->get('config_use_ssl') ? HTTPS_SERVER : HTTP_SERVER);	
 $registry->set('url', $url);
 		
 // Log 
