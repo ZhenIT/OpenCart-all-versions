@@ -1210,7 +1210,7 @@ function addDiscount() {
 	html += '  <tr>'; 
     html += '    <td class="left"><select name="product_discount[' + discount_row + '][customer_group_id]">';
     <?php foreach ($customer_groups as $customer_group) { ?>
-    html += '      <option value="<?php echo $customer_group['customer_group_id']; ?>"><?php echo $customer_group['name']; ?></option>';
+    html += '      <option value="<?php echo $customer_group['customer_group_id']; ?>"><?php echo addslashes($customer_group['name']); ?></option>';
     <?php } ?>
     html += '    </select></td>';		
     html += '    <td class="right"><input type="text" name="product_discount[' + discount_row + '][quantity]" value="" size="2" /></td>';
@@ -1237,7 +1237,7 @@ function addSpecial() {
 	html += '  <tr>'; 
     html += '    <td class="left"><select name="product_special[' + special_row + '][customer_group_id]">';
     <?php foreach ($customer_groups as $customer_group) { ?>
-    html += '      <option value="<?php echo $customer_group['customer_group_id']; ?>"><?php echo $customer_group['name']; ?></option>';
+    html += '      <option value="<?php echo $customer_group['customer_group_id']; ?>"><?php echo addslashes($customer_group['name']); ?></option>';
     <?php } ?>
     html += '    </select></td>';		
     html += '    <td class="right"><input type="text" name="product_special[' + special_row + '][priority]" value="" size="2" /></td>';
@@ -1351,7 +1351,7 @@ function addProfile() {
             dataType: 'html',
             success: function(data) {
                 //add the button to nav
-                $('<a href="#tab-openbay">Marketplace links</a>').hide().appendTo("#tabs").fadeIn(1000);
+                $('<a href="#tab-openbay"><?php echo $tab_marketplace_links ?></a>').hide().appendTo("#tabs").fadeIn(1000);
                 $('#tab-general').before(data);
                 $('#tabs a').tabs();
             },
