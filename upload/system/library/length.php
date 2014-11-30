@@ -35,7 +35,7 @@ final class Length {
 			$to = 0;
 		}		
 		
-      	return $value * ($from / $to);
+      	return $value * ($to / $from);
   	}
 
 	public function format($value, $unit, $decimal_point = '.', $thousand_point = ',') {

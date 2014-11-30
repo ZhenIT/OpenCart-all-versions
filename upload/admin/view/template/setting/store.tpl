@@ -10,12 +10,26 @@
   <div class="right"></div>
   <div class="heading">
     <h1 style="background: url('view/image/setting.png') 2px 9px no-repeat;"><?php echo $heading_title; ?></h1>
-    <div class="buttons"><a onclick="$('#form').submit();" class="button"><span><?php echo $button_save; ?></span></a><a onclick="location = '<?php echo $cancel; ?>';" class="button"><span><?php echo $button_cancel; ?></span></a></div>
+    <div class="buttons"><?php echo $text_edit_store; ?>
+      <select onchange="location = this.value">
+        <?php foreach ($stores as $store) { ?>
+        <?php if ($store['store_id'] == $store_id) { ?>
+        <option value="<?php echo $store['href']; ?>" selected="selected"><?php echo $store['name']; ?></option>
+        <?php } else { ?>
+        <option value="<?php echo $store['href']; ?>"><?php echo $store['name']; ?></option>
+        <?php } ?>
+        <?php } ?>
+      </select>
+      &nbsp;&nbsp; <a onclick="location = '<?php echo $insert; ?>'" class="button"><span><?php echo $button_add_store; ?></span></a>
+      <?php if ($delete) { ?>
+      &nbsp;<a onclick="location = '<?php echo $delete; ?>'" class="button"><span><?php echo $button_delete_store; ?></span></a>
+      <?php } ?>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="$('#form').submit();" class="button"><span><?php echo $button_save; ?></span></a><a onclick="location = '<?php echo $cancel; ?>';" class="button"><span><?php echo $button_cancel; ?></span></a></div>
   </div>
   <div class="content">
-    <div id="tabs" class="htabs"><a tab="#tab_store"><?php echo $tab_store; ?></a><a tab="#tab_local"><?php echo $tab_local; ?></a><a tab="#tab_option"><?php echo $tab_option; ?></a><a tab="#tab_image"><?php echo $tab_image; ?></a></div>
+    <div id="tabs" class="htabs"><a tab="#tab_general"><?php echo $tab_general; ?></a><a tab="#tab_store"><?php echo $tab_store; ?></a><a tab="#tab_local"><?php echo $tab_local; ?></a><a tab="#tab_option"><?php echo $tab_option; ?></a><a tab="#tab_image"><?php echo $tab_image; ?></a><a tab="#tab_server"><?php echo $tab_server; ?></a></div>
     <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
-      <div id="tab_store">
+      <div id="tab_general">
         <table class="form">
           <tr>
             <td><span class="required">*</span> <?php echo $entry_name; ?></td>
@@ -30,21 +44,11 @@
               <?php if ($error_url) { ?>
               <span class="error"><?php echo $error_url; ?></span>
               <?php } ?></td>
-          </tr>        
-          <tr>
-            <td><?php echo $entry_ssl; ?></td>
-            <td><?php if ($ssl) { ?>
-              <input type="radio" name="ssl" value="1" checked="checked" />
-              <?php echo $text_yes; ?>
-              <input type="radio" name="ssl" value="0" />
-              <?php echo $text_no; ?>
-              <?php } else { ?>
-              <input type="radio" name="ssl" value="1" />
-              <?php echo $text_yes; ?>
-              <input type="radio" name="ssl" value="0" checked="checked" />
-              <?php echo $text_no; ?>
-              <?php } ?></td>
-          </tr>          
+          </tr>
+        </table>
+      </div>
+      <div id="tab_store">
+        <table class="form">
           <tr>
             <td><span class="required">*</span> <?php echo $entry_title; ?></td>
             <td><input type="text" name="title" value="<?php echo $title; ?>" />
@@ -133,6 +137,10 @@
                 <?php } ?>
               </select></td>
           </tr>
+        </table>
+      </div>
+      <div id="tab_option">
+        <table class="form">
           <tr>
             <td><?php echo $entry_tax; ?></td>
             <td><?php if ($tax) { ?>
@@ -147,10 +155,6 @@
               <?php echo $text_no; ?>
               <?php } ?></td>
           </tr>
-        </table>
-      </div>
-      <div id="tab_option">
-        <table class="form">
           <tr>
             <td><?php echo $entry_customer_group; ?></td>
             <td><select name="customer_group_id">
@@ -299,18 +303,6 @@
                 <?php } ?>
               </select></td>
           </tr>
-          <tr>
-            <td><?php echo $entry_stock_status; ?></td>
-            <td><select name="stock_status_id">
-                <?php foreach ($stock_statuses as $stock_status) { ?>
-                <?php if ($stock_status['stock_status_id'] == $stock_status_id) { ?>
-                <option value="<?php echo $stock_status['stock_status_id']; ?>" selected="selected"><?php echo $stock_status['name']; ?></option>
-                <?php } else { ?>
-                <option value="<?php echo $stock_status['stock_status_id']; ?>"><?php echo $stock_status['name']; ?></option>
-                <?php } ?>
-                <?php } ?>
-              </select></td>
-          </tr>
         </table>
       </div>
       <div id="tab_image">
@@ -326,7 +318,7 @@
               <img src="<?php echo $preview_icon; ?>" alt="" id="preview_icon" style="margin: 4px 0px; border: 1px solid #EEEEEE;" />&nbsp;<img src="view/image/image.png" alt="" style="cursor: pointer;" align="top" onclick="image_upload('icon', 'preview_icon');" /></td>
           </tr>
           <tr>
-            <td><?php echo $entry_image_thumb; ?></td>
+            <td><span class="required">*</span> <?php echo $entry_image_thumb; ?></td>
             <td><input type="text" name="image_thumb_width" value="<?php echo $image_thumb_width; ?>" size="3" />
               x
               <input type="text" name="image_thumb_height" value="<?php echo $image_thumb_height; ?>" size="3" />
@@ -335,7 +327,7 @@
               <?php } ?></td>
           </tr>
           <tr>
-            <td><?php echo $entry_image_popup; ?></td>
+            <td><span class="required">*</span> <?php echo $entry_image_popup; ?></td>
             <td><input type="text" name="image_popup_width" value="<?php echo $image_popup_width; ?>" size="3" />
               x
               <input type="text" name="image_popup_height" value="<?php echo $image_popup_height; ?>" size="3" />
@@ -344,7 +336,7 @@
               <?php } ?></td>
           </tr>
           <tr>
-            <td><?php echo $entry_image_category; ?></td>
+            <td><span class="required">*</span> <?php echo $entry_image_category; ?></td>
             <td><input type="text" name="image_category_width" value="<?php echo $image_category_width; ?>" size="3" />
               x
               <input type="text" name="image_category_height" value="<?php echo $image_category_height; ?>" size="3" />
@@ -353,7 +345,7 @@
               <?php } ?></td>
           </tr>
           <tr>
-            <td><?php echo $entry_image_product; ?></td>
+            <td><span class="required">*</span> <?php echo $entry_image_product; ?></td>
             <td><input type="text" name="image_product_width" value="<?php echo $image_product_width; ?>" size="3" />
               x
               <input type="text" name="image_product_height" value="<?php echo $image_product_height; ?>" size="3" />
@@ -362,7 +354,7 @@
               <?php } ?></td>
           </tr>
           <tr>
-            <td><?php echo $entry_image_additional; ?></td>
+            <td><span class="required">*</span> <?php echo $entry_image_additional; ?></td>
             <td><input type="text" name="image_additional_width" value="<?php echo $image_additional_width; ?>" size="3" />
               x
               <input type="text" name="image_additional_height" value="<?php echo $image_additional_height; ?>" size="3" />
@@ -371,7 +363,7 @@
               <?php } ?></td>
           </tr>
           <tr>
-            <td><?php echo $entry_image_related; ?></td>
+            <td><span class="required">*</span> <?php echo $entry_image_related; ?></td>
             <td><input type="text" name="image_related_width" value="<?php echo $image_related_width; ?>" size="3" />
               x
               <input type="text" name="image_related_height" value="<?php echo $image_related_height; ?>" size="3" />
@@ -380,12 +372,30 @@
               <?php } ?></td>
           </tr>
           <tr>
-            <td><?php echo $entry_image_cart; ?></td>
+            <td><span class="required">*</span> <?php echo $entry_image_cart; ?></td>
             <td><input type="text" name="image_cart_width" value="<?php echo $image_cart_width; ?>" size="3" />
               x
               <input type="text" name="image_cart_height" value="<?php echo $image_cart_height; ?>" size="3" />
               <?php if ($error_image_cart) { ?>
               <span class="error"><?php echo $error_image_cart; ?></span>
+              <?php } ?></td>
+          </tr>
+        </table>
+      </div>
+      <div id="tab_server">
+        <table class="form">
+          <tr>
+            <td><?php echo $entry_ssl; ?></td>
+            <td><?php if ($ssl) { ?>
+              <input type="radio" name="ssl" value="1" checked="checked" />
+              <?php echo $text_yes; ?>
+              <input type="radio" name="ssl" value="0" />
+              <?php echo $text_no; ?>
+              <?php } else { ?>
+              <input type="radio" name="ssl" value="1" />
+              <?php echo $text_yes; ?>
+              <input type="radio" name="ssl" value="0" checked="checked" />
+              <?php echo $text_no; ?>
               <?php } ?></td>
           </tr>
         </table>

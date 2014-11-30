@@ -1,7 +1,7 @@
 <?php
 class ModelSettingStore extends Model {
 	public function addStore($data) {
-      	$this->db->query("INSERT INTO " . DB_PREFIX . "store SET name = '" . $this->db->escape($data['name']) . "', url = '" . $this->db->escape($data['url']) . "', `ssl` = '" . (int)$data['ssl'] . "', title = '" . $this->db->escape($data['title']) . "', meta_description = '" . $this->db->escape($data['meta_description']) . "', template = '" . $this->db->escape($data['template']) . "', country_id = '" . (int)$data['country_id'] . "', zone_id = '" . (int)$data['zone_id'] . "', language = '" . $this->db->escape($data['language']) . "', currency = '" . $this->db->escape($data['currency']) . "', tax = '" . (int)$data['tax'] . "', customer_group_id = '" . (int)$data['customer_group_id'] . "', customer_price = '" . (int)$data['customer_price'] . "', customer_approval = '" . (int)$data['customer_approval'] . "', guest_checkout = '" . (int)$data['guest_checkout'] . "', account_id = '" . (int)$data['account_id'] . "', checkout_id = '" . (int)$data['checkout_id'] . "', stock_display = '" . (int)$data['stock_display'] . "', stock_check = '" . (int)$data['stock_check'] . "', stock_checkout = '" . (int)$data['stock_checkout'] . "', stock_subtract = '" . (int)$data['stock_subtract'] . "', order_status_id = '" . (int)$data['order_status_id'] . "', stock_status_id = '" . (int)$data['stock_status_id'] . "', logo = '" . $this->db->escape($data['logo']) . "',  icon = '" . $this->db->escape($data['icon']) . "', image_thumb_width = '" . (int)$data['image_thumb_width'] . "', image_thumb_height = '" . (int)$data['image_thumb_height'] . "', image_popup_width = '" . (int)$data['image_popup_width'] . "', image_popup_height = '" . (int)$data['image_popup_height'] . "', image_category_width = '" . (int)$data['image_category_width'] . "', image_category_height = '" . (int)$data['image_category_height'] . "', image_product_width = '" . (int)$data['image_product_width'] . "', image_product_height = '" . (int)$data['image_product_height'] . "', image_additional_width = '" . (int)$data['image_additional_width'] . "', image_additional_height = '" . (int)$data['image_additional_height'] . "', image_related_width = '" . (int)$data['image_related_width'] . "', image_related_height = '" . (int)$data['image_related_height'] . "', image_cart_width = '" . (int)$data['image_cart_width'] . "', image_cart_height = '" . (int)$data['image_cart_height'] . "'");
+      	$this->db->query("INSERT INTO " . DB_PREFIX . "store SET name = '" . $this->db->escape($data['name']) . "', url = '" . $this->db->escape($data['url']) . "', title = '" . $this->db->escape($data['title']) . "', meta_description = '" . $this->db->escape($data['meta_description']) . "', template = '" . $this->db->escape($data['template']) . "', country_id = '" . (int)$data['country_id'] . "', zone_id = '" . (int)$data['zone_id'] . "', language = '" . $this->db->escape($data['language']) . "', currency = '" . $this->db->escape($data['currency']) . "', tax = '" . (int)$data['tax'] . "', customer_group_id = '" . (int)$data['customer_group_id'] . "', customer_price = '" . (int)$data['customer_price'] . "', customer_approval = '" . (int)$data['customer_approval'] . "', guest_checkout = '" . (int)$data['guest_checkout'] . "', account_id = '" . (int)$data['account_id'] . "', checkout_id = '" . (int)$data['checkout_id'] . "', stock_display = '" . (int)$data['stock_display'] . "', stock_check = '" . (int)$data['stock_check'] . "', stock_checkout = '" . (int)$data['stock_checkout'] . "', stock_subtract = '" . (int)$data['stock_subtract'] . "', order_status_id = '" . (int)$data['order_status_id'] . "', logo = '" . $this->db->escape($data['logo']) . "',  icon = '" . $this->db->escape($data['icon']) . "', image_thumb_width = '" . (int)$data['image_thumb_width'] . "', image_thumb_height = '" . (int)$data['image_thumb_height'] . "', image_popup_width = '" . (int)$data['image_popup_width'] . "', image_popup_height = '" . (int)$data['image_popup_height'] . "', image_category_width = '" . (int)$data['image_category_width'] . "', image_category_height = '" . (int)$data['image_category_height'] . "', image_product_width = '" . (int)$data['image_product_width'] . "', image_product_height = '" . (int)$data['image_product_height'] . "', image_additional_width = '" . (int)$data['image_additional_width'] . "', image_additional_height = '" . (int)$data['image_additional_height'] . "', image_related_width = '" . (int)$data['image_related_width'] . "', image_related_height = '" . (int)$data['image_related_height'] . "', image_cart_width = '" . (int)$data['image_cart_width'] . "', image_cart_height = '" . (int)$data['image_cart_height'] . "', `ssl` = '" . (int)$data['ssl'] . "'");
 		
 		$store_id = $this->db->getLastId();
 		
@@ -10,10 +10,12 @@ class ModelSettingStore extends Model {
 		}
 		
 		$this->cache->delete('store');
+		
+		return $store_id;
 	}
 	
 	public function editStore($store_id, $data) {
-      	$this->db->query("UPDATE " . DB_PREFIX . "store SET name = '" . $this->db->escape($data['name']) . "', url = '" . $this->db->escape($data['url']) . "', `ssl` = '" . (int)$data['ssl'] . "', title = '" . $this->db->escape($data['title']) . "', meta_description = '" . $this->db->escape($data['meta_description']) . "', template = '" . $this->db->escape($data['template']) . "', country_id = '" . (int)$data['country_id'] . "', zone_id = '" . (int)$data['zone_id'] . "', language = '" . $this->db->escape($data['language']) . "', currency = '" . $this->db->escape($data['currency']) . "', tax = '" . (int)$data['tax'] . "', customer_group_id = '" . (int)$data['customer_group_id'] . "', customer_price = '" . (int)$data['customer_price'] . "', customer_approval = '" . (int)$data['customer_approval'] . "', guest_checkout = '" . (int)$data['guest_checkout'] . "', account_id = '" . (int)$data['account_id'] . "', checkout_id = '" . (int)$data['checkout_id'] . "', stock_display = '" . (int)$data['stock_display'] . "', stock_check = '" . (int)$data['stock_check'] . "', stock_checkout = '" . (int)$data['stock_checkout'] . "', stock_subtract = '" . (int)$data['stock_subtract'] . "', order_status_id = '" . (int)$data['order_status_id'] . "', stock_status_id = '" . (int)$data['stock_status_id'] . "', logo = '" . $this->db->escape($data['logo']) . "',  icon = '" . $this->db->escape($data['icon']) . "', image_thumb_width = '" . (int)$data['image_thumb_width'] . "', image_thumb_height = '" . (int)$data['image_thumb_height'] . "', image_popup_width = '" . (int)$data['image_popup_width'] . "', image_popup_height = '" . (int)$data['image_popup_height'] . "', image_category_width = '" . (int)$data['image_category_width'] . "', image_category_height = '" . (int)$data['image_category_height'] . "', image_product_width = '" . (int)$data['image_product_width'] . "', image_product_height = '" . (int)$data['image_product_height'] . "', image_additional_width = '" . (int)$data['image_additional_width'] . "', image_additional_height = '" . (int)$data['image_additional_height'] . "', image_related_width = '" . (int)$data['image_related_width'] . "', image_related_height = '" . (int)$data['image_related_height'] . "', image_cart_width = '" . (int)$data['image_cart_width'] . "', image_cart_height = '" . (int)$data['image_cart_height'] . "' WHERE store_id = '" . (int)$store_id . "'");
+      	$this->db->query("UPDATE " . DB_PREFIX . "store SET name = '" . $this->db->escape($data['name']) . "', url = '" . $this->db->escape($data['url']) . "', title = '" . $this->db->escape($data['title']) . "', meta_description = '" . $this->db->escape($data['meta_description']) . "', template = '" . $this->db->escape($data['template']) . "', country_id = '" . (int)$data['country_id'] . "', zone_id = '" . (int)$data['zone_id'] . "', language = '" . $this->db->escape($data['language']) . "', currency = '" . $this->db->escape($data['currency']) . "', tax = '" . (int)$data['tax'] . "', customer_group_id = '" . (int)$data['customer_group_id'] . "', customer_price = '" . (int)$data['customer_price'] . "', customer_approval = '" . (int)$data['customer_approval'] . "', guest_checkout = '" . (int)$data['guest_checkout'] . "', account_id = '" . (int)$data['account_id'] . "', checkout_id = '" . (int)$data['checkout_id'] . "', stock_display = '" . (int)$data['stock_display'] . "', stock_check = '" . (int)$data['stock_check'] . "', stock_checkout = '" . (int)$data['stock_checkout'] . "', stock_subtract = '" . (int)$data['stock_subtract'] . "', order_status_id = '" . (int)$data['order_status_id'] . "', logo = '" . $this->db->escape($data['logo']) . "',  icon = '" . $this->db->escape($data['icon']) . "', image_thumb_width = '" . (int)$data['image_thumb_width'] . "', image_thumb_height = '" . (int)$data['image_thumb_height'] . "', image_popup_width = '" . (int)$data['image_popup_width'] . "', image_popup_height = '" . (int)$data['image_popup_height'] . "', image_category_width = '" . (int)$data['image_category_width'] . "', image_category_height = '" . (int)$data['image_category_height'] . "', image_product_width = '" . (int)$data['image_product_width'] . "', image_product_height = '" . (int)$data['image_product_height'] . "', image_additional_width = '" . (int)$data['image_additional_width'] . "', image_additional_height = '" . (int)$data['image_additional_height'] . "', image_related_width = '" . (int)$data['image_related_width'] . "', image_related_height = '" . (int)$data['image_related_height'] . "', image_cart_width = '" . (int)$data['image_cart_width'] . "', image_cart_height = '" . (int)$data['image_cart_height'] . "', `ssl` = '" . (int)$data['ssl'] . "' WHERE store_id = '" . (int)$store_id . "'");
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "store_description WHERE store_id = '" . (int)$store_id . "'");
 		
@@ -54,51 +56,17 @@ class ModelSettingStore extends Model {
 	}
 	
 	public function getStores($data = array()) {
-		if ($data) {
-			$sql = "SELECT * FROM " . DB_PREFIX . "store";
-			
-			$sort_data = array('url');	
-			
-			if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
-				$sql .= " ORDER BY " . $data['sort'];	
-			} else {
-				$sql .= " ORDER BY url";	
-			}
-			
-			if (isset($data['order']) && ($data['order'] == 'DESC')) {
-				$sql .= " DESC";
-			} else {
-				$sql .= " ASC";
-			}
-			
-			if (isset($data['start']) || isset($data['limit'])) {
-				if ($data['start'] < 0) {
-					$data['start'] = 0;
-				}					
+		$store_data = $this->cache->get('store');
 	
-				if ($data['limit'] < 1) {
-					$data['limit'] = 20;
-				}	
-			
-				$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
-			}				
-			
-			$query = $this->db->query($sql);
-	
-			return $query->rows;
-		} else {
-			$store_data = $this->cache->get('store');
+		if (!$store_data) {
+			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "store ORDER BY url");
+
+			$store_data = $query->rows;
 		
-			if (!$store_data) {
-				$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "store ORDER BY url");
-	
-				$store_data = $query->rows;
-			
-				$this->cache->set('store', $store_data);
-			}
-		 
-			return $store_data;
+			$this->cache->set('store', $store_data);
 		}
+	 
+		return $store_data;
 	}
 
 	public function getTotalStores() {
@@ -147,12 +115,6 @@ class ModelSettingStore extends Model {
 	
 	public function getTotalStoresByOrderStatusId($order_status_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "store WHERE order_status_id = '" . (int)$order_status_id . "'");
-		
-		return $query->row['total'];		
-	}	
-	
-	public function getTotalStoresByStockStatusId($stock_status_id) {
-      	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "store WHERE stock_status_id = '" . (int)$stock_status_id . "'");
 		
 		return $query->row['total'];		
 	}	

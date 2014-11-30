@@ -1,15 +1,12 @@
 <?php
 // Heading
-$_['heading_title']           = 'Store Manager';
+$_['heading_title']           = 'Settings';
 
 // Text
-$_['text_success']            = 'Success: You have modified stores!';
+$_['text_success']            = 'Success: You have modified settings!';
 $_['text_image_manager']      = 'Image Manager';
-
-// Column
-$_['column_name']             = 'Store Name';
-$_['column_url']              = 'Store URL';
-$_['column_action']           = 'Action';
+$_['text_default']            = 'Default';
+$_['text_edit_store']         = 'Edit Store:';
 
 // Entry
 $_['entry_name']              = 'Store Name:';
@@ -35,9 +32,8 @@ $_['entry_stock_display']     = 'Display Stock:<br /><span class="help">Display 
 $_['entry_stock_check']       = 'Show Out Of Stock:<br /><span class="help">Display out of stock message on the shopping cart page if a product is out of stock.</span>';
 $_['entry_stock_checkout']    = 'Stock Checkout:<br /><span class="help">Allow customers to still checkout if the products they are ordering are not in stock.</span>';
 $_['entry_stock_subtract']    = 'Stock Subtract:<br /><span class="help">Subtract product quantity when an order is processed.</span>';
-$_['entry_stock_status']      = 'Stock Status:';
 $_['entry_logo']              = 'Store Logo:';
-$_['entry_icon']              = 'Icon:';
+$_['entry_icon']              = 'Icon:<br /><span class="help">The icon should be a PNG that is 16px x 16px.</span>';
 $_['entry_image_thumb']       = 'Product Image Thumb Size:';
 $_['entry_image_popup']       = 'Product Image Popup Size:';
 $_['entry_image_category']    = 'Category List Size:';
@@ -45,6 +41,10 @@ $_['entry_image_product']     = 'Product List Size:';
 $_['entry_image_additional']  = 'Additional Product Image Size:';
 $_['entry_image_related']     = 'Related Product Image Size:';
 $_['entry_image_cart']        = 'Cart Image Size:';
+
+// Button
+$_['button_add_store']        = 'Create A New Store';
+$_['button_delete_store']     = 'Delete Store';
 
 // Error
 $_['error_permission']        = 'Warning: You do not have permission to modify stores!';
@@ -58,6 +58,5 @@ $_['error_image_product']     = 'Product List Size dimensions required!';
 $_['error_image_additional']  = 'Additional Product Image Size dimensions required!';
 $_['error_image_related']     = 'Related Product Image Size dimensions required!';
 $_['error_image_cart']        = 'Cart Image Size dimensions required!';
-$_['error_default']           = 'Warning: This Store cannot be deleted as it is currently assigned as the default store!';
 $_['error_store']             = 'Warning: This Store cannot be deleted as it is currently assigned to %s orders!';
 ?>

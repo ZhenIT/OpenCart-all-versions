@@ -1,17 +1,7 @@
 <?php
 class ControllerSettingStore extends Controller {
 	private $error = array(); 
-     
-  	public function index() {
-		$this->load->language('setting/store');
-    	
-		$this->document->title = $this->language->get('heading_title'); 
-		
-		$this->load->model('setting/store');
-		
-		$this->getList();
-  	}
-  
+      
   	public function insert() {
     	$this->load->language('setting/store');
 
@@ -20,25 +10,11 @@ class ControllerSettingStore extends Controller {
 		$this->load->model('setting/store');
 		
     	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$this->model_setting_store->addStore($this->request->post);
+			$store_id = $this->model_setting_store->addStore($this->request->post);
 	  		
 			$this->session->data['success'] = $this->language->get('text_success');
-	  
-			$url = '';
-					
-			if (isset($this->request->get['page'])) {
-				$url .= '&page=' . $this->request->get['page'];
-			}
-
-			if (isset($this->request->get['sort'])) {
-				$url .= '&sort=' . $this->request->get['sort'];
-			}
-
-			if (isset($this->request->get['order'])) {
-				$url .= '&order=' . $this->request->get['order'];
-			}
 			
-			$this->redirect(HTTPS_SERVER . 'index.php?route=setting/store' . $url);
+			$this->redirect(HTTPS_SERVER . 'index.php?route=setting/store/update&store_id=' . $store_id);
     	}
 	
     	$this->getForm();
@@ -56,21 +32,7 @@ class ControllerSettingStore extends Controller {
 			
 			$this->session->data['success'] = $this->language->get('text_success');
 			
-			$url = '';
-					
-			if (isset($this->request->get['page'])) {
-				$url .= '&page=' . $this->request->get['page'];
-			}
-
-			if (isset($this->request->get['sort'])) {
-				$url .= '&sort=' . $this->request->get['sort'];
-			}
-
-			if (isset($this->request->get['order'])) {
-				$url .= '&order=' . $this->request->get['order'];
-			}
-			
-			$this->redirect(HTTPS_SERVER . 'index.php?route=setting/store' . $url);
+			$this->redirect(HTTPS_SERVER . 'index.php?route=setting/store/update&store_id=' . $this->request->get['store_id']);
 		}
 
     	$this->getForm();
@@ -83,183 +45,16 @@ class ControllerSettingStore extends Controller {
 		
 		$this->load->model('setting/store');
 		
-		if (isset($this->request->post['selected']) && $this->validateDelete()) {
-			foreach ($this->request->post['selected'] as $store_id) {
-				$this->model_setting_store->deleteStore($store_id);
-	  		}
+		if (isset($this->request->get['store_id']) && $this->validateDelete()) {
+			$this->model_setting_store->deleteStore($this->request->get['store_id']);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 			
-			$url = '';
-					
-			if (isset($this->request->get['page'])) {
-				$url .= '&page=' . $this->request->get['page'];
-			}
-
-			if (isset($this->request->get['sort'])) {
-				$url .= '&sort=' . $this->request->get['sort'];
-			}
-
-			if (isset($this->request->get['order'])) {
-				$url .= '&order=' . $this->request->get['order'];
-			}
-			
-			$this->redirect(HTTPS_SERVER . 'index.php?route=setting/store' . $url);
+			$this->redirect(HTTPS_SERVER . 'index.php?route=setting/setting');
 		}
 
-    	$this->getList();
+    	$this->getForm();
   	}
- 
-   	private function getList() {
-		if (isset($this->request->get['page'])) {
-			$page = $this->request->get['page'];
-		} else {
-			$page = 1;
-		}
-		
-		if (isset($this->request->get['sort'])) {
-			$sort = $this->request->get['sort'];
-		} else {
-			$sort = 'name';
-		}
-		
-		if (isset($this->request->get['order'])) {
-			$order = $this->request->get['order'];
-		} else {
-			$order = 'ASC';
-		}
-		
-		$url = '';
-			
-		if (isset($this->request->get['page'])) {
-			$url .= '&page=' . $this->request->get['page'];
-		}
-
-		if (isset($this->request->get['sort'])) {
-			$url .= '&sort=' . $this->request->get['sort'];
-		}
-
-		if (isset($this->request->get['order'])) {
-			$url .= '&order=' . $this->request->get['order'];
-		}
-
-  		$this->document->breadcrumbs = array();
-
-   		$this->document->breadcrumbs[] = array(
-       		'href'      => HTTPS_SERVER . 'index.php?route=common/home',
-       		'text'      => $this->language->get('text_home'),
-      		'separator' => FALSE
-   		);
-
-   		$this->document->breadcrumbs[] = array(
-       		'href'      => HTTPS_SERVER . 'index.php?route=setting/store' . $url,
-       		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
-   		);
-							
-		$this->data['insert'] = HTTPS_SERVER . 'index.php?route=setting/store/insert' . $url;
-		$this->data['delete'] = HTTPS_SERVER . 'index.php?route=setting/store/delete' . $url;	
-
-		$this->data['stores'] = array();
-
-		$data = array(
-			'sort'  => $sort,
-			'order' => $order,
-			'start' => ($page - 1) * 10,
-			'limit' => 10
-		);
-		
-		$store_total = $this->model_setting_store->getTotalStores();
-	
-		$results = $this->model_setting_store->getStores($data);
- 
-    	foreach ($results as $result) {
-			$action = array();
-			
-			$action[] = array(
-				'text' => $this->language->get('text_edit'),
-				'href' => HTTPS_SERVER . 'index.php?route=setting/store/update&store_id=' . $result['store_id'] . $url
-			);
-						
-			$this->data['stores'][] = array(
-				'store_id' => $result['store_id'],
-				'name'     => $result['name'] . (($result['store_id'] == $this->config->get('config_store_id')) ? $this->language->get('text_default') : NULL),
-				'url'      => $result['url'],
-				'selected' => isset($this->request->post['selected']) && in_array($result['store_id'], $this->request->post['selected']),
-				'action'   => $action
-			);
-		}	
-	
-		$this->data['heading_title'] = $this->language->get('heading_title');
-		
-		$this->data['text_no_results'] = $this->language->get('text_no_results');
-
-		$this->data['column_name'] = $this->language->get('column_name');
-		$this->data['column_url'] = $this->language->get('column_url');
-		$this->data['column_action'] = $this->language->get('column_action');		
-		
-		$this->data['button_insert'] = $this->language->get('button_insert');
-		$this->data['button_delete'] = $this->language->get('button_delete');
- 
- 		if (isset($this->error['warning'])) {
-			$this->data['error_warning'] = $this->error['warning'];
-		} else {
-			$this->data['error_warning'] = '';
-		}
-		
-		if (isset($this->session->data['success'])) {
-			$this->data['success'] = $this->session->data['success'];
-		
-			unset($this->session->data['success']);
-		} else {
-			$this->data['success'] = '';
-		}
-
-		$url = '';
-
-		if ($order == 'ASC') {
-			$url .= '&order=' .  'DESC';
-		} else {
-			$url .= '&order=' .  'ASC';
-		}
-
-		if (isset($this->request->get['page'])) {
-			$url .= '&page=' . $this->request->get['page'];
-		}
-		
-		$this->data['sort_name'] = HTTPS_SERVER . 'index.php?route=setting/store&sort=name' . $url;
-		$this->data['sort_url'] = HTTPS_SERVER . 'index.php?route=setting/store&sort=url' . $url;
-		
-		$url = '';
-
-		if (isset($this->request->get['sort'])) {
-			$url .= '&sort=' . $this->request->get['sort'];
-		}
-												
-		if (isset($this->request->get['order'])) {
-			$url .= '&order=' . $this->request->get['order'];
-		}
-
-		$pagination = new Pagination();
-		$pagination->total = $store_total;
-		$pagination->page = $page;
-		$pagination->limit = 10; 
-		$pagination->text = $this->language->get('text_pagination');
-		$pagination->url = HTTPS_SERVER . 'index.php?route=setting/store' . $url . '&page={page}';
-			
-		$this->data['pagination'] = $pagination->render();
-
-		$this->data['sort'] = $sort;
-		$this->data['order'] = $order;
-		
-		$this->template = 'setting/store_list.tpl';
-		$this->children = array(
-			'common/header',	
-			'common/footer'	
-		);
-		
-		$this->response->setOutput($this->render(TRUE), $this->config->get('config_compression'));
-	}
  
 	public function getForm() { 
 		$this->data['heading_title'] = $this->language->get('heading_title');
@@ -269,9 +64,10 @@ class ControllerSettingStore extends Controller {
 		$this->data['text_no'] = $this->language->get('text_no');
 		$this->data['text_image_manager'] = $this->language->get('text_image_manager');
 		
+		$this->data['text_edit_store'] = $this->language->get('text_edit_store');
+		
 		$this->data['entry_name'] = $this->language->get('entry_name');
 		$this->data['entry_url'] = $this->language->get('entry_url');		
-		$this->data['entry_ssl'] = $this->language->get('entry_ssl');
 		$this->data['entry_title'] = $this->language->get('entry_title');
 		$this->data['entry_meta_description'] = $this->language->get('entry_meta_description');
 		$this->data['entry_template'] = $this->language->get('entry_template');
@@ -292,7 +88,6 @@ class ControllerSettingStore extends Controller {
 		$this->data['entry_stock_checkout'] = $this->language->get('entry_stock_checkout');
 		$this->data['entry_stock_subtract'] = $this->language->get('entry_stock_subtract');
 		$this->data['entry_order_status'] = $this->language->get('entry_order_status');
-		$this->data['entry_stock_status'] = $this->language->get('entry_stock_status');
 		$this->data['entry_logo'] = $this->language->get('entry_logo');
 		$this->data['entry_icon'] = $this->language->get('entry_icon');
 		$this->data['entry_image_thumb'] = $this->language->get('entry_image_thumb');
@@ -302,14 +97,19 @@ class ControllerSettingStore extends Controller {
 		$this->data['entry_image_additional'] = $this->language->get('entry_image_additional');
 		$this->data['entry_image_related'] = $this->language->get('entry_image_related');
 		$this->data['entry_image_cart'] = $this->language->get('entry_image_cart');
-		  
+		$this->data['entry_ssl'] = $this->language->get('entry_ssl');
+		
 		$this->data['button_save'] = $this->language->get('button_save');
 		$this->data['button_cancel'] = $this->language->get('button_cancel');
+		$this->data['button_add_store'] = $this->language->get('button_add_store');
+		$this->data['button_delete_store'] = $this->language->get('button_delete_store');
 
+		$this->data['tab_general'] = $this->language->get('tab_general');
 		$this->data['tab_store'] = $this->language->get('tab_store');
 		$this->data['tab_local'] = $this->language->get('tab_local');
 		$this->data['tab_option'] = $this->language->get('tab_option');
 		$this->data['tab_image'] = $this->language->get('tab_image');
+		$this->data['tab_server'] = $this->language->get('tab_server');
 		
  		if (isset($this->error['warning'])) {
 			$this->data['error_warning'] = $this->error['warning'];
@@ -399,14 +199,52 @@ class ControllerSettingStore extends Controller {
 			$this->data['success'] = '';
 		}
 		
+		$this->data['insert'] = HTTPS_SERVER . 'index.php?route=setting/store/insert';
+		
+		if (isset($this->request->get['store_id'])) {
+			$this->data['delete'] = HTTPS_SERVER . 'index.php?route=setting/store/delete&store_id=' . $this->request->get['store_id'];
+		} else {
+			$this->data['delete'] = '';
+		}
+		
+		if (!isset($this->request->get['store_id'])) {
+			$this->data['cancel'] = HTTPS_SERVER . 'index.php?route=setting/setting';
+		} else {
+			$this->data['cancel'] = HTTPS_SERVER . 'index.php?route=setting/store/update&store_id=' . $this->request->get['store_id'];
+		}
+		
 		if (!isset($this->request->get['store_id'])) {
 			$this->data['action'] = HTTPS_SERVER . 'index.php?route=setting/store/insert';
 		} else {
 			$this->data['action'] = HTTPS_SERVER . 'index.php?route=setting/store/update&store_id=' . $this->request->get['store_id'];
 		}
 		
-		$this->data['cancel'] = HTTPS_SERVER . 'index.php?route=setting/store';
+		$this->data['stores'] = array();
+
+		$this->data['stores'][] = array(
+			'store_id' => 0,
+			'name'     => $this->language->get('text_default'),
+			'href'     => HTTPS_SERVER . 'index.php?route=setting/setting'
+		); 
 		
+		$this->load->model('setting/store');
+		
+		$results = $this->model_setting_store->getStores();
+		
+		foreach ($results as $result) {
+			$this->data['stores'][] = array(
+				'store_id' => $result['store_id'],
+				'name'     => $result['name'],
+				'href'     => HTTPS_SERVER . 'index.php?route=setting/store/update&store_id=' . $result['store_id']
+			); 
+		}
+		
+		if (isset($this->request->get['store_id'])) {
+			$this->data['store_id'] = $this->request->get['store_id'];
+		} else {
+			$this->data['store_id'] = 0;
+		}
+	
 		if (isset($this->request->get['store_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
       		$store_info = $this->model_setting_store->getStore($this->request->get['store_id']);
     	}
@@ -424,17 +262,9 @@ class ControllerSettingStore extends Controller {
 		} elseif (isset($store_info)) {
 			$this->data['url'] = $store_info['url'];
 		} else {
-			$this->data['url'] = $this->request->server['HTTP_HOST'];
+			$this->data['url'] = '';
 		}
 
-		if (isset($this->request->post['ssl'])) {
-			$this->data['ssl'] = $this->request->post['ssl'];
-		} elseif (isset($store_info)) {
-			$this->data['ssl'] = $store_info['ssl'];
-		} else {
-			$this->data['ssl'] = '';
-		}
-		
 		if (isset($this->request->post['title'])) {
 			$this->data['title'] = $this->request->post['title'];
 		} elseif (isset($store_info)) {
@@ -631,18 +461,6 @@ class ControllerSettingStore extends Controller {
 			$this->data['order_status_id'] = '';
 		}
 		
-		$this->load->model('localisation/stock_status');
-		
-		$this->data['stock_statuses'] = $this->model_localisation_stock_status->getStockStatuses();
-
-		if (isset($this->request->post['stock_status_id'])) {
-			$this->data['stock_status_id'] = $this->request->post['stock_status_id'];
-		} elseif (isset($store_info)) {
-			$this->data['stock_status_id'] = $store_info['stock_status_id'];			
-		} else {
-			$this->data['stock_status_id'] = '';
-		}
-
 		$this->load->model('tool/image');
 
 		if (isset($this->request->post['logo'])) {
@@ -784,8 +602,16 @@ class ControllerSettingStore extends Controller {
 		} else {
 			$this->data['image_cart_height'] = 75;
 		}
+
+		if (isset($this->request->post['ssl'])) {
+			$this->data['ssl'] = $this->request->post['ssl'];
+		} elseif (isset($store_info)) {
+			$this->data['ssl'] = $store_info['ssl'];
+		} else {
+			$this->data['ssl'] = '';
+		}
 		
-		$this->template = 'setting/store_form.tpl';
+		$this->template = 'setting/store.tpl';
 		$this->children = array(
 			'common/header',	
 			'common/footer'	
@@ -852,17 +678,11 @@ class ControllerSettingStore extends Controller {
 		
 		$this->load->model('sale/order');
 		
-		foreach ($this->request->post['selected'] as $store_id) {
-			if ($this->config->get('config_store_id') == $store_id) {
-				$this->error['warning'] = $this->language->get('error_default');
-			}			
-			
-			$store_total = $this->model_sale_order->getTotalOrdersByStoreId($store_id);
+		$store_total = $this->model_sale_order->getTotalOrdersByStoreId($this->request->get['store_id']);
 
-			if ($store_total) {
-				$this->error['warning'] = sprintf($this->language->get('error_store'), $store_total);
-			}	
-		}
+		if ($store_total) {
+			$this->error['warning'] = sprintf($this->language->get('error_store'), $store_total);
+		}	
 		
 		if (!$this->error) {
 			return TRUE; 
