@@ -4,7 +4,7 @@ final class Router {
 	protected $method;
 	protected $args = array();
 
-	public function __construct($route) {
+	public function __construct($route, $args = array()) {
 		$path = '';
 		
 		$parts = explode('/', str_replace('../', '', $route));
@@ -26,6 +26,10 @@ final class Router {
 				array_shift($parts);
 				
 				break;
+			}
+			
+			if ($args) {
+				$this->args = $args;
 			}
 		}
 

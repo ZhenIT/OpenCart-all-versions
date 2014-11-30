@@ -1,5 +1,5 @@
 <div class="box">
-  <div class="top" style="background: url('catalog/view/theme/default/image/icon_basket.png') 8px 8px no-repeat; padding-left: 30px;"><?php echo $heading_title; ?></div>
+  <div class="top"><img src="catalog/view/theme/default/image/icon_basket.png" alt="" /><?php echo $heading_title; ?></div>
   <div class="middle">
     <?php if ($products) { ?>
     <table cellpadding="2" cellspacing="0" style="width: 100%;">
@@ -21,5 +21,5 @@
     <div style="text-align: center;"><?php echo $text_empty; ?></div>
     <?php } ?>
   </div>
-  <div class="bottom"></div>
+  <div class="bottom">&nbsp;</div>
 </div>

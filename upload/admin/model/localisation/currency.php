@@ -70,7 +70,7 @@ class ModelLocalisationCurrency extends Model {
 	}	
 	
 	public function updateCurrencies() {
-		$query = $this->db->query("SELECT * FROM currency WHERE code != '" . $this->db->escape($this->config->get('config_currency')) . "' AND date_modified < '" . date(strtotime('-1 day')) . "'");
+		$query = $this->db->query("SELECT * FROM currency WHERE code != '" . $this->db->escape($this->config->get('config_currency')) . "' AND date_modified > '" . date(strtotime('-1 day')) . "'");
 		
 		if ($query->num_rows) {
 			$xml = file_get_contents('http://currencysource.com/RSS/' . $this->config->get('config_currency') . '.xml');

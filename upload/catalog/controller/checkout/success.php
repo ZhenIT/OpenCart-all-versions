@@ -8,17 +8,7 @@ class ControllerCheckoutSuccess extends Controller {
     	}
 		
 		if (isset($this->session->data['order_id'])) {
-			if (isset($this->session->data['coupon'])) {
-				$this->load->model('checkout/coupon');
-			
-				$this->model_checkout_coupon->redeem($this->session->data['coupon'], $this->session->data['order_id']);
-			}
-			
 			$this->cart->clear();
-			
-			$this->load->model('checkout/order');
-		
-			$this->model_checkout_order->complete($this->session->data['order_id']);
 			
 			unset($this->session->data['shipping_method']);
 			unset($this->session->data['shipping_methods']);
@@ -30,7 +20,9 @@ class ControllerCheckoutSuccess extends Controller {
 		}
 									   
 		$this->load->language('checkout/success');
-
+		
+		$this->document->title = $this->language->get('heading_title');
+		
 		$this->document->breadcrumbs = array(); 
 
       	$this->document->breadcrumbs[] = array(
@@ -68,8 +60,6 @@ class ControllerCheckoutSuccess extends Controller {
         	'text'      => $this->language->get('text_success'),
         	'separator' => $this->language->get('text_separator')
       	);
-				
-		$this->document->title = $this->language->get('heading_title');
 		
     	$this->data['heading_title'] = $this->language->get('heading_title');
 

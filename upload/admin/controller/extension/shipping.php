@@ -1,6 +1,6 @@
 <?php
 class ControllerExtensionShipping extends Controller {
-	function index() {
+	public function index() {
 		$this->load->language('extension/shipping');
 		 
 		$this->document->title = $this->language->get('heading_title'); 
@@ -81,7 +81,7 @@ class ControllerExtensionShipping extends Controller {
 		$this->render();
 	}
 	
-	function install() {
+	public function install() {
 		$this->load->model('setting/extension');
 		
 		$this->model_setting_extension->install('shipping', $this->request->get['extension']);
@@ -89,7 +89,7 @@ class ControllerExtensionShipping extends Controller {
 		$this->redirect($this->url->https('extension/shipping'));
 	}
 	
-	function uninstall() {
+	public function uninstall() {
 		$this->load->model('setting/extension');
 		$this->load->model('setting/setting');
 		

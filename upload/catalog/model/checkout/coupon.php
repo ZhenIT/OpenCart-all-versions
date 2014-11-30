@@ -10,13 +10,13 @@ class ModelCheckoutCoupon extends Model {
 				$status = FALSE;
 			}
 		
-			$coupon_redeem_query = $this->db->query("SELECT COUNT(*) AS total FROM coupon_redeem WHERE coupon_id = '" . (int)$coupon_query->row['coupon_id'] . "'");
+			$coupon_redeem_query = $this->db->query("SELECT COUNT(*) AS total FROM order WHERE order_status_id > '0' AND coupon_id = '" . (int)$coupon_query->row['coupon_id'] . "'");
 
 			if ($coupon_redeem_query->row['total'] >= $coupon_query->row['uses_total']) {
 				$status = FALSE;
 			}
 			
-			$coupon_redeem_query = $this->db->query("SELECT COUNT(*) AS total FROM coupon_redeem WHERE coupon_id = '" . (int)$coupon_query->row['coupon_id'] . "' AND customer_id = '" . (int)$this->customer->getId() . "'");
+			$coupon_redeem_query = $this->db->query("SELECT COUNT(*) AS total FROM order WHERE order_status_id > '0' AND coupon_id = '" . (int)$coupon_query->row['coupon_id'] . "' AND customer_id = '" . (int)$this->customer->getId() . "'");
 				
 			if ($coupon_redeem_query->row['total'] >= $coupon_query->row['uses_customer']) {
 				$status = FALSE;
@@ -68,14 +68,6 @@ class ModelCheckoutCoupon extends Model {
 			);
 			
 			return $coupon_data;
-		}
-	}
-	
-	public function redeem($coupon, $order_id) {
-		$coupon = $this->getCoupon($coupon);
-		
-		if ($coupon) {
-			$this->db->query("INSERT coupon_redeem SET coupon_id = '" . (int)$coupon['coupon_id'] . "', order_id = '" . (int)$order_id . "', customer_id = '" . (int)$this->customer->getId() . "', date_added = NOW()");
 		}
 	}
 }

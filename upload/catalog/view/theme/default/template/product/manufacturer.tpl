@@ -39,4 +39,4 @@
   </table>
   <div class="pagination"><?php echo $pagination; ?></div>
 </div>
-<div class="bottom"></div>
+<div class="bottom">&nbsp;</div>

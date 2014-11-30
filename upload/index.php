@@ -88,11 +88,11 @@ $controller = new Front();
 if (isset($request->get['route'])) {
 	$action = new Router($request->get['route']);
 } else {
-	$action = new Action('common/home', 'index');
+	$action = new Router('common/home');
 }
 
 // Dispatch
-$controller->dispatch($action, new Action('error/not_found', 'index'));
+$controller->dispatch($action, new Router('error/not_found'));
 
 // Output
 $response->output();

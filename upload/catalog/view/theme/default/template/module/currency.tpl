@@ -1,7 +1,7 @@
 <div class="box">
-  <div class="top" style="background: url('catalog/view/theme/default/image/icon_currency.png') 8px 8px no-repeat; padding-left: 30px;"><?php echo $heading_title; ?></div>
-  <div class="middle" style="text-align: center;">
-    <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="currency_form">
+  <div class="top"><img src="catalog/view/theme/default/image/icon_currency.png" alt="" /><?php echo $heading_title; ?></div>
+  <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="currency_form">
+    <div class="middle" style="text-align: center;">
       <select name="currency" onchange="$('#currency_form').submit();">
         <?php foreach ($currencies as $currency) { ?>
         <?php if ($currency['code'] == $default) { ?>
@@ -12,7 +12,7 @@
         <?php } ?>
       </select>
       <input type="hidden" name="redirect" value="<?php echo $redirect; ?>" />
-    </form>
-  </div>
-  <div class="bottom"></div>
+    </div>
+  </form>
+  <div class="bottom">&nbsp;</div>
 </div>

@@ -1,6 +1,6 @@
 <?php
 class ControllerExtensionPayment extends Controller {
-	function index() {
+	public function index() {
 		$this->load->language('extension/payment');
 		 
 		$this->document->title = $this->language->get('heading_title'); 
@@ -64,9 +64,18 @@ class ControllerExtensionPayment extends Controller {
 					'href' => $this->url->https('extension/payment/uninstall&extension=' . $extension)
 				);
 			}
-									
+			
+			$text_link = $this->language->get('text_' . $extension);
+			
+			if ($text_link != 'text_' . $extension) {
+				$link = $this->language->get('text_' . $extension);
+			} else {
+				$link = '';
+			}
+			
 			$this->data['extensions'][] = array(
 				'name'        => $this->language->get('heading_title'),
+				'link'        => $link,
 				'development' => $this->language->get('text_development'),
 				'status'      => $this->config->get($extension . '_status') ? $this->language->get('text_enabled') : $this->language->get('text_disabled'),
 				'sort_order'  => $this->config->get($extension . '_sort_order'),
@@ -81,7 +90,7 @@ class ControllerExtensionPayment extends Controller {
 		$this->render();
 	}
 	
-	function install() {
+	public function install() {
 		$this->load->model('setting/extension');
 		
 		$this->model_setting_extension->install('payment', $this->request->get['extension']);
@@ -89,7 +98,7 @@ class ControllerExtensionPayment extends Controller {
 		$this->redirect($this->url->https('extension/payment'));
 	}
 	
-	function uninstall() {
+	public function uninstall() {
 		$this->load->model('setting/extension');
 		$this->load->model('setting/setting');
 		

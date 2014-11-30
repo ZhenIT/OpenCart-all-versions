@@ -6,14 +6,15 @@ $_['heading_title']      = 'PayPal';
 $_['text_payment']       = 'Payment';
 $_['text_success']       = 'Success: You have modified PayPal account details!';
 $_['text_development']   = '<span style="color: green;">Ready</span>';
-$_['text_checkout']      = 'On Checkout';
-$_['text_callback']      = 'On Callback';
+$_['text_paypal']	     = '<a onclick="window.open(\'https://www.paypal.com/uk/mrb/pal=W9TBB5DTD6QJW\');"><img src="view/image/payment/paypal.png" align="PayPal" title="PayPal" style="border: 1px solid #EEEEEE;" /></a>';
+$_['text_authorization'] = 'Authorization';
+$_['text_sale']          = 'Sale';
 
 // Entry
 $_['entry_email']        = 'E-Mail:';
 $_['entry_encryption']   = 'Encryption Key:';
-$_['entry_callback']     = 'Confirm Order:';
 $_['entry_test']         = 'Test Mode:';
+$_['entry_method']       = 'Transaction Method:';
 $_['entry_order_status'] = 'Order Status:';
 $_['entry_geo_zone']     = 'Geo Zone:';
 $_['entry_status']       = 'Status:';
@@ -21,7 +22,6 @@ $_['entry_sort_order']   = 'Sort Order:';
 
 // Help
 $_['help_encryption']    = 'Please provider a secret key that will be used to hide the order ID when sending information to PayPal.';
-$_['help_callback']      = 'Sometimes PayPal\'s callback can not contact your site so it maybe necessary to confirm the order as your customer leaves the checkout confirm page.';
 
 // Error
 $_['error_permission']   = 'Warning: You do not have permission to modify payment PayPal!';

@@ -27,20 +27,19 @@ class ControllerPaymentPayPal extends Controller {
 		$this->data['text_none'] = $this->language->get('text_none');
 		$this->data['text_yes'] = $this->language->get('text_yes');
 		$this->data['text_no'] = $this->language->get('text_no');
-		$this->data['text_checkout'] = $this->language->get('text_checkout');
-		$this->data['text_callback'] = $this->language->get('text_callback');
+		$this->data['text_authorization'] = $this->language->get('text_authorization');
+		$this->data['text_sale'] = $this->language->get('text_sale');
 		
 		$this->data['entry_email'] = $this->language->get('entry_email');
 		$this->data['entry_encryption'] = $this->language->get('entry_encryption');
-		$this->data['entry_callback'] = $this->language->get('entry_callback');
 		$this->data['entry_test'] = $this->language->get('entry_test');
+		$this->data['entry_method'] = $this->language->get('entry_method');
 		$this->data['entry_order_status'] = $this->language->get('entry_order_status');		
 		$this->data['entry_geo_zone'] = $this->language->get('entry_geo_zone');
 		$this->data['entry_status'] = $this->language->get('entry_status');
 		$this->data['entry_sort_order'] = $this->language->get('entry_sort_order');
 		
 		$this->data['help_encryption'] = $this->language->get('help_encryption');
-		$this->data['help_callback'] = $this->language->get('help_callback');
 		
 		$this->data['button_save'] = $this->language->get('button_save');
 		$this->data['button_cancel'] = $this->language->get('button_cancel');
@@ -86,19 +85,19 @@ class ControllerPaymentPayPal extends Controller {
 		} else {
 			$this->data['paypal_encryption'] = $this->config->get('paypal_encryption');
 		}
-		
-		if (isset($this->request->post['paypal_callback'])) {
-			$this->data['paypal_callback'] = $this->request->post['paypal_callback'];
-		} else {
-			$this->data['paypal_callback'] = $this->config->get('paypal_callback');
-		}
-		
+
 		if (isset($this->request->post['paypal_test'])) {
 			$this->data['paypal_test'] = $this->request->post['paypal_test'];
 		} else {
 			$this->data['paypal_test'] = $this->config->get('paypal_test');
 		}
-
+		
+		if (isset($this->request->post['paypal_method'])) {
+			$this->data['paypal_method'] = $this->request->post['paypal_method'];
+		} else {
+			$this->data['paypal_method'] = $this->config->get('paypal_method');
+		}
+		
 		if (isset($this->request->post['paypal_order_status_id'])) {
 			$this->data['paypal_order_status_id'] = $this->request->post['paypal_order_status_id'];
 		} else {

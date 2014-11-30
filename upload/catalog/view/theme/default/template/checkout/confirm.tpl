@@ -72,7 +72,7 @@
       <br />
     </div>
   </div>
-  <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;">
+  <div class="buttons">
     <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="coupon">
       <table width="100%" style="border-collapse: collapse;">
         <tr>
@@ -87,5 +87,6 @@
   <b style="margin-bottom: 3px; display: block;"><?php echo $text_comment; ?></b>
   <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;"><?php echo $comment; ?></div>
   <?php } ?>
-  <?php echo $payment; ?></div>
-<div class="bottom"></div>
+  <div id="payment"><?php echo $payment; ?></div>
+</div>
+<div class="bottom">&nbsp;</div>

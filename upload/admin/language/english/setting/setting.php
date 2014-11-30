@@ -24,6 +24,9 @@ $_['entry_currency']          = 'Currency:';
 $_['entry_currency_auto']     = 'Auto Update Currency:';
 $_['entry_weight']            = 'Weight Class:';
 $_['entry_tax']               = 'Display Prices With Tax:';
+$_['entry_alert_mail']        = 'Alert Mail:';
+$_['entry_account']           = 'Account Terms:';
+$_['entry_checkout']          = 'Checkout Terms:';
 $_['entry_order_status']      = 'Order Status:';
 $_['entry_stock_check']       = 'Show Out Of Stock:';
 $_['entry_stock_checkout']    = 'Stock Checkout:';
@@ -35,7 +38,10 @@ $_['entry_cache']             = 'Use Caching:';
 $_['entry_compression']       = 'Output Compression Level:';
 
 // Help
-$_['help_currency_auto']      = 'Set your store to automatically update currencies daily.'; 
+$_['help_currency_auto']      = 'Set your store to automatically update currencies daily.';
+$_['help_alert_mail']         = 'Send a email to the store owner when a new order is created.';
+$_['help_account']            = 'Forces people to agree to terms before an account can be created.';
+$_['help_checkout']           = 'Forces people to agree to terms before an a customer can checkout.';
 $_['help_order_status']       = 'Set the default order status when an order is processed.';
 $_['help_stock_check']        = 'Display out of stock message on the shopping cart page if a product is out of stock.';
 $_['help_stock_checkout']     = 'Allow customers to still checkout if the products they are ordering are not in stock.';

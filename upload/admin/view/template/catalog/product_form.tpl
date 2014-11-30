@@ -456,7 +456,7 @@ function addImage() {
 	image_row++;
 }
 //--></script>
-<script type="text/javascript" src="view/javascript/jquery/jquery.ocupload-1.1.2.js"></script>
+<script type="text/javascript" src="view/javascript/jquery/ajaxupload.3.1.js"></script>
 <script type="text/javascript"><!--
 $(document).ready(function() { 
 	setUploader('#upload', '#preview', '#image');
@@ -465,6 +465,28 @@ $(document).ready(function() {
 });	
 
 function setUploader(upload, preview, image) {
+	new AjaxUpload(upload, {
+		action: 'index.php?route=catalog/image',
+		name: 'image',
+		autoSubmit: true,
+		responseType: 'json',
+		onChange: function(file, extension) {},
+		onSubmit: function(file, extension) {
+			$(upload).after('<img src="view/image/loading.gif" id="loading" />');
+		},
+		onComplete: function(file, json) {
+			if (json.error) {
+				alert(json.error);
+			} else {
+				$(preview).attr('src', json.src);
+
+				$(image).attr('value', json.file);
+			}
+			
+			$('#loading').remove();	
+		}
+	});
+	/*
 	$(upload).upload({
 		name:    'image',
 		method:  'post',
@@ -487,7 +509,8 @@ function setUploader(upload, preview, image) {
 			$('#loading').remove();
 		},
 		onSelect: function() {}
-	});	
+	});
+	*/
 }
 //--></script>
 <link rel="stylesheet" type="text/css" href="view/stylesheet/datepicker.css" />

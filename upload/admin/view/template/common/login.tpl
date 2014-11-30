@@ -6,18 +6,18 @@
 <title><?php echo $title; ?></title>
 <base href="<?php echo $base; ?>" />
 <link rel="stylesheet" type="text/css" href="view/stylesheet/stylesheet.css" />
-<script type="text/javascript" src="view/javascript/jquery/jquery-1.3.min.js"></script>
+<script type="text/javascript" src="view/javascript/jquery/jquery-1.3.2.min.js"></script>
 </head>
 <body>
 <div id="header"><?php echo $header; ?></div>
 <div id="menu"></div>
-<form action="<?php echo $action; ?>" method="post" id="form" enctype="multipart/form-data">
-  <div id="login">
-    <div class="div1"><?php echo $text_login; ?></div>
-    <div class="div2">
-      <?php if ($error_warning) { ?>
-      <div class="warning"><?php echo $error_warning; ?></div>
-      <?php } ?>
+<div id="login">
+  <div class="div1"><?php echo $text_login; ?></div>
+  <div class="div2">
+    <?php if ($error_warning) { ?>
+    <div class="warning"><?php echo $error_warning; ?></div>
+    <?php } ?>
+    <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
       <table>
         <tr>
           <td align="center" rowspan="3"><img src="view/image/login.png" alt="<?php echo $text_login; ?>" /></td>
@@ -34,9 +34,16 @@
           <td align="right"><a onclick="$('#form').submit();" class="button"><span class="button_left button_login"></span><span class="button_middle"><?php echo $button_login; ?></span><span class="button_right"></span></a></td>
         </tr>
       </table>
-    </div>
-    <div class="div3"></div>
+    </form>
+    <script type="text/javascript"><!--
+	$('#form input').keydown(function(e) {
+		if (e.keyCode == 13) {
+			$('#form').submit();
+		}
+	});
+	//--></script>
   </div>
-</form>
+  <div class="div3"></div>
+</div>
 </body>
 </html>

@@ -33,6 +33,13 @@ class ControllerPaymentPayPal extends Controller {
 		$this->data['email'] = $order_info['email'];
 		$this->data['invoice'] = $this->session->data['order_id'] . ' - ' . $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'];
 		$this->data['lc'] = $this->language->getCode();
+		
+		if (!$this->config->get('paypal_method')) {
+			$this->data['paymentaction'] = 'authorization';
+		} else {
+			$this->data['paymentaction'] = 'sale';
+		}
+		
 		$this->data['return'] = $this->url->https('checkout/success');
 		$this->data['cancel_return'] = $this->url->https('checkout/payment');
 
@@ -42,14 +49,6 @@ class ControllerPaymentPayPal extends Controller {
 		$this->template = $this->config->get('config_template') . 'payment/paypal.tpl';
 		
 		$this->render();		
-	}
-	
-	public function confirm() {
-		if (!$this->config->get('paypal_callback')) {
-			$this->load->model('checkout/order');
-		
-			$this->model_checkout_order->confirm($this->session->data['order_id'], $this->config->get('config_order_status_id'));
-		}
 	}
 	
 	public function callback() {
@@ -86,11 +85,7 @@ class ControllerPaymentPayPal extends Controller {
 					$res = fgets($fp, 1024);
 				
 					if (strcmp($res, 'VERIFIED') == 0) {
-						if ($this->config->get('paypal_callback')) {
-							$this->model_checkout_order->confirm($order_id, $this->config->get('paypal_order_status_id'));
-						} else {
-							$this->model_checkout_order->update($order_id, $this->config->get('paypal_order_status_id'));
-						}
+						$this->model_checkout_order->confirm($order_id, $this->config->get('paypal_order_status_id'));
 					}
 				}
 			

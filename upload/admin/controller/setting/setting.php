@@ -41,6 +41,9 @@ class ControllerSettingSetting extends Controller {
 		$this->data['entry_currency_auto'] = $this->language->get('entry_currency_auto');
 		$this->data['entry_tax'] = $this->language->get('entry_tax');
 		$this->data['entry_weight'] = $this->language->get('entry_weight');
+		$this->data['entry_alert_mail'] = $this->language->get('entry_alert_mail');
+		$this->data['entry_account'] = $this->language->get('entry_account');
+		$this->data['entry_checkout'] = $this->language->get('entry_checkout');
 		$this->data['entry_order_status'] = $this->language->get('entry_order_status');
 		$this->data['entry_stock_check'] = $this->language->get('entry_stock_check');
 		$this->data['entry_stock_checkout'] = $this->language->get('entry_stock_checkout');
@@ -52,6 +55,9 @@ class ControllerSettingSetting extends Controller {
 		$this->data['entry_compression'] = $this->language->get('entry_compression');
  
  		$this->data['help_currency_auto'] = $this->language->get('help_currency_auto');
+		$this->data['help_alert_mail'] = $this->language->get('help_alert_mail');
+		$this->data['help_account'] = $this->language->get('help_account');
+		$this->data['help_checkout'] = $this->language->get('help_checkout');
 		$this->data['help_order_status'] = $this->language->get('help_order_status');
 		$this->data['help_stock_check'] = $this->language->get('help_stock_check');
 		$this->data['help_stock_checkout'] = $this->language->get('help_stock_checkout');
@@ -244,6 +250,28 @@ class ControllerSettingSetting extends Controller {
 		} else {
 			$this->data['config_tax'] = $this->config->get('config_tax');
 		}
+
+		if (isset($this->request->post['config_alert_mail'])) {
+			$this->data['config_alert_mail'] = $this->request->post['config_alert_mail'];
+		} else {
+			$this->data['config_alert_mail'] = $this->config->get('config_alert_mail');
+		}
+		
+		if (isset($this->request->post['config_account'])) {
+			$this->data['config_account'] = $this->request->post['config_account'];
+		} else {
+			$this->data['config_account'] = $this->config->get('config_account');
+		}
+		
+		if (isset($this->request->post['config_checkout'])) {
+			$this->data['config_checkout'] = $this->request->post['config_checkout'];
+		} else {
+			$this->data['config_checkout'] = $this->config->get('config_checkout');
+		}
+
+		$this->load->model('catalog/information');
+		
+		$this->data['informations'] = $this->model_catalog_information->getInformations();
 
 		if (isset($this->request->post['config_stock_check'])) {
 			$this->data['config_stock_check'] = $this->request->post['config_stock_check'];

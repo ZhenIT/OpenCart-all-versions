@@ -15,8 +15,8 @@ abstract class Controller {
 		Registry::set($key, $value);
 	}
 			
-	protected function forward($class, $method, $args = array()) {
-		return new Action($class, $method, $args);
+	protected function forward($route, $args = array()) {
+		return new Router($route, $args);
 	}
 
 	protected function redirect($url) {

@@ -240,7 +240,7 @@ class ControllerCheckoutAddress extends Controller {
 	
 	    	$output .= '>' . $result['name'] . '</option>';
     	} 
-		
+		 
 		if (!$results) {
 		  	$output .= '<option value="0">' . $this->language->get('text_none') . '</option>';
     	}

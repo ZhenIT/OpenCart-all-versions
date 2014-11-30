@@ -47,4 +47,4 @@
   <div class="pagination"><?php echo $pagination; ?></div>
   <?php } ?>
 </div>
-<div class="bottom"></div>
+<div class="bottom">&nbsp;</div>

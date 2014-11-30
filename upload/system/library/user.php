@@ -23,6 +23,7 @@ final class User {
 	  			foreach (unserialize($user_group_query->row['permission']) as $key => $value) {
 	    			$this->permission[$key] = $value;
 	  			}
+
 			} else {
 				$this->logout();
 			}
@@ -43,7 +44,7 @@ final class User {
 	  		foreach (unserialize($user_group_query->row['permission']) as $key => $value) {
 	    		$this->permissions[$key] = $value;
 	  		}
-				
+		
       		return TRUE;
     	} else {
       		return FALSE;

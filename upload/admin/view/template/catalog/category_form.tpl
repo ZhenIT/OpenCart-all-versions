@@ -56,21 +56,19 @@
     </table>
   </div>
 </form>
-<script type="text/javascript" src="view/javascript/jquery/jquery.ocupload-1.1.2.js"></script>
+<script type="text/javascript" src="view/javascript/jquery/ajaxupload.3.1.js"></script>
 <script type="text/javascript"><!--
 $(document).ready(function() { 
-	$('#upload').upload({
-		name:    'image',
-		method:  'post',
-		enctype: 'multipart/form-data',
-		action:  'index.php?route=catalog/image',
-		autoSubmit: false,
-		onSubmit: function() {
+	new AjaxUpload('#upload', {
+		action: 'index.php?route=catalog/image',
+		name: 'image',
+		autoSubmit: true,
+		responseType: 'json',
+		onChange: function(file, extension) {},
+		onSubmit: function(file, extension) {
 			$('#upload').after('<img src="view/image/loading.gif" id="loading" />');
 		},
-		onComplete: function(data) {
-			var json = eval('(' + data + ')');
-
+		onComplete: function(file, json) {
 			if (json.error) {
 				alert(json.error);
 			} else {
@@ -78,10 +76,10 @@ $(document).ready(function() {
 
 				$('#image').attr('value', json.file);
 			}
-			$('#loading').remove();
-		},
-		onSelect: function() {}
-	});	
+			
+			$('#loading').remove();	
+		}
+	});
 });	
 //--></script>
 <script type="text/javascript"><!--

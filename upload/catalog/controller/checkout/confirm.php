@@ -142,6 +142,21 @@ class ControllerCheckoutConfirm extends Controller {
 		$data['currency_id'] = $this->currency->getId();
 		$data['currency'] = $this->currency->getCode();
 		$data['value'] = $this->currency->getValue($this->currency->getCode());
+		
+		if (isset($this->session->data['coupon'])) {
+			$this->load->model('checkout/coupon');
+		
+			$coupon = $this->model_checkout_coupon->getCoupon($this->session->data['coupon']);
+			
+			if ($coupon) {
+				$data['coupon_id'] = $coupon['coupon_id'];
+			} else {
+				$data['coupon_id'] = 0;
+			}
+		} else {
+			$data['coupon_id'] = 0;
+		}
+		
 		$data['ip'] = $this->request->server['REMOTE_ADDR'];
 		
 		$this->load->model('checkout/order');

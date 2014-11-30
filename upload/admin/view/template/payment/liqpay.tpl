@@ -10,27 +10,27 @@
   <div id="tab_general" class="page">
     <table class="form">
       <tr>
-        <td width="25%"><span class="required">*</span> <?php echo $entry_merchant_id; ?></td>
-        <td><div class="help"><?php echo $help_merchant_id; ?></div>
-          <input type="text" name="liqpay_merchant_id" value="<?php echo $liqpay_merchant_id; ?>" />
+        <td width="25%"><span class="required">*</span> <?php echo $entry_merchant_id; ?><br />
+          <span class="help"><?php echo $help_merchant_id; ?></span></td>
+        <td><input type="text" name="liqpay_merchant_id" value="<?php echo $liqpay_merchant_id; ?>" />
           <br />
           <?php if ($error_merchant_id) { ?>
           <span class="error"><?php echo $error_merchant_id; ?></span>
           <?php } ?></td>
       </tr>
       <tr>
-        <td><span class="required">*</span> <?php echo $entry_merchant_signature; ?></td>
-        <td><div class="help"><?php echo $help_merchant_signature; ?></div>
-          <input type="text" name="liqpay_merchant_signature" value="<?php echo $liqpay_merchant_signature; ?>" />
+        <td><span class="required">*</span> <?php echo $entry_merchant_signature; ?><br />
+          <span class="help"><?php echo $help_merchant_signature; ?></span></td>
+        <td><input type="text" name="liqpay_merchant_signature" value="<?php echo $liqpay_merchant_signature; ?>" />
           <br />
           <?php if ($error_merchant_signature) { ?>
           <span class="error"><?php echo $error_merchant_signature; ?></span>
           <?php } ?></td>
       </tr>
       <tr>
-        <td><span class="required">*</span> <?php echo $entry_liqpay_type; ?></td>
-        <td><div class="help"><?php echo $help_liqpay_type; ?></div>
-          <input type="text" name="liqpay_liqpay_type" value="<?php echo $liqpay_liqpay_type; ?>" />
+        <td><span class="required">*</span> <?php echo $entry_liqpay_type; ?><br />
+          <span class="help"><?php echo $help_liqpay_type; ?></span></td>
+        <td><input type="text" name="liqpay_liqpay_type" value="<?php echo $liqpay_liqpay_type; ?>" />
           <br />
           <?php if ($error_liqpay_type) { ?>
           <span class="error"><?php echo $error_liqpay_type; ?></span>

@@ -354,7 +354,7 @@ class ControllerUserUserGroup extends Controller {
 		$this->template = 'user/user_group_form.tpl';
 		$this->layout   = 'common/layout';
 		
-		$this->render();
+		$this->render(); 
 	}
 
 	private function validateForm() {

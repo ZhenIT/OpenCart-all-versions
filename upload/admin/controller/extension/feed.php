@@ -1,6 +1,6 @@
 <?php
 class ControllerExtensionFeed extends Controller {
-	function index() {
+	public function index() {
 		$this->load->language('extension/feed');
 		 
 		$this->document->title = $this->language->get('heading_title'); 
@@ -79,7 +79,7 @@ class ControllerExtensionFeed extends Controller {
 		$this->render();
 	}
 	
-	function install() {
+	public function install() {
 		$this->load->model('setting/extension');
 		
 		$this->model_setting_extension->install('feed', $this->request->get['extension']);
@@ -87,7 +87,7 @@ class ControllerExtensionFeed extends Controller {
 		$this->redirect($this->url->https('extension/feed'));
 	}
 	
-	function uninstall() {
+	public function uninstall() {
 		$this->load->model('setting/extension');
 		$this->load->model('setting/setting');
 		

@@ -117,7 +117,7 @@ class ControllerCheckoutPayment extends Controller {
     	$this->data['button_continue'] = $this->language->get('button_continue');
     	$this->data['button_back'] = $this->language->get('button_back');
 
-    	$this->data['error'] = @$this->error['message'];
+    	$this->data['error_warning'] = @$this->error['warning'];
 
     	$this->data['action'] = $this->url->https('checkout/payment');
     
@@ -159,10 +159,30 @@ class ControllerCheckoutPayment extends Controller {
 		
 		$this->data['methods'] = $this->session->data['payment_methods'];
 
-    	$this->data['default'] = @$this->session->data['payment_method']['id'];
- 
+		if (isset($this->session->data['payment_method']['id'])) {
+    		$this->data['default'] = $this->session->data['payment_method']['id'];
+		} else {
+			$this->data['default'] = @$this->request->post['payment'];
+		}
+		
     	$this->data['comment'] = @$this->session->data['comment'];
 
+		if ($this->config->get('config_checkout')) {
+			$this->load->model('catalog/information');
+			
+			$information_info = $this->model_catalog_information->getInformation($this->config->get('config_checkout'));
+			
+			if ($information_info) {
+				$this->data['text_agree'] = sprintf($this->language->get('text_agree'), $this->url->http('information/information&information_id=' . $this->config->get('config_checkout')), $information_info['title']);
+			} else {
+				$this->data['text_agree'] = '';
+			}
+		} else {
+			$this->data['text_agree'] = '';
+		}
+		
+      	$this->data['agree'] = @$this->request->post['agree'];
+		
     	if ($this->cart->hasShipping()) {
       		$this->data['back'] = $this->url->https('checkout/shipping');
     	} else {
@@ -178,10 +198,22 @@ class ControllerCheckoutPayment extends Controller {
   
   	private function validate() {
     	if (!isset($this->request->post['payment'])) {
-	  		$this->error['message'] = $this->language->get('error_payment');
+	  		$this->error['warning'] = $this->language->get('error_payment');
 		} else {
 			if (!isset($this->session->data['payment_methods'][$this->request->post['payment']])) {
-				$this->error['message'] = $this->language->get('error_payment');
+				$this->error['warning'] = $this->language->get('error_payment');
+			}
+		}
+		
+		if ($this->config->get('config_checkout')) {
+			$this->load->model('catalog/information');
+			
+			$information_info = $this->model_catalog_information->getInformation($this->config->get('config_checkout'));
+			
+			if ($information_info) {
+    			if (!@$this->request->post['agree']) {
+      				$this->error['warning'] = sprintf($this->language->get('error_agree'), $information_info['title']);
+    			}
 			}
 		}
 		

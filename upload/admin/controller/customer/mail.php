@@ -10,31 +10,31 @@ class ControllerCustomerMail extends Controller {
 		$this->load->model('customer/customer');
 		
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->validate())) {
-			$email = array();
+			$emails = array();
 			
 			switch ($this->request->post['to']) {
 				case 'newsletter':
 					$results = $this->model_customer_customer->getCustomersByNewsletter();
 			
 					foreach ($results as $result) {
-						$email[] = $result['email'];
+						$emails[] = $result['email'];
 					}	 			
 					break;
 				case 'customer':
 					$results = $this->model_customer_customer->getCustomers();
 			
 					foreach ($results as $result) {
-						$email[] = $result['email'];
+						$emails[] = $result['email'];
 					}						
 					break;
 				default: 
 					$result = $this->model_customer_customer->getCustomer($this->request->post['to']);
 
-					$email = $result['email'];
+					$emails[] = $result['email'];
 					break;
 			}
 			
-			if ($email) {
+			if ($emails) {
 				$message  = '<html dir="ltr" lang="en">' . "\n";
 				$message .= '<head>' . "\n";
 				$message .= '<title>' . $this->request->post['subject'] . '</title>' . "\n";
@@ -43,13 +43,15 @@ class ControllerCustomerMail extends Controller {
 				$message .= '<body>' . htmlspecialchars_decode($this->request->post['message']) . '</body>' . "\n";
 				$message .= '</html>' . "\n";
 				
-				$mail = new Mail();	
-				$mail->setTo($email);
-				$mail->setFrom($this->config->get('config_email'));
-	    		$mail->setSender($this->config->get('config_store'));
-	    		$mail->setSubject($this->request->post['subject']);
-				$mail->setHtml($message);
-	    		$mail->send();
+				foreach ($emails as $email) {
+					$mail = new Mail();	
+					$mail->setTo($email);
+					$mail->setFrom($this->config->get('config_email'));
+	    			$mail->setSender($this->config->get('config_store'));
+	    			$mail->setSubject($this->request->post['subject']);
+					$mail->setHtml($message);
+	    			$mail->send();
+				}
 			}
 			
 			$this->session->data['success'] = $this->language->get('text_success');

@@ -10,7 +10,7 @@
   <div id="tab_general" class="page">
     <table class="form">
       <tr>
-        <td><?php echo $entry_order_status; ?></td>
+        <td width="25%"><?php echo $entry_order_status; ?></td>
         <td><select name="cod_order_status_id">
             <?php foreach ($order_statuses as $order_status) { ?>
             <?php if ($order_status['order_status_id'] == $cod_order_status_id) { ?>
@@ -35,7 +35,7 @@
           </select></td>
       </tr>
       <tr>
-        <td width="25%"><?php echo $entry_status; ?></td>
+        <td><?php echo $entry_status; ?></td>
         <td><select name="cod_status">
             <?php if ($cod_status) { ?>
             <option value="1" selected="selected"><?php echo $text_enabled; ?></option>

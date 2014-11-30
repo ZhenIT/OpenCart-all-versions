@@ -18,6 +18,7 @@ class ControllerCommonMenu extends Controller {
 		$this->data['text_feed'] = $this->language->get('text_feed');
 		$this->data['text_geo_zone'] = $this->language->get('text_geo_zone');
 		$this->data['text_home'] = $this->language->get('text_home');
+		$this->data['text_help'] = $this->language->get('text_help');
 		$this->data['text_information'] = $this->language->get('text_information');
 		$this->data['text_language'] = $this->language->get('text_language');
       	$this->data['text_localisation'] = $this->language->get('text_localisation');
@@ -34,6 +35,7 @@ class ControllerCommonMenu extends Controller {
       	$this->data['text_report_viewed'] = $this->language->get('text_report_viewed');
       	$this->data['text_report_purchased'] = $this->language->get('text_report_purchased');	
 		$this->data['text_review'] = $this->language->get('text_review');
+		$this->data['text_support'] = $this->language->get('text_support');
 		$this->data['text_shipping'] = $this->language->get('text_shipping');
       	$this->data['text_shop'] = $this->language->get('text_shop');			
      	$this->data['text_setting'] = $this->language->get('text_setting');
@@ -41,9 +43,11 @@ class ControllerCommonMenu extends Controller {
 		$this->data['text_tax_class'] = $this->language->get('text_tax_class');
 		$this->data['text_total'] = $this->language->get('text_total');
 		$this->data['text_user'] = $this->language->get('text_user');
+		$this->data['text_user_guide'] = $this->language->get('text_user_guide');
 		$this->data['text_users'] = $this->language->get('text_users');
       	$this->data['text_user_group'] = $this->language->get('text_user_group');
       	$this->data['text_weight_class'] = $this->language->get('text_weight_class');
+		$this->data['text_opencart'] = $this->language->get('text_opencart');
       	$this->data['text_zone'] = $this->language->get('text_zone');
 		 
 		$this->data['backup'] = $this->url->https('tool/backup');

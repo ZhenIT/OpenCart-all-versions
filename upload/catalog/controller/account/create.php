@@ -25,7 +25,7 @@ class ControllerAccountCreate extends Controller {
 			$message .= $this->url->https('account/login') . "\n\n";
 			$message .= $this->language->get('mail_line_3') . "\n\n";
 			$message .= $this->language->get('mail_line_4') . "\n";
-			$message .= $this->language->get('mail_line_5');
+			$message .= $this->config->get('config_store');
 			
 			$mail = new Mail();
 			$mail->setTo($this->request->post['email']);
@@ -86,7 +86,7 @@ class ControllerAccountCreate extends Controller {
 
 		$this->data['button_continue'] = $this->language->get('button_continue');
     
-		$this->data['error'] = @$this->error['message'];
+		$this->data['error_warning'] = @$this->error['warning'];
 		$this->data['error_firstname'] = @$this->error['firstname'];
     	$this->data['error_lastname'] = @$this->error['lastname'];
     	$this->data['error_email'] = @$this->error['email'];
@@ -120,8 +120,6 @@ class ControllerAccountCreate extends Controller {
     	} else {
       		$this->data['zone_id'] = $this->config->get('config_zone_id');
     	}
-
-      	$this->data['agreed'] = @$this->request->post['agreed'];
 		
 		$this->load->model('localisation/country');
 		
@@ -131,6 +129,22 @@ class ControllerAccountCreate extends Controller {
     	$this->data['confirm'] = @$this->request->post['confirm'];
 		$this->data['newsletter'] = @$this->request->post['newsletter'];
 
+		if ($this->config->get('config_account')) {
+			$this->load->model('catalog/information');
+			
+			$information_info = $this->model_catalog_information->getInformation($this->config->get('config_account'));
+			
+			if ($information_info) {
+				$this->data['text_agree'] = sprintf($this->language->get('text_agree'), $this->url->http('information/information&information_id=' . $this->config->get('config_account')), $information_info['title']);
+			} else {
+				$this->data['text_agree'] = '';
+			}
+		} else {
+			$this->data['text_agree'] = '';
+		}
+		
+      	$this->data['agree'] = @$this->request->post['agree'];
+		
 		$this->id       = 'content';
 		$this->template = $this->config->get('config_template') . 'account/create.tpl';
 		$this->layout   = 'common/layout';
@@ -152,7 +166,7 @@ class ControllerAccountCreate extends Controller {
     	}
 
     	if ($this->model_account_customer->getTotalCustomersByEmail($this->request->post['email'])) {
-      		$this->error['message'] = $this->language->get('error_exists');
+      		$this->error['warning'] = $this->language->get('error_exists');
     	}
 
     	if ((strlen(utf8_decode($this->request->post['password'])) < 4) || (strlen(utf8_decode($this->request->post['password'])) > 20)) {
@@ -174,7 +188,19 @@ class ControllerAccountCreate extends Controller {
     	if ((strlen(utf8_decode($this->request->post['telephone'])) < 3) || (strlen(utf8_decode($this->request->post['telephone'])) > 32)) {
       		$this->error['telephone'] = $this->language->get('error_telephone');
     	}
-
+		
+		if ($this->config->get('config_account')) {
+			$this->load->model('catalog/information');
+			
+			$information_info = $this->model_catalog_information->getInformation($this->config->get('config_account'));
+			
+			if ($information_info) {
+    			if (!@$this->request->post['agree']) {
+      				$this->error['warning'] = sprintf($this->language->get('error_agree'), $information_info['title']);
+    			}
+			}
+		}
+		
     	if (!$this->error) {
       		return TRUE;
     	} else {

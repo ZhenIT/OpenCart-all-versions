@@ -10,6 +10,7 @@ $_['text_your_details']    = 'Your Personal Details';
 $_['text_your_address']    = 'Your Address';
 $_['text_newsletter']      = 'Newsletter';
 $_['text_your_password']   = 'Your Password';
+$_['text_agree']           = 'I have read and agree to the <a onclick="window.open(\'%s\');"><b>%s</b></a>';
 
 // Entry
 $_['entry_firstname']      = 'First Name:';
@@ -34,7 +35,6 @@ $_['mail_line_1']          = 'Welcome and thank you for registering at %s!';
 $_['mail_line_2']          = 'Your account has now been created and you can log in by using your email address and password by visiting our website or at the following URL:';
 $_['mail_line_3']          = 'Upon logging in, you will be able to access other services including reviewing past orders, printing invoices and editing your account information.';
 $_['mail_line_4']          = 'Thanks,';
-$_['mail_line_5']          = 'Your Store';
 
 // Error
 $_['error_exists']         = 'Error: E-Mail Address is already registered!';
@@ -46,4 +46,5 @@ $_['error_confirm']        = 'Password confirmation does not match password!';
 $_['error_address_1']      = 'Address 1 must be greater than 3 and less than 128 characters!';
 $_['error_city']           = 'City must be greater than 3 and less than 128 characters!';
 $_['error_telephone']      = 'Telephone must be greater than 3 and less than 32 characters!';
+$_['error_agree']          = 'Error: You must agree to the %s!';
 ?>

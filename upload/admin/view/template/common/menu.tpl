@@ -65,6 +65,13 @@
       <li><a href="<?php echo $report_purchased; ?>"><?php echo $text_report_purchased; ?></a></li>
     </ul>
   </li>
+  <li id="help"><a class="top"><?php echo $text_help; ?></a>
+    <ul>
+      <li><a onclick="window.open('http://www.opencart.com');"><?php echo $text_opencart; ?></a></li>
+      <li><a onclick="window.open('http://wiki.opencart.com');"><?php echo $text_user_guide; ?></a></li>
+      <li><a onclick="window.open('http://forum.opencart.com');"><?php echo $text_support; ?></a></li>
+    </ul>
+  </li>  
 </ul>
 <script type="text/javascript"><!--
 $(document).ready(function() {

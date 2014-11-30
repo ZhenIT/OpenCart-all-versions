@@ -2,8 +2,8 @@
   <h1><?php echo $heading_title; ?></h1>
 </div>
 <div class="middle">
-  <?php if ($error) { ?>
-  <div class="warning"><?php echo $error; ?></div>
+  <?php if ($error_warning) { ?>
+  <div class="warning"><?php echo $error_warning; ?></div>
   <?php } ?>
   <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="shipping">
     <b style="margin-bottom: 3px; display: block;"><?php echo $text_shipping_address; ?></b>
@@ -61,4 +61,4 @@
     </div>
   </form>
 </div>
-<div class="bottom"></div>
+<div class="bottom">&nbsp;</div>

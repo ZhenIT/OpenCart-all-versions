@@ -53,4 +53,4 @@
     </div>
   </form>
 </div>
-<div class="bottom"></div>
+<div class="bottom">&nbsp;</div>

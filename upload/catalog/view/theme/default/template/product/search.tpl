@@ -2,14 +2,14 @@
   <h1><?php echo $heading_title; ?></h1>
 </div>
 <div class="middle"><b><?php echo $text_critea; ?></b>
-  <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-top: 3px; margin-bottom: 10px;">
+  <div id="content_search" style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-top: 3px; margin-bottom: 10px;">
     <table>
       <tr>
         <td><?php echo $entry_search; ?></td>
         <td><?php if ($keyword) { ?>
           <input type="text" name="keyword" value="<?php echo $keyword; ?>" id="keyword" />
           <?php } else { ?>
-          <input type="text" name="keyword" value="<?php echo $text_keywords; ?>" id="keyword" onclick="this.value = ''" />
+          <input type="text" name="keyword" value="<?php echo $text_keywords; ?>" id="keyword" />
           <?php } ?></td>
       </tr>
       <tr>
@@ -25,7 +25,7 @@
   <div class="buttons">
     <table>
       <tr>
-        <td align="right"><a onclick="filter();" class="button"><span><?php echo $button_search; ?></span></a></td>
+        <td align="right"><a onclick="contentSearch();" class="button"><span><?php echo $button_search; ?></span></a></td>
       </tr>
     </table>
   </div>
@@ -71,9 +71,15 @@
   <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-top: 3px; margin-bottom: 15px;"><?php echo $text_empty; ?></div>
   <?php }?>
 </div>
-<div class="bottom"></div>
+<div class="bottom">&nbsp;</div>
 <script type="text/javascript"><!--
-function filter() {
+$('#content_search input').keydown(function(e) {
+	if (e.keyCode == 13) {
+		contentSearch();
+	}
+});
+
+function contentSearch() {
 	url = 'index.php?route=product/search';
 	
 	var keyword = $('#keyword').attr('value');

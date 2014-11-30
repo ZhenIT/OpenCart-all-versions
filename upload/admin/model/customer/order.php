@@ -47,7 +47,6 @@ class ModelCustomerOrder extends Model {
       	$this->db->query("DELETE FROM order_option WHERE order_id = '" . (int)$order_id . "'");
 	  	$this->db->query("DELETE FROM order_download WHERE order_id = '" . (int)$order_id . "'");
       	$this->db->query("DELETE FROM order_total WHERE order_id = '" . (int)$order_id . "'");
-		$this->db->query("DELETE FROM coupon_redeem WHERE order_id = '" . (int)$order_id . "'");
 	}
 		
 	public function getOrder($order_id) {

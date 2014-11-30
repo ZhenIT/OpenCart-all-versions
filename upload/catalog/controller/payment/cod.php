@@ -6,7 +6,7 @@ class ControllerPaymentCod extends Controller {
 
 		$this->data['continue'] = $this->url->https('checkout/success');
 		$this->data['back'] = $this->url->https('checkout/payment');
-		
+
 		$this->id       = 'payment';
 		$this->template = $this->config->get('config_template') . 'payment/cod.tpl';
 		

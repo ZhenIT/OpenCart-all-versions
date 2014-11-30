@@ -15,7 +15,6 @@ class ModelCustomerCustomer extends Model {
 	public function deleteCustomer($customer_id) {
 		$this->db->query("DELETE FROM customer WHERE customer_id = '" . (int)$customer_id . "'");
 		$this->db->query("DELETE FROM address WHERE customer_id = '" . (int)$customer_id . "'");
-		$this->db->query("DELETE FROM coupon_redeem WHERE customer_id = '" . (int)$customer_id . "'");
 	}
 	
 	public function getCustomer($customer_id) {

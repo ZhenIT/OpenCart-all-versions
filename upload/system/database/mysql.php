@@ -62,5 +62,9 @@ final class MySQL {
   	public function getLastId() {
     	return mysql_insert_id($this->link);
   	}	
+	
+	public function __destruct() {
+		mysql_close($this->link);
+	}
 }
 ?>

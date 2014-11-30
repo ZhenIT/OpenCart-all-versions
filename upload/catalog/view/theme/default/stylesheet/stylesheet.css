@@ -9,6 +9,7 @@ html {
 body {
 	margin: 0px;
 	padding: 0px;
+	text-align: center;
 }
 body, td, th, input, textarea, select, a {
 	font-size: 12px;
@@ -35,24 +36,22 @@ a img {
 p {
 	margin-top: 0px;
 }
-.png {
-	behavior: url('catalog/view/javascript/png/iepngfix.htc');
-}
 /* layout */
 #container {
 	width: 960px;
-	position: relative;
 	margin-left: auto;
 	margin-right: auto;
+	text-align: left;
 	background: #FFFFFF;
 }
 #header {
+	position: relative;
 }
 #header .div1 {
 	height: 97px;
 }
 #header .div2 {
-	position: absolute;
+	position: relative;
 	top: 21px;
 	left: 15px;
 }
@@ -67,14 +66,17 @@ p {
 	padding-left: 17px;
 }
 #header .div4 {
-	width: 940px;
 	padding-left: 10px;
 	padding-right: 10px;
 	height: 40px;
 	background: url('../image/header.png') repeat-x;
 }
+#header .div4 img {
+	float: left;
+	margin-right: 5px;
+}
 #header .div4 a {
-	padding: 12px 0px 12px 22px;
+	padding: 12px 0px 12px 0px;
 	margin-left: 10px;
 	margin-right: 10px;
 	display: inline-block;
@@ -99,16 +101,14 @@ p {
 	float: left;
 	width: 180px;
 	margin-right: 10px;
-	display: inline-block; 
 }
 #column_right {
 	float: right;
 	width: 180px;
 	margin-left: 10px;
-	display: inline-block;
 }
 #content {
-	display: inline-block;
+	float: left;
 	width: 580px;
 	margin-bottom: 10px;
 }
@@ -135,7 +135,6 @@ p {
 	background: #FFFFFF;
 	padding: 10px 10px 1px 10px;
 	min-height: 380px;
-	width: 558px;
 }
 #content .bottom {
 	background: url('../image/content_bottom.png') no-repeat;
@@ -146,12 +145,16 @@ p {
 	background: url('../image/box_top.png') no-repeat;
 }
 .box .top {
-	padding: 8px 0px 6px 10px;
+	padding: 8px 0px 6px 7px;
 	color: #000000;
 	font-size: 14px;
 	font-family: Arial, Helvetica, sans-serif;
 	font-weight: bold;
 	text-transform: uppercase;
+}
+.box .top img {
+	float: left;
+	margin-right: 5px;
 }
 .box .middle {
 	border-left: 1px solid #DDDDDD;
@@ -225,7 +228,6 @@ a.button {
 a.button span {
 	background: transparent url('../image/button_left.png') no-repeat;
 	display: inline-block;
-	
 	padding: 5px 0 5px 18px;
 }
 .buttons {
@@ -346,9 +348,9 @@ a.button span {
 }
 #footer {
 	width: 100%;
+	clear: both;
 	padding-top: 5px;
 	border-top: 1px solid #DDDDDD;
-	display: inline-block;
 }
 #footer .div1 {
 	float: left;

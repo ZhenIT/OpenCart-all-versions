@@ -2,15 +2,13 @@
   <h1><?php echo $heading_title; ?></h1>
 </div>
 <div class="middle">
-  <div>
-    <p><?php echo $welcome; ?></p>
-  </div>
+  <div><?php echo $welcome; ?></div>
   <div class="heading"><?php echo $text_latest; ?></div>
   <table class="list">
     <?php for ($i = 0; $i < sizeof($products); $i = $i + 4) { ?>
     <tr>
       <?php for ($j = $i; $j < ($i + 4); $j++) { ?>
-      <td width="25%"><?php if (isset($products[$j])) { ?>
+      <td style="width: 25%;"><?php if (isset($products[$j])) { ?>
         <a href="<?php echo $products[$j]['href']; ?>"><img src="<?php echo $products[$j]['thumb']; ?>" title="<?php echo $products[$j]['name']; ?>" alt="<?php echo $products[$j]['name']; ?>" /></a><br />
         <a href="<?php echo $products[$j]['href']; ?>"><?php echo $products[$j]['name']; ?></a><br />
         <span style="color: #999; font-size: 11px;"><?php echo $products[$j]['model']; ?></span><br />
@@ -28,4 +26,4 @@
     <?php } ?>
   </table>
 </div>
-<div class="bottom"></div>
+<div class="bottom">&nbsp;</div>

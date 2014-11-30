@@ -27,22 +27,6 @@
           <?php } ?></td>
       </tr>
       <tr>
-        <td><?php echo $entry_callback; ?><br />
-          <span class="help"><?php echo $help_callback; ?></span></td>
-        <td><select name="paypal_callback">
-            <?php if (!$paypal_confirm) { ?>
-            <option value="0" selected="selected"><?php echo $text_checkout; ?></option>
-            <?php } else { ?>
-            <option value="0"><?php echo $text_checkout; ?></option>
-            <?php } ?>
-            <?php if ($paypal_confirm) { ?>
-            <option value="1" selected="selected"><?php echo $text_callback; ?></option>
-            <?php } else { ?>
-            <option value="1"><?php echo $text_callback; ?></option>
-            <?php } ?>
-          </select></td>
-      </tr>
-      <tr>
         <td><?php echo $entry_test; ?></td>
         <td><?php if ($paypal_test) { ?>
           <input type="radio" name="paypal_test" value="1" checked="checked" />
@@ -55,6 +39,21 @@
           <input type="radio" name="paypal_test" value="0" checked="checked" />
           <?php echo $text_no; ?>
           <?php } ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $entry_method; ?></td>
+        <td><select name="paypal_method">
+            <?php if (!$paypal_method) { ?>
+            <option value="0" selected="selected"><?php echo $text_authorization; ?></option>
+            <?php } else { ?>
+            <option value="0"><?php echo $text_authorization; ?></option>
+            <?php } ?>
+            <?php if ($paypal_method) { ?>
+            <option value="1" selected="selected"><?php echo $text_sale; ?></option>
+            <?php } else { ?>
+            <option value="1"><?php echo $text_sale; ?></option>
+            <?php } ?>
+          </select></td>
       </tr>
       <tr>
         <td><?php echo $entry_order_status; ?></td>

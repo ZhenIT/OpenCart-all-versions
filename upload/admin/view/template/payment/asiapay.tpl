@@ -10,7 +10,7 @@
   <div id="tab_general" class="page">
     <table class="form">
       <tr>
-        <td><span class="required">*</span> <?php echo $entry_email; ?></td>
+        <td width="25%"><span class="required">*</span> <?php echo $entry_email; ?></td>
         <td><input type="text" name="asiapay_email" value="<?php echo $asiapay_email; ?>" />
           <br />
           <?php if ($error_email) { ?>

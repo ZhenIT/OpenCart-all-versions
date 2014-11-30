@@ -66,20 +66,20 @@ Registry::set('user', new User());
 $controller = new Front();
 
 // Login
-$controller->addPreAction(new Action('common/login', 'checkLogin'));
+$controller->addPreAction(new Router('common/login/checkLogin'));
 
 // Permission
-$controller->addPreAction(new Action('common/permission', 'checkPermission'));
+$controller->addPreAction(new Router('common/permission/checkPermission'));
 
 // Router
 if (isset($request->get['route'])) {
 	$action = new Router($request->get['route']);
 } else {
-	$action = new Action('common/home', 'index');
+	$action = new Router('common/home');
 }
 
 // Dispatch
-$controller->dispatch($action, new Action('error/not_found', 'index'));
+$controller->dispatch($action, new Router('error/not_found'));
 
 // Output
 $response->output();

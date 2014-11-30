@@ -10,7 +10,7 @@ final class Cache {
       			$time = end(explode('.', basename($file)));
 
       			if ($time < time()) {
-					unlink($file);
+					@unlink($file);
       			}
     		}
 		}
@@ -48,7 +48,7 @@ final class Cache {
 		
 		if ($files) {
     		foreach ($files as $file) {
-      			unlink($file);
+      			@unlink($file);
     		}
 		}
   	}

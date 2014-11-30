@@ -2,71 +2,73 @@
   <h1><?php echo $heading_title; ?></h1>
 </div>
 <div class="middle">
-  <div style="display: inline-block; width: 100%; margin-bottom: 30px;">
-    <div style="float: left; text-align: center; width: 250px;"><a href="<?php echo $popup; ?>" title="<?php echo $heading_title; ?>" class="thickbox"><img src="<?php echo $thumb; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>" style="margin-bottom: 3px;" /></a><br />
-      <span style="font-size: 11px;"><?php echo $text_enlarge; ?></span></div>
-    <div style="float: right; margin-left: 10px; width: 296px;">
-      <table width="100%">
-        <tr>
-          <td><b><?php echo $text_price; ?></b></td>
-          <td><?php if (!$special) { ?>
-            <?php echo $price; ?>
-            <?php } else { ?>
-            <span style="text-decoration: line-through;"><?php echo $price; ?></span> <span style="color: #F00;"><?php echo $special; ?></span>
-            <?php } ?></td>
-        </tr>
-        <tr>
-          <td><b><?php echo $text_availability; ?></b></td>
-          <td><?php echo $stock; ?></td>
-        </tr>
-        <tr>
-          <td><b><?php echo $text_model; ?></b></td>
-          <td><?php echo $model; ?></td>
-        </tr>
-        <?php if ($manufacturer) { ?>
-        <tr>
-          <td><b><?php echo $text_manufacturer; ?></b></td>
-          <td><a href="<?php echo $manufacturers; ?>"><?php echo $manufacturer; ?></a></td>
-        </tr>
-        <?php } ?>
-        <tr>
-          <td><b><?php echo $text_average; ?></b></td>
-          <td><?php if ($average) { ?>
-            <img src="catalog/view/theme/default/image/stars_<?php echo $average . '.png'; ?>" alt="<?php echo $text_stars; ?>" style="margin-top: 2px;" />
-            <?php } else { ?>
-            <?php echo $text_no_rating; ?>
-            <?php } ?></td>
-        </tr>
-      </table>
-      <br />
-      <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="product">
-        <?php if ($options) { ?>
-        <b><?php echo $text_options; ?></b><br />
-        <div style="background: #FBFAEA; border: 1px solid #EFEBAA; padding: 10px; margin-top: 3px; margin-bottom: 10px;">
-          <table style="width: 100%;">
-            <?php foreach ($options as $option) { ?>
+  <div style="width: 100%; margin-bottom: 30px;">
+    <table style="width: 100%; border-collapse: collapse;">
+      <tr>
+        <td style="text-align: center; width: 250px; vertical-align: top;"><a href="<?php echo $popup; ?>" title="<?php echo $heading_title; ?>" class="thickbox"><img src="<?php echo $thumb; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>" style="margin-bottom: 3px;" /></a><br />
+          <span style="font-size: 11px;"><?php echo $text_enlarge; ?></span></td>
+        <td style="padding-left: 15px; width: 296px; vertical-align: top;"><table width="100%">
             <tr>
-              <td><?php echo $option['name']; ?>:</td>
-              <td><select name="option[<?php echo $option['option_id']; ?>]">
-                  <?php foreach ($option['option_value'] as $option_value) { ?>
-                  <option value="<?php echo $option_value['option_value_id']; ?>"><?php echo $option_value['name']; ?>
-                  <?php if ($option_value['price']) { ?>
-                  <?php echo $option_value['prefix']; ?><?php echo $option_value['price']; ?>
-                  <?php } ?>
-                  </option>
-                  <?php } ?>
-                </select></td>
+              <td><b><?php echo $text_price; ?></b></td>
+              <td><?php if (!$special) { ?>
+                <?php echo $price; ?>
+                <?php } else { ?>
+                <span style="text-decoration: line-through;"><?php echo $price; ?></span> <span style="color: #F00;"><?php echo $special; ?></span>
+                <?php } ?></td>
+            </tr>
+            <tr>
+              <td><b><?php echo $text_availability; ?></b></td>
+              <td><?php echo $stock; ?></td>
+            </tr>
+            <tr>
+              <td><b><?php echo $text_model; ?></b></td>
+              <td><?php echo $model; ?></td>
+            </tr>
+            <?php if ($manufacturer) { ?>
+            <tr>
+              <td><b><?php echo $text_manufacturer; ?></b></td>
+              <td><a href="<?php echo $manufacturers; ?>"><?php echo $manufacturer; ?></a></td>
             </tr>
             <?php } ?>
+            <tr>
+              <td><b><?php echo $text_average; ?></b></td>
+              <td><?php if ($average) { ?>
+                <img src="catalog/view/theme/default/image/stars_<?php echo $average . '.png'; ?>" alt="<?php echo $text_stars; ?>" style="margin-top: 2px;" />
+                <?php } else { ?>
+                <?php echo $text_no_rating; ?>
+                <?php } ?></td>
+            </tr>
           </table>
-        </div>
-        <?php } ?>
-        <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px;"><?php echo $text_qty; ?>
-          <input type="text" name="quantity" size="3" value="1" />
-          <a onclick="$('#product').submit();" class="button"><span><?php echo $button_add_to_cart; ?></span></a></div>
-        <input type="hidden" name="product_id" value="<?php echo $product_id; ?>" />
-      </form>
-    </div>
+          <br />
+          <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="product">
+            <?php if ($options) { ?>
+            <b><?php echo $text_options; ?></b><br />
+            <div style="background: #FBFAEA; border: 1px solid #EFEBAA; padding: 10px; margin-top: 3px; margin-bottom: 10px;">
+              <table style="width: 100%;">
+                <?php foreach ($options as $option) { ?>
+                <tr>
+                  <td><?php echo $option['name']; ?>:</td>
+                  <td><select name="option[<?php echo $option['option_id']; ?>]">
+                      <?php foreach ($option['option_value'] as $option_value) { ?>
+                      <option value="<?php echo $option_value['option_value_id']; ?>"><?php echo $option_value['name']; ?>
+                      <?php if ($option_value['price']) { ?>
+                      <?php echo $option_value['prefix']; ?><?php echo $option_value['price']; ?>
+                      <?php } ?>
+                      </option>
+                      <?php } ?>
+                    </select></td>
+                </tr>
+                <?php } ?>
+              </table>
+            </div>
+            <?php } ?>
+            <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px;"><?php echo $text_qty; ?>
+              <input type="text" name="quantity" size="3" value="1" />
+              <a onclick="$('#product').submit();" class="button"><span><?php echo $button_add_to_cart; ?></span></a></div>
+            <input type="hidden" name="product_id" value="<?php echo $product_id; ?>" />
+          </form></td>
+      </tr>
+    </table>
   </div>
   <div class="tabs"><a tab="#tab_description"><?php echo $tab_description; ?></a><a tab="#tab_image"><?php echo $tab_image; ?></a><a tab="#tab_review"><?php echo $tab_review; ?></a><a tab="#tab_related"><?php echo $tab_related; ?></a></div>
   <div id="tab_description" class="page"><?php echo $description; ?></div>
@@ -145,7 +147,7 @@
     <?php } ?>
   </div>
 </div>
-<div class="bottom"></div>
+<div class="bottom">&nbsp;</div>
 <script type="text/javascript"><!--
 $('#review .pagination a').live('click', function() {
 	$('#review').slideUp('slow');

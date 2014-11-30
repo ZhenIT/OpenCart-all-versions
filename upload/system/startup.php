@@ -48,7 +48,6 @@ if (ini_get('magic_quotes_gpc')) {
 }
 
 // Engine
-require_once(DIR_SYSTEM . 'engine/action.php');
 require_once(DIR_SYSTEM . 'engine/controller.php');
 require_once(DIR_SYSTEM . 'engine/front.php');
 require_once(DIR_SYSTEM . 'engine/model.php');

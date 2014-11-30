@@ -108,7 +108,7 @@ class ControllerCheckoutShipping extends Controller {
     	$this->data['button_back'] = $this->language->get('button_back');
     	$this->data['button_continue'] = $this->language->get('button_continue');
     
-		$this->data['error'] = @$this->error['message'];
+		$this->data['error_warning'] = @$this->error['warning'];
     
 		$this->data['action'] = $this->url->https('checkout/shipping');
 		
@@ -165,12 +165,12 @@ class ControllerCheckoutShipping extends Controller {
   
   	public function validate() {
     	if (!isset($this->request->post['shipping'])) {
-	  		$this->error['message'] = $this->language->get('error_shipping');
+	  		$this->error['warning'] = $this->language->get('error_shipping');
 		} else {
 			$shipping = explode('.', $this->request->post['shipping']);
 			
 			if (!isset($this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]])) {			
-				$this->error['message'] = $this->language->get('error_shipping');
+				$this->error['warning'] = $this->language->get('error_shipping');
 			}
 		}
 	

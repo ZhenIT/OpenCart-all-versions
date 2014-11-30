@@ -141,14 +141,22 @@ class ModelCatalogProduct extends Model {
 	}
 
 	public function getBestSellerProducts($limit) {
-		$product = $this->cache->get('product.popular.' . $this->language->getId() . '.' . $limit);
+		$product = $this->cache->get('product.bestseller.' . $this->language->getId() . '.' . $limit);
 
 		if (!$product) { 
-			$query = $this->db->query("SELECT * FROM product p LEFT JOIN product_description pd ON (p.product_id = pd.product_id) WHERE p.status = '1' AND p.date_available <= NOW() AND pd.language_id = '" . (int)$this->language->getId() . "' ORDER BY p.viewed DESC LIMIT " . (int)$limit);
-		 	 
-			$product = $query->rows;
+			$product = array();
+			
+			$query = $this->db->query("SELECT op.product_id, SUM(op.quantity) AS total FROM order_product op LEFT JOIN `order` o ON (op.order_id = o.order_id) WHERE o.order_status_id > '0' GROUP BY op.product_id ORDER BY total DESC LIMIT " . (int)$limit);
+			
+			foreach ($query->rows as $result) {
+				$product_query = $this->db->query("SELECT * FROM product p LEFT JOIN product_description pd ON (p.product_id = pd.product_id) WHERE p.product_id = '" . (int)$result['product_id'] . "' AND p.status = '1' AND p.date_available <= NOW() AND pd.language_id = '" . (int)$this->language->getId() . "'");
+				
+				if ($product_query->num_rows) {
+					$product[] = $product_query->row;
+				}
+			}
 
-			$this->cache->set('product.popular.' . $this->language->getId() . '.' . $limit, $product);
+			$this->cache->set('product.bestseller.' . $this->language->getId() . '.' . $limit, $product);
 		}
 		
 		return $product;
@@ -209,7 +217,7 @@ class ModelCatalogProduct extends Model {
 	}
 	
 	public function getProductSpecials($sort = 'pd.name', $order = 'ASC', $start = 0, $limit = 20) {
-		$sql = "SELECT *, pd.name AS name, p.price, ps.price AS special, p.image, m.name AS manufacturer, ss.name AS stock, (SELECT AVG(r.rating) FROM review r WHERE p.product_id = r.product_id GROUP BY r.product_id) AS rating FROM product_special ps LEFT JOIN product p ON (ps.product_id = p.product_id) LEFT JOIN product_description pd ON (p.product_id = pd.product_id) LEFT JOIN manufacturer m ON (p.manufacturer_id = m.manufacturer_id) LEFT JOIN stock_status ss ON (p.stock_status_id = ss.stock_status_id) LEFT JOIN product_to_category p2c ON (p.product_id = p2c.product_id) WHERE ps.date_start < NOW() AND ps.date_end > NOW() AND p.status = '1' AND p.date_available <= NOW() AND pd.language_id = '" . (int)$this->language->getId() . "' AND ss.language_id = '" . (int)$this->language->getId() . "'";
+		$sql = "SELECT *, pd.name AS name, p.price, ps.price AS special, p.image, m.name AS manufacturer, ss.name AS stock, (SELECT AVG(r.rating) FROM review r WHERE p.product_id = r.product_id GROUP BY r.product_id) AS rating FROM product_special ps LEFT JOIN product p ON (ps.product_id = p.product_id) LEFT JOIN product_description pd ON (p.product_id = pd.product_id) LEFT JOIN manufacturer m ON (p.manufacturer_id = m.manufacturer_id) LEFT JOIN stock_status ss ON (p.stock_status_id = ss.stock_status_id) WHERE ps.date_start < NOW() AND ps.date_end > NOW() AND p.status = '1' AND p.date_available <= NOW() AND pd.language_id = '" . (int)$this->language->getId() . "' AND ss.language_id = '" . (int)$this->language->getId() . "'";
 
 		$sort_data = array(
 			'pd.name',

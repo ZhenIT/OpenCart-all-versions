@@ -5,7 +5,7 @@
 <title><?php echo $title; ?></title>
 <base href="<?php echo $base; ?>" />
 <link rel="stylesheet" type="text/css" href="view/stylesheet/stylesheet.css" />
-<script type="text/javascript" src="view/javascript/jquery/jquery-1.3.min.js"></script>
+<script type="text/javascript" src="view/javascript/jquery/jquery-1.3.2.min.js"></script>
 <script type="text/javascript" src="view/javascript/jquery/superfish/js/superfish.js"></script>
 <script type="text/javascript" src="view/javascript/jquery/tab.js"></script>
 <script type="text/javascript" src="view/javascript/tooltip/tooltip.js"></script>

@@ -2,8 +2,8 @@
   <h1><?php echo $heading_title; ?></h1>
 </div>
 <div class="middle">
-  <?php if ($error) { ?>
-  <div class="warning"><?php echo $error; ?></div>
+  <?php if ($error_warning) { ?>
+  <div class="warning"><?php echo $error_warning; ?></div>
   <?php } ?>
   <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="payment">
     <b style="margin-bottom: 3px; display: block;"><?php echo $text_payment_address; ?></b>
@@ -37,6 +37,22 @@
     <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;">
       <textarea name="comment" rows="8" style="width: 99%;"><?php echo $comment; ?></textarea>
     </div>
+    <?php if ($text_agree) { ?>
+    <div class="buttons">
+      <table>
+        <tr>
+          <td align="left"><a onclick="location='<?php echo $back; ?>'" class="button"><span><?php echo $button_back; ?></span></a></td>
+          <td align="right" style="padding-right: 5px;"><?php echo $text_agree; ?></td>
+          <td width="5" style="padding-right: 10px;"><?php if ($agree) { ?>
+            <input type="checkbox" name="agree" value="1" checked="checked" />
+            <?php } else { ?>
+            <input type="checkbox" name="agree" value="1" />
+            <?php } ?></td>
+          <td align="right" width="5"><a onclick="$('#payment').submit();" class="button"><span><?php echo $button_continue; ?></span></a></td>
+        </tr>
+      </table>
+    </div>
+    <?php } else { ?>
     <div class="buttons">
       <table>
         <tr>
@@ -45,6 +61,7 @@
         </tr>
       </table>
     </div>
+    <?php } ?>
   </form>
 </div>
-<div class="bottom"></div>
+<div class="bottom">&nbsp;</div>

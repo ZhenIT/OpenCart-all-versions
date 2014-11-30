@@ -51,7 +51,7 @@ class ControllerCommonLogin extends Controller {
 	
 	public function checkLogin() {
 		if (!$this->user->isLogged()) {
-			return $this->forward('common/login', 'index');
+			return $this->forward('common/login');
 		}
 	}
 }  

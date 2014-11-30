@@ -10,7 +10,7 @@ final class Cart {
 		$this->tax = Registry::get('tax');
 		$this->weight = Registry::get('weight');
 
-		if (!isset($this->session->data['cart'])) {
+		if (!is_array(@$this->session->data['cart'])) {
       		$this->session->data['cart'] = array();
     	}
  

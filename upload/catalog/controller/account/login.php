@@ -71,7 +71,7 @@ class ControllerAccountLogin extends Controller {
     
 		unset($this->session->data['success']);
 
-    	$this->data['continue'] = $this->url->https('account/create');
+		$this->data['continue'] = $this->url->https('account/create');
 
     	$this->data['forgotten'] = $this->url->https('account/forgotten');
 	

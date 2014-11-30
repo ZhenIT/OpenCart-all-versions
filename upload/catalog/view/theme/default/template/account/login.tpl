@@ -37,4 +37,11 @@
     </div>
   </div>
 </div>
-<div class="bottom"></div>
+<div class="bottom">&nbsp;</div>
+<script type="text/javascript"><!--
+$('#login input').keydown(function(e) {
+	if (e.keyCode == 13) {
+		$('#login').submit();
+	}
+});
+//--></script>

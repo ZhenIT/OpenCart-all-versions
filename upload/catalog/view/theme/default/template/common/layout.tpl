@@ -8,7 +8,10 @@
 <?php } ?>
 <base href="<?php echo $base; ?>" />
 <link rel="stylesheet" type="text/css" href="catalog/view/theme/default/stylesheet/stylesheet.css" />
-<script type="text/javascript" src="catalog/view/javascript/jquery/jquery-1.3.min.js"></script>
+<!--[if lt IE 7]>
+<link rel="stylesheet" type="text/css" href="catalog/view/theme/default/stylesheet/ie6.css" />
+<![endif]-->
+<script type="text/javascript" src="catalog/view/javascript/jquery/jquery-1.3.2.min.js"></script>
 <script type="text/javascript" src="catalog/view/javascript/jquery/thickbox/thickbox-compressed.js"></script>
 <link rel="stylesheet" type="text/css" href="catalog/view/javascript/jquery/thickbox/thickbox.css" />
 <script type="text/javascript" src="catalog/view/javascript/jquery/tab.js"></script>

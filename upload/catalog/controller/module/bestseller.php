@@ -45,6 +45,7 @@ class ControllerModuleBestSeller extends Controller {
 		$this->template = $this->config->get('config_template') . 'module/bestseller.tpl';
 		
 		$this->render();
+		
 	}
 }
 ?>

@@ -1,6 +1,6 @@
 <?php
 class ControllerExtensionTotal extends Controller {
-	function index() {
+	public function index() {
 		$this->load->language('extension/total');
 		 
 		$this->document->title = $this->language->get('heading_title'); 
@@ -79,7 +79,7 @@ class ControllerExtensionTotal extends Controller {
 		$this->render();
 	}
 	
-	function install() {
+	public function install() {
 		$this->load->model('setting/extension');
 		
 		$this->model_setting_extension->install('total', $this->request->get['extension']);
@@ -87,7 +87,7 @@ class ControllerExtensionTotal extends Controller {
 		$this->redirect($this->url->https('extension/total'));
 	}
 	
-	function uninstall() {
+	public function uninstall() {
 		$this->load->model('setting/extension');
 		$this->load->model('setting/setting');
 		

@@ -21,4 +21,4 @@
     <li><a href="<?php echo $newsletter; ?>"><?php echo $text_newsletter; ?></a></li>
   </ul>
 </div>
-<div class="bottom"></div>
+<div class="bottom">&nbsp;</div>

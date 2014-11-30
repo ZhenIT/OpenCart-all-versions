@@ -204,7 +204,50 @@
   <div id="tab_option" class="page">
     <table class="form">
       <tr>
-        <td width="25%"><?php echo $entry_stock_check; ?><br />
+        <td width="25%"><?php echo $entry_alert_mail; ?><br />
+          <span class="help"><?php echo $help_alert_mail; ?></span></td>
+        <td><?php if ($config_alert_mail) { ?>
+          <input type="radio" name="config_alert_mail" value="1" checked="checked" />
+          <?php echo $text_yes; ?>
+          <input type="radio" name="config_alert_mail" value="0" />
+          <?php echo $text_no; ?>
+          <?php } else { ?>
+          <input type="radio" name="config_alert_mail" value="1" />
+          <?php echo $text_yes; ?>
+          <input type="radio" name="config_alert_mail" value="0" checked="checked" />
+          <?php echo $text_no; ?>
+          <?php } ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $entry_account; ?><br />
+          <span class="help"><?php echo $help_account; ?></span></td>
+        <td><select name="config_account">
+            <option value="0"><?php echo $text_none; ?></option>
+            <?php foreach ($informations as $information) { ?>
+            <?php if ($information['information_id'] == $config_account) { ?>
+            <option value="<?php echo $information['information_id']; ?>" selected="selected"><?php echo $information['title']; ?></option>
+            <?php } else { ?>
+            <option value="<?php echo $information['information_id']; ?>"><?php echo $information['title']; ?></option>
+            <?php } ?>
+            <?php } ?>
+          </select></td>
+      </tr>
+      <tr>
+        <td><?php echo $entry_checkout; ?><br />
+          <span class="help"><?php echo $help_checkout; ?></span></td>
+        <td><select name="config_checkout">
+            <option value="0"><?php echo $text_none; ?></option>
+            <?php foreach ($informations as $information) { ?>
+            <?php if ($information['information_id'] == $config_checkout) { ?>
+            <option value="<?php echo $information['information_id']; ?>" selected="selected"><?php echo $information['title']; ?></option>
+            <?php } else { ?>
+            <option value="<?php echo $information['information_id']; ?>"><?php echo $information['title']; ?></option>
+            <?php } ?>
+            <?php } ?>
+          </select></td>
+      </tr>
+      <tr>
+        <td><?php echo $entry_stock_check; ?><br />
           <span class="help"><?php echo $help_stock_check; ?></span></td>
         <td><?php if ($config_stock_check) { ?>
           <input type="radio" name="config_stock_check" value="1" checked="checked" />
@@ -339,6 +382,9 @@ var oFCKeditor<?php echo $language['language_id']; ?>          = new FCKeditor('
 //--></script>
 <script type="text/javascript"><!--
 $('#zone').load('index.php?route=setting/setting/zone&country_id=' + $('#country').attr('value') + '&zone_id=<?php echo $config_zone_id; ?>');
+
+$('#country_id').attr('value', '<?php echo $config_country_id; ?>');
+$('#zone_id').attr('value', '<?php echo $config_zone_id; ?>');
 //--></script>
 <script type="text/javascript"><!--
 $.tabs('.tabs a'); 

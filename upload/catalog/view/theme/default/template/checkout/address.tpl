@@ -77,13 +77,9 @@
         </tr>
         <tr>
           <td><?php echo $entry_country; ?></td>
-          <td><select name="country_id" onchange="$('#zone').load('index.php?route=checkout/address/zone&country_id=' + this.value + '&zone_id=<?php echo $zone_id; ?>');">
+          <td><select name="country_id" id="country_id" onchange="$('#zone').load('index.php?route=checkout/address/zone&country_id=' + this.value + '&zone_id=<?php echo $zone_id; ?>');">
               <?php foreach ($countries as $country) { ?>
-              <?php if ($country['country_id'] == $country_id) { ?>
-              <option value="<?php echo $country['country_id']; ?>" selected="selected"><?php echo $country['name']; ?></option>
-              <?php } else { ?>
               <option value="<?php echo $country['country_id']; ?>"><?php echo $country['name']; ?></option>
-              <?php } ?>
               <?php } ?>
             </select></td>
         </tr>
@@ -103,7 +99,10 @@
     </div>
   </form>
 </div>
-<div class="bottom"></div>
+<div class="bottom">&nbsp;</div>
 <script type="text/javascript"><!--
 $('#zone').load('index.php?route=checkout/address/zone&country_id=<?php echo $country_id; ?>&zone_id=<?php echo $zone_id; ?>');
+
+$('#country_id').attr('value', '<?php echo $country_id; ?>');
+$('#zone_id').attr('value', '<?php echo $zone_id; ?>');
 //--></script>

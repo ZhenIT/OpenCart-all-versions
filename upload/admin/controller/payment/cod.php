@@ -51,7 +51,7 @@ class ControllerPaymentCod extends Controller {
    		);
 		
    		$this->document->breadcrumbs[] = array(
-       		'href'      => $this->url->https('payment/code'),
+       		'href'      => $this->url->https('payment/cod'),
        		'text'      => $this->language->get('heading_title'),
       		'separator' => ' :: '
    		);

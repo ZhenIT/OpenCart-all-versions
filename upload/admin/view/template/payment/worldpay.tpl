@@ -10,7 +10,7 @@
   <div id="tab_general" class="page">
     <table class="form">
       <tr>
-        <td><?php echo $entry_merchant; ?></td>
+        <td><span class="required">*</span> <?php echo $entry_merchant; ?></td>
         <td><input type="text" name="worldpay_merchant" value="<?php echo $worldpay_merchant; ?>" />
           <br />
           <?php if ($error_merchant) { ?>

@@ -4,6 +4,7 @@ class ControllerCommonHome extends Controller {
 		$this->load->language('common/home');
 		
 		$this->document->title = sprintf($this->language->get('title'), $this->config->get('config_store'));
+		$this->document->description = $this->config->get('config_meta_description');
 
 		$this->document->breadcrumbs = array();
 
