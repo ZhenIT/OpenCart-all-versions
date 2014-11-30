@@ -1,9 +1,9 @@
 <?php 
-class ControllerPaymentGoogle extends Controller {
+class ControllerPaymentMoneyBookers extends Controller {
 	private $error = array(); 
 
 	public function index() {
-		$this->load->language('payment/google');
+		$this->load->language('payment/moneybookers');
 
 		$this->document->title = $this->language->get('heading_title');
 		
@@ -12,7 +12,7 @@ class ControllerPaymentGoogle extends Controller {
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->validate())) {
 			$this->load->model('setting/setting');
 			
-			$this->model_setting_setting->editSetting('google', $this->request->post);				
+			$this->model_setting_setting->editSetting('moneybookers', $this->request->post);				
 			
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -25,15 +25,11 @@ class ControllerPaymentGoogle extends Controller {
 		$this->data['text_disabled'] = $this->language->get('text_disabled');
 		$this->data['text_all_zones'] = $this->language->get('text_all_zones');
 		$this->data['text_none'] = $this->language->get('text_none');
-		$this->data['text_yes'] = $this->language->get('text_yes');
-		$this->data['text_no'] = $this->language->get('text_no');
 				
 		$this->data['entry_status'] = $this->language->get('entry_status');
 		$this->data['entry_geo_zone'] = $this->language->get('entry_geo_zone');
 		$this->data['entry_order_status'] = $this->language->get('entry_order_status');
-		$this->data['entry_vendor'] = $this->language->get('entry_vendor');
-		$this->data['entry_key'] = $this->language->get('entry_key');
-		$this->data['entry_test'] = $this->language->get('entry_test');
+		$this->data['entry_email'] = $this->language->get('entry_email');
 		$this->data['entry_sort_order'] = $this->language->get('entry_sort_order');
 		
 		$this->data['button_save'] = $this->language->get('button_save');
@@ -42,8 +38,7 @@ class ControllerPaymentGoogle extends Controller {
 		$this->data['tab_general'] = $this->language->get('tab_general');
 
 		$this->data['error_warning'] = @$this->error['warning'];
-		$this->data['error_vendor'] = @$this->error['vendor'];
-		$this->data['error_key'] = @$this->error['key'];
+		$this->data['error_email'] = @$this->error['email'];
 
   		$this->document->breadcrumbs = array();
 
@@ -60,59 +55,47 @@ class ControllerPaymentGoogle extends Controller {
    		);
 
    		$this->document->breadcrumbs[] = array(
-       		'href'      => $this->url->https('payment/google'),
+       		'href'      => $this->url->https('payment/moneybookers'),
        		'text'      => $this->language->get('heading_title'),
       		'separator' => ' :: '
    		);
 				
-		$this->data['action'] = $this->url->https('payment/google');
+		$this->data['action'] = $this->url->https('payment/moneybookers');
 		
 		$this->data['cancel'] = $this->url->https('extension/payment');
 		
-		if (isset($this->request->post['google_status'])) {
-			$this->data['google_status'] = $this->request->post['google_status'];
+		if (isset($this->request->post['moneybookers_status'])) {
+			$this->data['moneybookers_status'] = $this->request->post['moneybookers_status'];
 		} else {
-			$this->data['google_status'] = $this->config->get('google_status');
+			$this->data['moneybookers_status'] = $this->config->get('moneybookers_status');
 		}
 		
-		if (isset($this->request->post['google_geo_zone_id'])) {
-			$this->data['google_geo_zone_id'] = $this->request->post['google_geo_zone_id'];
+		if (isset($this->request->post['moneybookers_geo_zone_id'])) {
+			$this->data['moneybookers_geo_zone_id'] = $this->request->post['moneybookers_geo_zone_id'];
 		} else {
-			$this->data['google_geo_zone_id'] = $this->config->get('google_geo_zone_id'); 
+			$this->data['moneybookers_geo_zone_id'] = $this->config->get('moneybookers_geo_zone_id'); 
 		} 
 
-		if (isset($this->request->post['google_order_status_id'])) {
-			$this->data['google_order_status_id'] = $this->request->post['google_order_status_id'];
+		if (isset($this->request->post['moneybookers_order_status_id'])) {
+			$this->data['moneybookers_order_status_id'] = $this->request->post['moneybookers_order_status_id'];
 		} else {
-			$this->data['google_order_status_id'] = $this->config->get('google_order_status_id'); 
+			$this->data['moneybookers_order_status_id'] = $this->config->get('moneybookers_order_status_id'); 
 		} 
 
 		$this->load->model('localisation/order_status');
 		
 		$this->data['order_statuses'] = $this->model_localisation_order_status->getOrderStatuses();
 		
-		if (isset($this->request->post['google_vendor'])) {
-			$this->data['google_vendor'] = $this->request->post['google_vendor'];
+		if (isset($this->request->post['moneybookers_email'])) {
+			$this->data['moneybookers_email'] = $this->request->post['moneybookers_email'];
 		} else {
-			$this->data['google_vendor'] = $this->config->get('google_vendor');
-		}
-
-		if (isset($this->request->post['google_key'])) {
-			$this->data['google_key'] = $this->request->post['google_key'];
-		} else {
-			$this->data['google_key'] = $this->config->get('google_key');
+			$this->data['moneybookers_email'] = $this->config->get('moneybookers_email');
 		}
 		
-		if (isset($this->request->post['google_test'])) {
-			$this->data['google_test'] = $this->request->post['google_test'];
+		if (isset($this->request->post['moneybookers_sort_order'])) {
+			$this->data['moneybookers_sort_order'] = $this->request->post['moneybookers_sort_order'];
 		} else {
-			$this->data['google_test'] = $this->config->get('google_test');
-		}
-		
-		if (isset($this->request->post['google_sort_order'])) {
-			$this->data['google_sort_order'] = $this->request->post['google_sort_order'];
-		} else {
-			$this->data['google_sort_order'] = $this->config->get('google_sort_order');
+			$this->data['moneybookers_sort_order'] = $this->config->get('moneybookers_sort_order');
 		}
 		
 		$this->load->model('localisation/geo_zone');
@@ -120,25 +103,21 @@ class ControllerPaymentGoogle extends Controller {
 		$this->data['geo_zones'] = $this->model_localisation_geo_zone->getGeoZones();
 
 		$this->id       = 'content';
-		$this->template = 'payment/google.tpl';
+		$this->template = 'payment/moneybookers.tpl';
 		$this->layout   = 'module/layout';
 		
  		$this->render();
 	}
 
 	private function validate() {
-		if (!$this->user->hasPermission('modify', 'payment/google')) {
+		if (!$this->user->hasPermission('modify', 'payment/moneybookers')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		
-		if (!@$this->request->post['google_vendor']) {
-			$this->error['vendor'] = $this->language->get('error_vendor');
+		if (!@$this->request->post['moneybookers_email']) {
+			$this->error['email'] = $this->language->get('error_email');
 		}
-
-		if (!@$this->request->post['google_key']) {
-			$this->error['key'] = $this->language->get('error_key');
-		}
-		
+				
 		if (!$this->error) {
 			return TRUE;
 		} else {

@@ -21,15 +21,15 @@
   <input type="hidden" name="no_note" value="1" />
   <input type="hidden" name="cancel_return" value="<?php echo $cancel_return; ?>" />
   <input type="hidden" name="paymentaction" value="authorization" />
-  <div class="buttons">
-    <table>
-      <tr>
-        <td align="left"><a onclick="location='<?php echo $back; ?>'" class="button"><span><?php echo $button_back; ?></span></a></td>
-        <td align="right"><a onclick="confirmSubmit();" class="button"><span><?php echo $button_continue; ?></span></a></td>
-      </tr>
-    </table>
-  </div>
 </form>
+<div class="buttons">
+  <table>
+    <tr>
+      <td align="left"><a onclick="location='<?php echo $back; ?>'" class="button"><span><?php echo $button_back; ?></span></a></td>
+      <td align="right"><a onclick="confirmSubmit();" class="button"><span><?php echo $button_continue; ?></span></a></td>
+    </tr>
+  </table>
+</div>
 <script type="text/javascript"><!--
 function confirmSubmit() {
 	$.ajax({

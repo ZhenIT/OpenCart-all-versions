@@ -10,7 +10,7 @@
 </div>
 <div class="tabs"><a tab="#tab_shop"><?php echo $tab_shop; ?></a><a tab="#tab_local"><?php echo $tab_local; ?></a><a tab="#tab_option"><?php echo $tab_option; ?></a><a tab="#tab_cache"><?php echo $tab_cache; ?></a></div>
 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
-  <div id="tab_shop" class="page"> <span class="required">*</span> <?php echo $entry_store; ?><br />
+  <div id="tab_shop" class="page"><span class="required">*</span> <?php echo $entry_store; ?><br />
     <input type="text" name="config_store" value="<?php echo $config_store; ?>" />
     <br />
     <?php if (@$error_store) { ?>
@@ -18,7 +18,7 @@
     <?php } ?>
     <br />
     <?php foreach ($languages as $language) { ?>
-    <span class="required">*</span> <?php echo $entry_welcome; ?> <img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /><br />
+    <span class="required">*</span> <?php echo $entry_welcome; ?><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /><br />
     <textarea name="config_welcome_<?php echo $language['language_id']; ?>" id="description<?php echo $language['language_id']; ?>"><?php echo ${'config_welcome_' . $language['language_id']}; ?></textarea>
     <?php if (@${'error_welcome_' . $language['language_id']}) { ?>
     <span class="error"><?php echo ${'error_welcome_' . $language['language_id']}; ?></span>
@@ -57,20 +57,6 @@
     <input type="text" name="config_fax" value="<?php echo $config_fax; ?>" />
     <br />
     <br />
-    <?php echo $entry_parse_time; ?><br />
-    <?php if ($config_parse_time) { ?>
-    <input type="radio" name="config_parse_time" value="1" checked="checked" />
-    <?php echo $text_yes; ?>
-    <input type="radio" name="config_parse_time" value="0" />
-    <?php echo $text_no; ?>
-    <?php } else { ?>
-    <input type="radio" name="config_parse_time" value="1" />
-    <?php echo $text_yes; ?>
-    <input type="radio" name="config_parse_time" value="0" checked="checked" />
-    <?php echo $text_no; ?>
-    <?php } ?>
-    <br />
-    <br />
     <?php echo $entry_ssl; ?><br />
     <?php if ($config_ssl) { ?>
     <input type="radio" name="config_ssl" value="1" checked="checked" />
@@ -81,6 +67,20 @@
     <input type="radio" name="config_ssl" value="1" />
     <?php echo $text_yes; ?>
     <input type="radio" name="config_ssl" value="0" checked="checked" />
+    <?php echo $text_no; ?>
+    <?php } ?>
+    <br />
+    <br />
+    <?php echo $entry_parse_time; ?><br />
+    <?php if ($config_parse_time) { ?>
+    <input type="radio" name="config_parse_time" value="1" checked="checked" />
+    <?php echo $text_yes; ?>
+    <input type="radio" name="config_parse_time" value="0" />
+    <?php echo $text_no; ?>
+    <?php } else { ?>
+    <input type="radio" name="config_parse_time" value="1" />
+    <?php echo $text_yes; ?>
+    <input type="radio" name="config_parse_time" value="0" checked="checked" />
     <?php echo $text_no; ?>
     <?php } ?>
   </div>
@@ -151,6 +151,7 @@
     </select>
   </div>
   <div id="tab_option" class="page"><?php echo $entry_stock_check; ?><br />
+    <div class="help"><?php echo $help_stock_check; ?></div>
     <?php if ($config_stock_check) { ?>
     <input type="radio" name="config_stock_check" value="1" checked="checked" />
     <?php echo $text_yes; ?>
@@ -162,9 +163,10 @@
     <input type="radio" name="config_stock_check" value="0" checked="checked" />
     <?php echo $text_no; ?>
     <?php } ?>
-    <img src="view/image/help.png" class="help" onmouseover="toolTip('<?php echo $help_stock_check; ?>')" onmouseout="toolTip()" /><br />
+    <br />
     <br />
     <?php echo $entry_stock_checkout; ?><br />
+    <div class="help"><?php echo $help_stock_checkout; ?></div>
     <?php if ($config_stock_checkout) { ?>
     <input type="radio" name="config_stock_checkout" value="1" checked="checked" />
     <?php echo $text_yes; ?>
@@ -176,9 +178,10 @@
     <input type="radio" name="config_stock_checkout" value="0" checked="checked" />
     <?php echo $text_no; ?>
     <?php } ?>
-    <img src="view/image/help.png" class="help" onmouseover="toolTip('<?php echo $help_stock_checkout; ?>')" onmouseout="toolTip()" /><br />
+    <br />
     <br />
     <?php echo $entry_stock_subtract; ?><br />
+    <div class="help"><?php echo $help_stock_subtract; ?></div>
     <?php if ($config_stock_subtract) { ?>
     <input type="radio" name="config_stock_subtract" value="1" checked="checked" />
     <?php echo $text_yes; ?>
@@ -190,7 +193,7 @@
     <input type="radio" name="config_stock_subtract" value="0" checked="checked" />
     <?php echo $text_no; ?>
     <?php } ?>
-    <img src="view/image/help.png" class="help" onmouseover="toolTip('<?php echo $help_stock_subtract; ?>')" onmouseout="toolTip()" /><br />
+    <br />
     <br />
     <?php echo $entry_order_status; ?><br />
     <select name="config_order_status_id">
@@ -231,6 +234,7 @@
     <br />
     <br />
     <?php echo $entry_download_status; ?><br />
+    <div class="help"><?php echo $help_download_status; ?></div>
     <select name="config_download_status">
       <?php foreach ($order_statuses as $order_status) { ?>
       <?php if ($order_status['order_status_id'] == $config_download_status) { ?>
@@ -240,7 +244,7 @@
       <?php } ?>
       <?php } ?>
     </select>
-    <img src="view/image/help.png" class="help" onmouseover="toolTip('<?php echo $help_download_status; ?>')" onmouseout="toolTip()" /></div>
+  </div>
   <div id="tab_cache" class="page"> <?php echo $entry_cache; ?><br />
     <?php if ($config_cache) { ?>
     <input type="radio" name="config_cache" value="1" checked="checked" />

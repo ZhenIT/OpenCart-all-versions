@@ -125,8 +125,9 @@ p {
 	border-left: 1px solid #DDDDDD;
 	border-right: 1px solid #DDDDDD;
 	background: #FFFFFF;
-	padding: 10px 10px 0px 10px;
+	padding: 10px 10px 1px 10px;
 	min-height: 380px;
+	width: 558px;
 }
 #content .bottom {
 	background: url('../image/content_bottom.png') no-repeat;

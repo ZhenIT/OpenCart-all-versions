@@ -1,7 +1,7 @@
 <?php
 // Configuration
 require_once('config.php');
-
+   
 // Install 
 if (!defined('HTTP_SERVER')) {
 	header('Location: install/index.php');

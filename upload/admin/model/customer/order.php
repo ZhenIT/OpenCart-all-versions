@@ -158,28 +158,28 @@ class ModelCustomerOrder extends Model {
 		$query = $this->db->query($sql);
 		
 		return $query->row['total'];
-	}
+	} 
 			
 	public function getOrderHistoryTotalByOrderStatusId($order_status_id) {
-	  	$query = $this->db->query("SELECT order_id, COUNT(*) AS total FROM order_history WHERE order_status_id = '" . (int)$order_status_id . "' GROUP BY order_id");
+	  	$query = $this->db->query("SELECT oh.order_id FROM order_history oh LEFT JOIN `order` o ON (oh.order_id = o.order_id) WHERE oh.order_status_id = '" . (int)$order_status_id . "' AND o.confirm = '1' GROUP BY order_id");
 
-		return $query->row['total'];
+		return $query->num_rows;
 	}
 
 	public function getTotalOrdersByOrderStatusId($order_status_id) {
-      	$query = $this->db->query("SELECT COUNT(*) AS total FROM `order` WHERE order_status_id = '" . (int)$order_status_id . "'");
+      	$query = $this->db->query("SELECT COUNT(*) AS total FROM `order` WHERE order_status_id = '" . (int)$order_status_id . "' AND confirm = '1'");
 		
 		return $query->row['total'];
 	}
 	
 	public function getTotalOrdersByLanguageId($language_id) {
-      	$query = $this->db->query("SELECT COUNT(*) AS total FROM `order` WHERE language_id = '" . (int)$language_id . "'");
+      	$query = $this->db->query("SELECT COUNT(*) AS total FROM `order` WHERE language_id = '" . (int)$language_id . "' AND confirm = '1'");
 		
 		return $query->row['total'];
 	}	
 	
 	public function getTotalOrdersByCurrencyId($currency_id) {
-      	$query = $this->db->query("SELECT COUNT(*) AS total FROM `order` WHERE currency_id = '" . (int)$currency_id . "'");
+      	$query = $this->db->query("SELECT COUNT(*) AS total FROM `order` WHERE currency_id = '" . (int)$currency_id . "' AND confirm = '1'");
 		
 		return $query->row['total'];
 	}		

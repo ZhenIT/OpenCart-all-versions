@@ -35,6 +35,8 @@ class ControllerCheckoutShipping extends Controller {
 			$this->session->data['shipping_methods'] = $this->model_checkout_shipping->getQuotes();
 		}
 		
+		$this->load->language('checkout/shipping');
+		
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->validate())) {
 			$shipping = explode('.', $this->request->post['shipping']);
 			
@@ -44,8 +46,6 @@ class ControllerCheckoutShipping extends Controller {
 
 	  		$this->redirect($this->url->https('checkout/payment'));
     	}
-		
-    	$this->load->language('checkout/shipping');
  
 		$this->document->title = $this->language->get('heading_title');    
 		

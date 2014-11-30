@@ -45,6 +45,8 @@ class ControllerCheckoutPayment extends Controller {
 			$this->session->data['payment_methods'] = $this->model_checkout_payment->getMethods();
 		}
 		
+		$this->load->language('checkout/payment');
+		
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->validate())) {
 			$this->session->data['payment_method'] = $this->session->data['payment_methods'][$this->request->post['payment']];
 		  
@@ -52,8 +54,6 @@ class ControllerCheckoutPayment extends Controller {
 		  
 	  		$this->redirect($this->url->https('checkout/confirm'));
     	}
-
-    	$this->load->language('checkout/payment');
 
     	$this->document->title = $this->language->get('heading_title'); 
 		

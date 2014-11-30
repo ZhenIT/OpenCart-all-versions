@@ -138,7 +138,7 @@ class ControllerProductProduct extends Controller {
 			$this->data['popup'] = HelperImage::resize($product_info['filename'], 400, 400);
 	  		$this->data['thumb'] = HelperImage::resize($product_info['filename'], 250, 250);
 			$this->data['price'] = $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')));
-			$this->data['stock'] = $product_info['quantity'] ? $this->language->get('text_instock') : $product_info['stock'];
+			$this->data['stock'] = ($product_info['quantity'] > 0)? $this->language->get('text_instock') : $product_info['stock'];
 			$this->data['model'] = $product_info['model'];
 			$this->data['manufacturer'] = $product_info['manufacturer'];
 			$this->data['manufacturers'] = $this->url->http('product/manufacturer&manufacturer_id=' . $product_info['manufacturer_id']);

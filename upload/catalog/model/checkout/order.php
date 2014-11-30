@@ -58,7 +58,6 @@ class ModelCheckoutOrder extends Model {
 				'{order_id}',
 				'{date_added}',
 				'{status}', 
-				'{comment}',
 				'{invoice}'
 			);
 						
@@ -67,7 +66,6 @@ class ModelCheckoutOrder extends Model {
 				'order_id'   => $order_id,
 				'date_added' => date($this->language->get('date_format_short'), strtotime($query->row['date_added'])),
 				'status'     => $query->row['status'],
-				'comment'    => $query->row['comment'],
 				'invoice'    => $this->url->http('account/invoice')
 			);
 			

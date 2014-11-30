@@ -276,7 +276,9 @@ input, textarea, select, form iframe {
 	display: block;
 }
 .help {
-	cursor: pointer;
+	color: #999;
+	display: block;
+	font-size: 11px;
 }
 .tooltip {
 	border: 1px solid #FDDA5C;

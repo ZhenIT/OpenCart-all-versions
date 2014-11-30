@@ -3,7 +3,7 @@ class ControllerPaymentAuthorizeNet extends Controller {
 	private $error = array(); 
 
 	public function index() {
-		$this->load->language('payment/authorizenet_sim');
+		$this->load->language('payment/authorizenet');
 
 		$this->document->title = $this->language->get('heading_title');
 		
@@ -31,18 +31,22 @@ class ControllerPaymentAuthorizeNet extends Controller {
 		$this->data['entry_status'] = $this->language->get('entry_status');
 		$this->data['entry_geo_zone'] = $this->language->get('entry_geo_zone');
 		$this->data['entry_order_status'] = $this->language->get('entry_order_status');
-		$this->data['entry_merchant_id'] = $this->language->get('entry_merchant_id');
-		$this->data['entry_transaction_key'] = $this->language->get('entry_transaction_key');
+		$this->data['entry_merchant'] = $this->language->get('entry_merchant');
+		$this->data['entry_key'] = $this->language->get('entry_key');
+		$this->data['entry_callback'] = $this->language->get('entry_callback');
 		$this->data['entry_test'] = $this->language->get('entry_test');
 		$this->data['entry_sort_order'] = $this->language->get('entry_sort_order');
-		
+
+		$this->data['help_callback'] = $this->language->get('help_callback');
+
 		$this->data['button_save'] = $this->language->get('button_save');
 		$this->data['button_cancel'] = $this->language->get('button_cancel');
 
 		$this->data['tab_general'] = $this->language->get('tab_general');
 
 		$this->data['error_warning'] = @$this->error['warning'];
-		$this->data['error_email'] = @$this->error['email'];
+		$this->data['error_merchant'] = @$this->error['merchant'];
+		$this->data['error_key'] = @$this->error['key'];
 
   		$this->document->breadcrumbs = array();
 
@@ -90,18 +94,20 @@ class ControllerPaymentAuthorizeNet extends Controller {
 		
 		$this->data['order_statuses'] = $this->model_localisation_order_status->getOrderStatuses();
 		
-		if (isset($this->request->post['authorizenet_merchant_id'])) {
-			$this->data['authorizenet_merchant_id'] = $this->request->post['authorizenet_merchant_id'];
+		if (isset($this->request->post['authorizenet_merchant'])) {
+			$this->data['authorizenet_merchant'] = $this->request->post['authorizenet_merchant'];
 		} else {
-			$this->data['authorizenet_merchant_id'] = $this->config->get('authorizenet_merchant_id');
+			$this->data['authorizenet_merchant'] = $this->config->get('authorizenet_merchant');
 		}
 
-		if (isset($this->request->post['authorizenet_transaction_key'])) {
-			$this->data['authorizenet_transaction_key'] = $this->request->post['authorizenet_transaction_key'];
+		if (isset($this->request->post['authorizenet_key'])) {
+			$this->data['authorizenet_key'] = $this->request->post['authorizenet_key'];
 		} else {
-			$this->data['authorizenet_transaction_key'] = $this->config->get('authorizenet_transaction_key');
+			$this->data['authorizenet_key'] = $this->config->get('authorizenet_key');
 		}
-		
+
+		$this->data['callback'] = HTTP_CATALOG . 'index.php?route=payment/authorizenet/callback';
+
 		if (isset($this->request->post['authorizenet_test'])) {
 			$this->data['authorizenet_test'] = $this->request->post['authorizenet_test'];
 		} else {
@@ -130,10 +136,14 @@ class ControllerPaymentAuthorizeNet extends Controller {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		
-		if (!@$this->request->post['authorizenet_email']) {
-			$this->error['email'] = $this->language->get('error_email');
+		if (!@$this->request->post['authorizenet_merchant']) {
+			$this->error['merchant'] = $this->language->get('error_merchant');
 		}
-				
+
+		if (!@$this->request->post['authorizenet_key']) {
+			$this->error['key'] = $this->language->get('error_key');
+		}
+		
 		if (!$this->error) {
 			return TRUE;
 		} else {

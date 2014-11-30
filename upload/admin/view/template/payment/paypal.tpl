@@ -44,11 +44,19 @@
     </select>
     <br />
     <br />
-    <?php echo $entry_email; ?><br />
+    <span class="required">*</span> <?php echo $entry_email; ?><br />
     <input type="text" name="paypal_email" value="<?php echo $paypal_email; ?>" />
     <br />
     <?php if ($error_email) { ?>
     <span class="error"><?php echo $error_email; ?></span>
+    <?php } ?>
+    <br />
+    <span class="required">*</span> <?php echo $entry_encryption; ?><br />
+    <div class="help"><?php echo $help_encryption; ?></div>
+    <input type="text" name="paypal_encryption" value="<?php echo $paypal_encryption; ?>" />
+    <br />
+    <?php if ($error_encryption) { ?>
+    <span class="error"><?php echo $error_encryption; ?></span>
     <?php } ?>
     <br />
     <?php echo $entry_test; ?><br />
@@ -71,4 +79,4 @@
 </form>
 <script type="text/javascript"><!--
 $.tabs('.tabs a'); 
-//--></script>
+//--></script>

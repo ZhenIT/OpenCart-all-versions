@@ -44,12 +44,24 @@
     </select>
     <br />
     <br />
-    <?php echo $entry_email; ?><br />
-    <input type="text" name="authorizenet_email" value="<?php echo $authorizenet_email; ?>" />
+    <span class="required">*</span> <?php echo $entry_merchant; ?><br />
+    <input type="text" name="authorizenet_merchant" value="<?php echo $authorizenet_merchant; ?>" />
     <br />
-    <?php if ($error_email) { ?>
-    <span class="error"><?php echo $error_email; ?></span>
+    <?php if ($error_merchant) { ?>
+    <span class="error"><?php echo $error_merchant; ?></span>
     <?php } ?>
+    <br />
+    <span class="required">*</span> <?php echo $entry_key ?><br />
+    <input type="text" name="authorizenet_key" value="<?php echo $authorizenet_key; ?>" />
+    <br />
+    <?php if ($error_key) { ?>
+    <span class="error"><?php echo $error_key; ?></span>
+    <?php } ?>
+    <br />
+    <?php echo $entry_callback; ?><br />
+    <div class="help"><?php echo $help_callback; ?></div>
+    <textarea cols="40" rows="5"><?php echo $callback; ?></textarea>
+    <br />
     <br />
     <?php echo $entry_test; ?><br />
     <?php if ($authorizenet_test) { ?>
@@ -71,4 +83,4 @@
 </form>
 <script type="text/javascript"><!--
 $.tabs('.tabs a'); 
-//--></script>
+//--></script>

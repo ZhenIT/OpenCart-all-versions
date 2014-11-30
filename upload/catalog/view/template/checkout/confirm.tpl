@@ -60,12 +60,12 @@
       <?php } ?>
     </table>
     <br />
-    <div style="text-align: right;">
-      <table>
+    <div>
+      <table width="100%">
         <?php foreach ($totals as $total) { ?>
         <tr>
           <td align="right" colspan="4"><?php echo $total['title']; ?></td>
-          <td align="right"><?php echo $total['text']; ?></td>
+          <td align="right" width="1%"><?php echo $total['text']; ?></td>
         </tr>
         <?php } ?>
       </table>

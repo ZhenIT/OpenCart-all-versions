@@ -44,14 +44,14 @@
     </select>
     <br />
     <br />
-    <?php echo $entry_vendor; ?><br />
+    <span class="required">*</span> <?php echo $entry_vendor; ?><br />
     <input type="text" name="protx_vendor" value="<?php echo $protx_vendor; ?>" />
     <br />
     <?php if ($error_vendor) { ?>
     <span class="error"><?php echo $error_vendor; ?></span>
     <?php } ?>
     <br />
-    <?php echo $entry_password; ?><br />
+    <span class="required">*</span> <?php echo $entry_password; ?><br />
     <input type="text" name="protx_password" value="<?php echo $protx_password; ?>" />
     <br />
     <?php if ($error_password) { ?>
@@ -59,17 +59,23 @@
     <?php } ?>
     <br />
     <?php echo $entry_test; ?><br />
-    <?php if ($protx_test) { ?>
-    <input type="radio" name="protx_test" value="1" checked="checked" />
-    <?php echo $text_yes; ?>
-    <input type="radio" name="protx_test" value="0" />
-    <?php echo $text_no; ?>
-    <?php } else { ?>
-    <input type="radio" name="protx_test" value="1" />
-    <?php echo $text_yes; ?>
-    <input type="radio" name="protx_test" value="0" checked="checked" />
-    <?php echo $text_no; ?>
-    <?php } ?>
+    <select name="protx_test">
+      <?php if ($protx_test == 'simulator') { ?>
+      <option value="simulator" selected="selected"><?php echo $text_simulator; ?></option>
+      <?php } else { ?>
+      <option value="simulator"><?php echo $text_simulator; ?></option>
+      <?php } ?>
+      <?php if ($protx_test == 'test') { ?>
+      <option value="test" selected="selected"><?php echo $text_test; ?></option>
+      <?php } else { ?>
+      <option value="test"><?php echo $text_test; ?></option>
+      <?php } ?>
+      <?php if ($protx_test == 'live') { ?>
+      <option value="live" selected="selected"><?php echo $text_live; ?></option>
+      <?php } else { ?>
+      <option value="live"><?php echo $text_live; ?></option>
+      <?php } ?>
+    </select>
     <br />
     <br />
     <?php echo $entry_sort_order; ?><br />
