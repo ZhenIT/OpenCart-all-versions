@@ -31,7 +31,7 @@ class ControllerPaymentPayPal extends Controller {
 		$this->data['country'] = $order_info['payment_country'];
 		$this->data['notify_url'] = $this->url->https('payment/paypal/callback&order_id=' . $encryption->encrypt($this->session->data['order_id']));
 		$this->data['email'] = $order_info['email'];
-		$this->data['invoice'] = $this->session->data['order_id'] . ' - ' . $order_info['payment_firstname'] . ' ' . $order_info['payment_firstname'];
+		$this->data['invoice'] = $this->session->data['order_id'] . ' - ' . $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'];
 		$this->data['lc'] = $this->language->getCode();
 		$this->data['return'] = $this->url->https('checkout/success');
 		$this->data['cancel_return'] = $this->url->https('checkout/payment');
@@ -39,7 +39,7 @@ class ControllerPaymentPayPal extends Controller {
 		$this->data['back'] = $this->url->https('checkout/payment');
 		
 		$this->id       = 'payment';
-		$this->template = 'payment/paypal.tpl';
+		$this->template = $this->config->get('config_template') . 'payment/paypal.tpl';
 		
 		$this->render();		
 	}

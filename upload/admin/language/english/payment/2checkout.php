@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_title']      = '2Checkout';
+$_['heading_title']      = '2Checkout <span style="color: red;">(In Development)</span>';
 
 // Text 
 $_['text_payment']       = 'Payment';

@@ -50,7 +50,7 @@ class ControllerPaymentProtx extends Controller {
 		$this->data['back'] = $this->url->https('checkout/payment');
 		
 		$this->id       = 'payment';
-		$this->template = 'payment/protx.tpl';
+		$this->template = $this->config->get('config_template') . 'payment/protx.tpl';
 		
 		$this->render();		
 	}

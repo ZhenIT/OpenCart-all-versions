@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_title']      = 'NOCHEX';
+$_['heading_title']      = 'NOCHEX <span style="color: red;">(In Development)</span>';
 
 // Text 
 $_['text_payment']       = 'Payment';

@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_title']      = 'BluePay';
+$_['heading_title']      = 'BluePay <span style="color: red;">(In Development)</span>';
 
 // Text 
 $_['text_payment']       = 'Payment';

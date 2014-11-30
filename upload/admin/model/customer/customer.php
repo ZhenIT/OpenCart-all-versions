@@ -15,6 +15,7 @@ class ModelCustomerCustomer extends Model {
 	public function deleteCustomer($customer_id) {
 		$this->db->query("DELETE FROM customer WHERE customer_id = '" . (int)$customer_id . "'");
 		$this->db->query("DELETE FROM address WHERE customer_id = '" . (int)$customer_id . "'");
+		$this->db->query("DELETE FROM coupon_redeem WHERE customer_id = '" . (int)$customer_id . "'");
 	}
 	
 	public function getCustomer($customer_id) {
@@ -44,18 +45,24 @@ class ModelCustomerCustomer extends Model {
 			$sql .= " WHERE " . implode(" AND ", $implode);
 		}
 		
-		if (isset($data['sort'])) {
-			$sql .= " ORDER BY " . $this->db->escape($data['sort']);	
+		$sort_data = array(
+			'name',
+			'status',
+			'date_added'
+		);	
+			
+		if (in_array(@$data['sort'], $sort_data)) {
+			$sql .= " ORDER BY " . $data['sort'];	
 		} else {
-			$sql .= " ORDER BY firstname, lastname, email";	
+			$sql .= " ORDER BY name";	
 		}
 			
-		if (isset($data['order'])) {
-			$sql .= " " . $this->db->escape($data['order']);
+		if (@$data['order'] == 'DESC') {
+			$sql .= " DESC";
 		} else {
 			$sql .= " ASC";
 		}
-			
+		
 		if (isset($data['start']) || isset($data['limit'])) {
 			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 		}		

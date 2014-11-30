@@ -5,7 +5,7 @@ class ControllerPaymentAsiaPay extends Controller {
 		
 		
 		$this->id       = 'payment';
-		$this->template = 'payment/asiapay.tpl';
+		$this->template = $this->config->get('config_template') . 'payment/asiapay.tpl';
 		
 		$this->render();
 	} 	

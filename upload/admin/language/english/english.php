@@ -25,7 +25,6 @@ $_['text_no_results']         = 'No results!';
 $_['text_separator']          = ' &gt; ';
 $_['text_edit']               = 'Edit';
 $_['text_view']               = 'View';
-$_['text_upload']             = 'Upload Image'; 
 $_['text_home']               = 'Home';
 
 // Button
@@ -51,10 +50,8 @@ $_['button_add_rate']         = 'Add Tax Rate';
 // Tab
 $_['tab_admin']               = 'Admin';
 $_['tab_cache']               = 'Cache';
-$_['tab_category']            = 'Category';
 $_['tab_data']                = 'Data';
 $_['tab_discount']            = 'Discount';
-$_['tab_download']            = 'Download';
 $_['tab_general']             = 'General';
 $_['tab_image']               = 'Image';
 $_['tab_option']              = 'Option';

@@ -94,7 +94,7 @@ final class Currency {
 
     	return $string;
   	}
-
+	
   	public function getId() {
     	return $this->currencies[$this->code]['currency_id'];
   	}

@@ -66,11 +66,11 @@ class ModelCheckoutOrder extends Model {
 				'order_id'   => $order_id,
 				'date_added' => date($this->language->get('date_format_short'), strtotime($query->row['date_added'])),
 				'status'     => $query->row['status'],
-				'invoice'    => $this->url->http('account/invoice')
+				'invoice'    => html_entity_decode($this->url->http('account/invoice&order_id=' . $order_id))
 			);
 			
-			$subject = str_replace($find, $replace, $this->config->get('mail_order_subject_' . $query->row['language_id']));
-			$message = str_replace($find, $replace, $this->config->get('mail_order_message_' . $query->row['language_id']));
+			$subject = str_replace($find, $replace, $this->config->get('config_order_subject_' . $query->row['language_id']));
+			$message = str_replace($find, $replace, $this->config->get('config_order_message_' . $query->row['language_id']));
 
 			$mail = new Mail(); 
 			$mail->setTo($query->row['email']);
@@ -108,12 +108,12 @@ class ModelCheckoutOrder extends Model {
 					'date_added' => date($this->language->get('date_format_short'), strtotime($query->row['date_added'])),
 					'status'     => $query->row['status'],
 					'comment'    => $query->row['comment'],
-					'invoice'    => $this->url->http('account/invoice')
+					'invoice'    => html_entity_decode($this->url->http('account/invoice&order_id=' . $order_id))
 				);
 				
-				$subject = str_replace($find, $replace, $this->config->get('mail_update_subject_' . $query->row['language_id']));				
+				$subject = str_replace($find, $replace, $this->config->get('config_update_subject_' . $query->row['language_id']));				
 			
-				$message = str_replace($find, $replace, $this->config->get('mail_update_message_' . $query->row['language_id']));
+				$message = str_replace($find, $replace, $this->config->get('config_update_message_' . $query->row['language_id']));
 
 				$mail = new Mail();
 				$mail->setTo($query->row['email']);

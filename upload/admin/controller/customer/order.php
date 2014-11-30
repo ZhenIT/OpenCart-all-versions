@@ -134,7 +134,7 @@ class ControllerCustomerOrder extends Controller {
 		if (isset($this->request->get['order'])) {
 			$order = $this->request->get['order'];
 		} else {
-			$order = 'ASC';
+			$order = 'DESC';
 		}
 		
 		$url = '';
@@ -536,9 +536,9 @@ class ControllerCustomerOrder extends Controller {
           		'model'    => $product['model'],
           		'option'   => $option_data,
           		'quantity' => $product['quantity'],
-          		'price'    => $this->currency->format(($product['price'] + ($product['price'] * $product['tax'] / 100)), $order_info['currency'], $order_info['value']),
-          		'discount' => (ceil($product['discount']) ? $this->currency->format(($product['price'] - $product['discount']) + (($product['price'] - $product['discount']) * $product['tax'] / 100), $order_info['currency'], $order_info['value']) : NULL),
-				'total'    => $this->currency->format($product['total'] + ($product['total'] * $product['tax'] / 100), $order_info['currency'], $order_info['value'])
+          		'price'    => $this->currency->format($product['price'], $order_info['currency'], $order_info['value']),
+          		'discount' => (ceil($product['discount']) ? $this->currency->format($product['price'] - $product['discount'], $order_info['currency'], $order_info['value']) : NULL),
+				'total'    => $this->currency->format($product['total'], $order_info['currency'], $order_info['value'])
         	);
     	}
 
@@ -710,9 +710,9 @@ class ControllerCustomerOrder extends Controller {
           		'model'    => $product['model'],
           		'option'   => $option_data,
           		'quantity' => $product['quantity'],
-          		'price'    => $this->currency->format(($product['price'] + ($product['price'] * $product['tax'] / 100)), $order_info['currency'], $order_info['value']),
-          		'discount' => (ceil($product['discount']) ? $this->currency->format(($product['price'] - $product['discount']) + (($product['price'] - $product['discount']) * $product['tax'] / 100), $order_info['currency'], $order_info['value']) : NULL),
-				'total'    => $this->currency->format($product['total'] + ($product['total'] * $product['tax'] / 100), $order_info['currency'], $order_info['value'])
+          		'price'    => $this->currency->format($product['price'], $order_info['currency'], $order_info['value']),
+          		'discount' => (ceil($product['discount']) ? $this->currency->format($product['price'] - $product['discount'], $order_info['currency'], $order_info['value']) : NULL),
+				'total'    => $this->currency->format($product['total'], $order_info['currency'], $order_info['value'])
         	);
     	}
 

@@ -20,14 +20,14 @@ class ControllerAccountForgotten extends Controller {
 				'{store}',
 				'{password}'
 			);
-	
+	 
 			$replace = array(
 				'store'    => $this->config->get('config_store'),
 				'passowrd' => $password
 			);
 			
-			$subject = str_replace($find, $replace, $this->config->get('mail_password_subject_' . $this->language->getId()));
-			$message = str_replace($find, $replace, $this->config->get('mail_password_message_' . $this->language->getId()));
+			$subject = str_replace($find, $replace, $this->config->get('config_forgotten_subject_' . $this->language->getId()));
+			$message = str_replace($find, $replace, $this->config->get('config_forgotten_message_' . $this->language->getId()));
 
 			$mail = new Mail();
 			$mail->setTo($this->request->post['email']);
@@ -81,7 +81,7 @@ class ControllerAccountForgotten extends Controller {
 		$this->data['back'] = $this->url->https('account/account');
 		
 		$this->id       = 'content';
-		$this->template = 'account/forgotten.tpl';
+		$this->template = $this->config->get('config_template') . 'account/forgotten.tpl';
 		$this->layout   = 'module/layout';
 		
 		$this->render();		

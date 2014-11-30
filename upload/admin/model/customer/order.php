@@ -26,11 +26,11 @@ class ModelCustomerOrder extends Model {
 					'date_added' => date($this->language->get('date_format_short'), strtotime($query->row['date_added'])),
 					'status'     => $query->row['status'],
 					'comment'    => strip_tags($data['comment']),
-					'invoice'    => HTTP_CATALOG . 'index.php?route=account/invoice&order_id=' . $order_id
+					'invoice'    => html_entity_decode(HTTP_CATALOG . 'index.php?route=account/invoice&order_id=' . $order_id)
 				);
 				
-				$subject = str_replace($find, $replace, $this->config->get('mail_update_subject_' . $query->row['language_id']));
-				$message = str_replace($find, $replace, $this->config->get('mail_update_message_' . $query->row['language_id']));
+				$subject = str_replace($find, $replace, $this->config->get('config_update_subject_' . $query->row['language_id']));
+				$message = str_replace($find, $replace, $this->config->get('config_update_message_' . $query->row['language_id']));
 
 				$mail = new Mail();
 	    		$mail->setTo($query->row['email']);
@@ -50,6 +50,7 @@ class ModelCustomerOrder extends Model {
       	$this->db->query("DELETE FROM order_option WHERE order_id = '" . (int)$order_id . "'");
 	  	$this->db->query("DELETE FROM order_download WHERE order_id = '" . (int)$order_id . "'");
       	$this->db->query("DELETE FROM order_total WHERE order_id = '" . (int)$order_id . "'");
+		$this->db->query("DELETE FROM coupon_redeem WHERE order_id = '" . (int)$order_id . "'");
 	}
 		
 	public function getOrder($order_id) {
@@ -81,14 +82,22 @@ class ModelCustomerOrder extends Model {
 			$sql .= " AND o.total = '" . (float)$data['total'] . "'";
 		}
 
-		if (isset($data['sort'])) {
-			$sql .= " ORDER BY " . $this->db->escape($data['sort']);	
+		$sort_data = array(
+			'o.order_id',
+			'name',
+			'os.name',
+			'o.date_added',
+			'o.total',
+		);	
+			
+		if (in_array(@$data['sort'], $sort_data)) {
+			$sql .= " ORDER BY " . $data['sort'];	
 		} else {
 			$sql .= " ORDER BY o.order_id";	
 		}
 			
-		if (isset($data['order'])) {
-			$sql .= " " . $this->db->escape($data['order']);
+		if (@$data['order'] == 'DESC') {
+			$sql .= " DESC";
 		} else {
 			$sql .= " ASC";
 		}

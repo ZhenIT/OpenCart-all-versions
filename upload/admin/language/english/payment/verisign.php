@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_title']      = 'VeriSign';
+$_['heading_title']      = 'VeriSign <span style="color: red;">(In Development)</span>';
 
 // Text 
 $_['text_payment']       = 'Payment';

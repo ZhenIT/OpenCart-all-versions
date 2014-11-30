@@ -20,10 +20,6 @@ switch ($step) {
     			$error['message'] = 'Warning: You need to use PHP5 or above for OpenCart to work!';
   			}
 
-  			if (ini_get('register_globals')) {
-    			$error['message'] = 'Warning: OpenCart will not work with register_globals enabled!';
-  			}
-
   			if (!ini_get('file_uploads')) {
     			$error['message'] = 'Warning: file_uploads needs to be enabled!';
   			}
@@ -101,13 +97,13 @@ switch ($step) {
         <td><?php echo (ini_get('register_globals') ? 'On' : 'Off'); ?></td>
         <td>Off</td>
         <td><?php echo (!ini_get('register_globals') ? '<span class="good">Good</span>' : '<span class="bad">Error</span>'); ?></td>
-      </tr>
+      </tr>  
       <tr>
         <td>Magic Quotes GPC:</td>
         <td><?php echo (ini_get('magic_quotes_gpc') ? 'On' : 'Off'); ?></td>
         <td>Off</td>
         <td><?php echo (!ini_get('magic_quotes_gpc') ? '<span class="good">Good</span>' : '<span class="bad">Error</span>'); ?></td>
-      </tr>      
+      </tr>          
       <tr>
         <td>File Uploads:</td>
         <td><?php echo (ini_get('file_uploads') ? 'On' : 'Off'); ?></td>
@@ -357,7 +353,7 @@ switch ($step) {
 				$output .= 'define(\'DIR_SYSTEM\', \'' . realpath(dirname(__FILE__) . '/..') . '/system/\');' . "\n";
 				$output .= 'define(\'DIR_DATABASE\', \'' . realpath(dirname(__FILE__) . '/..') . '/system/database/\');' . "\n";
 				$output .= 'define(\'DIR_LANGUAGE\', \'' . realpath(dirname(__FILE__) . '/..') . '/catalog/language/\');' . "\n";
-				$output .= 'define(\'DIR_TEMPLATE\', \'' . realpath(dirname(__FILE__) . '/..') . '/catalog/view/template/\');' . "\n";
+				$output .= 'define(\'DIR_TEMPLATE\', \'' . realpath(dirname(__FILE__) . '/..') . '/catalog/view/theme/\');' . "\n";
 				$output .= 'define(\'DIR_CONFIG\', \'' . realpath(dirname(__FILE__) . '/..') . '/system/config/\');' . "\n";
 				$output .= 'define(\'DIR_IMAGE\', \'' . realpath(dirname(__FILE__) . '/..') . '/image/\');' . "\n";
 				$output .= 'define(\'DIR_CACHE\', \'' . realpath(dirname(__FILE__) . '/..') . '/cache/\');' . "\n";
@@ -405,7 +401,8 @@ switch ($step) {
 				$output .= 'define(\'DIR_CONFIG\', \'' . realpath(dirname(__FILE__) . '/..') . '/system/config/\');' . "\n";
 				$output .= 'define(\'DIR_IMAGE\', \'' . realpath(dirname(__FILE__) . '/..') . '/image/\');' . "\n";
 				$output .= 'define(\'DIR_CACHE\', \'' . realpath(dirname(__FILE__) . '/..') . '/cache/\');' . "\n";
-				$output .= 'define(\'DIR_DOWNLOAD\', \'' . realpath(dirname(__FILE__) . '/..') . '/download/\');' . "\n\n";
+				$output .= 'define(\'DIR_DOWNLOAD\', \'' . realpath(dirname(__FILE__) . '/..') . '/download/\');' . "\n";
+				$output .= 'define(\'DIR_CATALOG\', \'' . realpath(dirname(__FILE__) . '/..') . '/catalog/\');' . "\n\n";
 
 				$output .= '// DB' . "\n";
 				$output .= 'define(\'DB_DRIVER\', \'mysql\');' . "\n";

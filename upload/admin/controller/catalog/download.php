@@ -265,7 +265,7 @@ class ControllerCatalogDownload extends Controller {
     
 		$this->data['error_warning'] = @$this->error['warning'];
     	$this->data['error_name'] = @$this->error['name'];
-    	$this->data['error_file'] = @$this->error['file'];
+    	$this->data['error_download'] = @$this->error['download'];
 
   		$this->document->breadcrumbs = array();
 
@@ -347,11 +347,11 @@ class ControllerCatalogDownload extends Controller {
 
 		if (is_uploaded_file($this->request->files['download']['tmp_name'])) {
 	  		if ((strlen($this->request->files['download']['name']) < 3) || (strlen($this->request->files['download']['name']) > 128)) {
-        		$this->error['file'] = $this->language->get('error_filename');
+        		$this->error['download'] = $this->language->get('error_filename');
 	  		}
 	    	
 			if (substr(strrchr($this->request->files['download']['name'], '.'), 1) == 'php') {
-       	   		$this->error['file'] = $this->language->get('error_filetype');
+       	   		$this->error['download'] = $this->language->get('error_filetype');
        		}
 						
 			if ($this->request->files['download']['error'] != UPLOAD_ERR_OK) {

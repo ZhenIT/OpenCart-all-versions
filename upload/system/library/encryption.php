@@ -1,19 +1,39 @@
 <?php
 final class Encryption {
 	private $key;
-	private $iv;
 	
 	function __construct($key) {
-        $this->key = hash('sha256', $key, TRUE);
-        $this->iv = mcrypt_create_iv(32);
+        $this->key = $key;
 	}
 	
 	function encrypt($value) {
-		return strtr(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $this->key, $value, MCRYPT_MODE_ECB, $this->iv)), '+/=', '-_,');
+		$output = '';
+		
+		for ($i = 0; $i < strlen($value); $i++) {
+			$char = substr($value, $i, 1);
+			$keychar = substr($this->key, ($i % strlen($this->key)) - 1, 1);
+			$char = chr(ord($char) + ord($keychar));
+			
+			$output .= $char;
+		} 
+		
+        return base64_encode($output); 
 	}
 	
 	function decrypt($value) {
-		return trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $this->key, base64_decode(strtr($value, '-_,', '+/=')), MCRYPT_MODE_ECB, $this->iv));
+		$output = '';
+		
+		$value = base64_decode($value);
+		
+		for ($i = 0; $i < strlen($value); $i++) {
+			$char = substr($value, $i, 1);
+			$keychar = substr($this->key, ($i % strlen($this->key)) - 1, 1);
+			$char = chr(ord($char) - ord($keychar));
+			
+			$output .= $char;
+		}
+		
+		return $output;
 	}
 }
 ?>

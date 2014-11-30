@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_title']      = 'PSIGate';
+$_['heading_title']      = 'PSIGate <span style="color: red;">(In Development)</span>';
 
 // Text 
 $_['text_payment']       = 'Payment'; 
