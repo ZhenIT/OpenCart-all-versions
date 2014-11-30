@@ -19,14 +19,16 @@ class ModelCatalogProduct extends Model {
 					$this->db->query("INSERT INTO product_option_description SET product_option_id = '" . (int)$product_option_id . "', language_id = '" . (int)$language_id . "', product_id = '" . (int)$product_id . "', name = '" . $this->db->escape($language['name']) . "'");
 				}				
 				
-				foreach ($product_option['product_option_value'] as $product_option_value) {
-					$this->db->query("INSERT INTO product_option_value SET product_option_id = '" . (int)$product_option_id . "', product_id = '" . (int)$product_id . "', price = '" . (float)$product_option_value['price'] . "', prefix = '" . $this->db->escape($product_option_value['prefix']) . "', sort_order = '" . (int)$product_option_value['sort_order'] . "'");
+				if (isset($product_option['product_option_value'])) {
+					foreach ($product_option['product_option_value'] as $product_option_value) {
+						$this->db->query("INSERT INTO product_option_value SET product_option_id = '" . (int)$product_option_id . "', product_id = '" . (int)$product_id . "', price = '" . (float)$product_option_value['price'] . "', prefix = '" . $this->db->escape($product_option_value['prefix']) . "', sort_order = '" . (int)$product_option_value['sort_order'] . "'");
 				
-					$product_option_value_id = $this->db->getLastId();
+						$product_option_value_id = $this->db->getLastId();
 				
-					foreach ($product_option_value['language'] as $language_id => $language) {
-						$this->db->query("INSERT INTO product_option_value_description SET product_option_value_id = '" . (int)$product_option_value_id . "', language_id = '" . (int)$language_id . "', product_id = '" . (int)$product_id . "', name = '" . $this->db->escape($language['name']) . "'");
-					}					
+						foreach ($product_option_value['language'] as $language_id => $language) {
+							$this->db->query("INSERT INTO product_option_value_description SET product_option_value_id = '" . (int)$product_option_value_id . "', language_id = '" . (int)$language_id . "', product_id = '" . (int)$product_id . "', name = '" . $this->db->escape($language['name']) . "'");
+						}					
+					}
 				}
 			}
 		}
@@ -82,14 +84,16 @@ class ModelCatalogProduct extends Model {
 					$this->db->query("INSERT INTO product_option_description SET product_option_id = '" . (int)$product_option_id . "', language_id = '" . (int)$language_id . "', product_id = '" . (int)$product_id . "', name = '" . $this->db->escape($language['name']) . "'");
 				}				
 				
-				foreach ($product_option['product_option_value'] as $product_option_value) {
-					$this->db->query("INSERT INTO product_option_value SET product_option_id = '" . (int)$product_option_id . "', product_id = '" . (int)$product_id . "', price = '" . (float)$product_option_value['price'] . "', prefix = '" . $this->db->escape($product_option_value['prefix']) . "', sort_order = '" . (int)$product_option_value['sort_order'] . "'");
+				if (isset($product_option['product_option_value'])) {
+					foreach ($product_option['product_option_value'] as $product_option_value) {
+						$this->db->query("INSERT INTO product_option_value SET product_option_id = '" . (int)$product_option_id . "', product_id = '" . (int)$product_id . "', price = '" . (float)$product_option_value['price'] . "', prefix = '" . $this->db->escape($product_option_value['prefix']) . "', sort_order = '" . (int)$product_option_value['sort_order'] . "'");
 				
-					$product_option_value_id = $this->db->getLastId();
+						$product_option_value_id = $this->db->getLastId();
 				
-					foreach ($product_option_value['language'] as $language_id => $language) {
-						$this->db->query("INSERT INTO product_option_value_description SET product_option_value_id = '" . (int)$product_option_value_id . "', language_id = '" . (int)$language_id . "', product_id = '" . (int)$product_id . "', name = '" . $this->db->escape($language['name']) . "'");
-					}					
+						foreach ($product_option_value['language'] as $language_id => $language) {
+							$this->db->query("INSERT INTO product_option_value_description SET product_option_value_id = '" . (int)$product_option_value_id . "', language_id = '" . (int)$language_id . "', product_id = '" . (int)$product_id . "', name = '" . $this->db->escape($language['name']) . "'");
+						}					
+					}
 				}
 			}
 		}
