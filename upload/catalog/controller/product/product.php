@@ -96,6 +96,8 @@ class ControllerProductProduct extends Controller {
 
 			$this->document->title = $product_info['name'];
 			
+			$this->document->description = $product_info['meta_description'];
+			
 			$this->data['heading_title'] = $product_info['name'];
 			
 			$this->data['text_enlarge'] = $this->language->get('text_enlarge');
@@ -295,7 +297,9 @@ class ControllerProductProduct extends Controller {
 			$data['error'] = $this->error['message'];
 		}	
 		
-		$this->response->setOutput(json_encode($data));
+		$this->load->helper('json');
+		
+		$this->response->setOutput(Json::encode($data));
 	}
 	
 	public function verification() {

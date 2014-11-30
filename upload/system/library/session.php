@@ -10,17 +10,17 @@ final class Session {
 		@session_start();
 
 		if (ini_get('register_globals')) {
-        	$array = array('_SESSION');
-        
-			foreach ($array as $value) {
-           		foreach ($GLOBALS[$value] as $key => $var) {
-               		if ($var === $GLOBALS[$key]) {
-                   		unset($GLOBALS[$key]);
-               		}
-           		}
-        	}
-		}
-		
+			$globals = array('_SESSION');
+
+			foreach ($globals as $global) {
+				foreach ($GLOBALS[$global] as $key => $value) {
+					if ($value === @$GLOBALS[$key]) {
+						unset($GLOBALS[$key]);
+					}
+				}
+			}
+		}	
+
 		$this->data =& $_SESSION;
 	}
 }
