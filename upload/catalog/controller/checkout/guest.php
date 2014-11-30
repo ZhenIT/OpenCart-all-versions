@@ -220,7 +220,7 @@ class ControllerCheckoutGuest extends Controller {
 				$this->session->data['guest']['payment']['zone_code'] = '';
 			}
 			
-			if (isset($this->request->post['shipping_address']) && $this->request->post['shipping_address']) {
+			if (!empty($this->request->post['shipping_address'])) {
 				$this->session->data['guest']['shipping_address'] = true;
 			} else {
 				$this->session->data['guest']['shipping_address'] = false;

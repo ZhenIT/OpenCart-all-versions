@@ -376,11 +376,10 @@ class ControllerCheckoutCart extends Controller {
 			}
 			
 			$this->children = array(
-				'common/content_bottom',
 				'common/column_left',
 				'common/column_right',
-				'common/content_top',
 				'common/content_bottom',
+				'common/content_top',
 				'common/footer',
 				'common/header'	
 			);
@@ -392,8 +391,10 @@ class ControllerCheckoutCart extends Controller {
       		$this->data['text_error'] = $this->language->get('text_empty');
 
       		$this->data['button_continue'] = $this->language->get('button_continue');
-
+			
       		$this->data['continue'] = $this->url->link('common/home');
+
+			unset($this->session->data['success']);
 
 			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/error/not_found.tpl')) {
 				$this->template = $this->config->get('config_template') . '/template/error/not_found.tpl';

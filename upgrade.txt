@@ -35,7 +35,7 @@ UPGRADE FOR 1.5.x to 1.5.x
 
 STEP 1. BACKUP YOUR EXISTING STORE FILES AND DATABASE!!!
 
-STEP 2. Upload ALL new files on top of your current install
+STEP 2. Upload ALL new files on top of your current install execpt your config.php and admin/config.php
 
 STEP 3. Browse to http://www.yourstore.com/shop/install
 

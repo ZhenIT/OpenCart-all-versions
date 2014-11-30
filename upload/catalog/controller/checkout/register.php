@@ -72,7 +72,7 @@ class ControllerCheckoutRegister extends Controller {
 		
 		// Validate cart has products and has stock.
 		if ((!$this->cart->hasProducts() && empty($this->session->data['vouchers'])) || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
-			$json['redirect'] = $this->url->link('checkout/cart');				
+			$json['redirect'] = $this->url->link('checkout/cart');
 		}
 		
 		// Validate minimum quantity requirments.			
@@ -167,6 +167,10 @@ class ControllerCheckoutRegister extends Controller {
 				$this->customer->login($this->request->post['email'], $this->request->post['password']);
 				
 				$this->session->data['payment_address_id'] = $this->customer->getAddressId();
+				
+				if (!empty($this->request->post['shipping_address'])) {
+					$this->session->data['shipping_address_id'] = $this->customer->getAddressId();
+				}
 			} else {
 				$json['redirect'] = $this->url->link('account/success');
 			}

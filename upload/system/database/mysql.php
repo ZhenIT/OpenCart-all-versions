@@ -13,6 +13,7 @@ final class MySQL {
 		
 		mysql_query("SET NAMES 'utf8'", $this->link);
 		mysql_query("SET CHARACTER SET utf8", $this->link);
+		mysql_query("SET CHARACTER_SET_CONNECTION=utf8", $this->link);
 		mysql_query("SET SQL_MODE = ''", $this->link);
   	}
 		
