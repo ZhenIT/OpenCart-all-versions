@@ -40,6 +40,7 @@ $_['entry_firstname']       = 'First Name:';
 $_['entry_lastname']        = 'Last Name:';
 $_['entry_customer_group']  = 'Customer Group:';
 $_['entry_email']           = 'E-Mail:';
+$_['entry_ip']              = 'IP Address:';
 $_['entry_telephone']       = 'Telephone:';
 $_['entry_fax']             = 'Fax:';
 $_['entry_store_name']      = 'Store Name:';
@@ -47,7 +48,7 @@ $_['entry_store_url']       = 'Store Url:';
 $_['entry_date_added']      = 'Date Added:';
 $_['entry_shipping_method'] = 'Shipping Method:';
 $_['entry_payment_method']  = 'Payment Method:';
-$_['entry_total']           = 'Order Total:';
+$_['entry_total']           = 'Original Order Total:';
 $_['entry_order_status']    = 'Order Status:';
 $_['entry_comment']         = 'Comment:';
 $_['entry_company']         = 'Company:';
@@ -60,6 +61,8 @@ $_['entry_zone_code']       = 'Region / State Code:';
 $_['entry_country']         = 'Country:';
 $_['entry_status']          = 'Order Status:';
 $_['entry_notify']          = 'Notify Customer:';
+$_['entry_append']          = 'Append Comments:';
+$_['entry_add_product']     = 'Add Product(s):';
 
 // Error
 $_['error_permission']      = 'Warning: You do not have permission to modify orders!';
