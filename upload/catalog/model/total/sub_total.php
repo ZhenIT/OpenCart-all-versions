@@ -1,6 +1,6 @@
 <?php
 class ModelTotalSubTotal extends Model {
-	public function getTotal($total_data, $total, $taxes) {
+	public function getTotal(&$total_data, &$total, &$taxes) {
 		if ($this->config->get('sub_total_status')) {
 			$this->load->language('total/sub_total');
 		 
@@ -10,9 +10,9 @@ class ModelTotalSubTotal extends Model {
         		'value'      => $this->cart->getSubTotal(),
 				'sort_order' => $this->config->get('sub_total_sort_order')
 			);
+			
+			$total += $this->cart->getSubTotal();
 		}
-		
-		$total += $this->cart->getSubTotal();
 	}
 }
 ?>
