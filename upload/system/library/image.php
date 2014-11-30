@@ -9,7 +9,7 @@ final class Image {
 			$this->file = $file;
 
 			$info = getimagesize($file);
-        
+
 			$this->info = array(
             	'width'  => $info[0],
             	'height' => $info[1],

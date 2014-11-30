@@ -174,7 +174,7 @@ class ControllerInformationContact extends Controller {
       		$this->error['name'] = $this->language->get('error_name');
     	}
 
-		$pattern = '/^([a-z0-9])(([-a-z0-9._])*([a-z0-9]))*\@([a-z0-9])(([a-z0-9-])*([a-z0-9]))+(\.([a-z0-9])([-a-z0-9_-])?([a-z0-9])+)+$/i';
+		$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i';
 
     	if (!preg_match($pattern, $this->request->post['email'])) {
       		$this->error['email'] = $this->language->get('error_email');

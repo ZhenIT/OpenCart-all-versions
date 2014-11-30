@@ -20,17 +20,7 @@ class ControllerCatalogManufacturer extends Controller {
 		$this->load->model('catalog/manufacturer');
 			
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$data = array();
-			
-			if (is_uploaded_file($this->request->files['image']['tmp_name']) && is_writable(DIR_IMAGE) && is_writable(DIR_IMAGE . 'cache/')) {
-				move_uploaded_file($this->request->files['image']['tmp_name'], DIR_IMAGE . $this->request->files['image']['name']);
-			
-				if (file_exists(DIR_IMAGE . $this->request->files['image']['name'])) {
-					$data['image'] = $this->request->files['image']['name'];
-				}			
-			}
-			
-			$this->model_catalog_manufacturer->addManufacturer(array_merge($this->request->post, $data));
+			$this->model_catalog_manufacturer->addManufacturer($this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 			
@@ -62,17 +52,7 @@ class ControllerCatalogManufacturer extends Controller {
 		$this->load->model('catalog/manufacturer');
 		
     	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$data = array();
-			
-			if (is_uploaded_file($this->request->files['image']['tmp_name']) && is_writable(DIR_IMAGE) && is_writable(DIR_IMAGE . 'cache/')) {
-				move_uploaded_file($this->request->files['image']['tmp_name'], DIR_IMAGE . $this->request->files['image']['name']);
-			
-				if (file_exists(DIR_IMAGE . $this->request->files['image']['name'])) {
-					$data['image'] = $this->request->files['image']['name'];
-				}			
-			}
-			
-			$this->model_catalog_manufacturer->editManufacturer($this->request->get['manufacturer_id'], array_merge($this->request->post, $data));
+			$this->model_catalog_manufacturer->editManufacturer($this->request->get['manufacturer_id'], $this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -286,7 +266,8 @@ class ControllerCatalogManufacturer extends Controller {
 
     	$this->data['text_enabled'] = $this->language->get('text_enabled');
     	$this->data['text_disabled'] = $this->language->get('text_disabled');
-    	
+    	$this->data['text_image_manager'] = $this->language->get('text_image_manager');
+		
 		$this->data['entry_name'] = $this->language->get('entry_name');
 		$this->data['entry_keyword'] = $this->language->get('entry_keyword');
     	$this->data['entry_image'] = $this->language->get('entry_image');
@@ -294,8 +275,6 @@ class ControllerCatalogManufacturer extends Controller {
   
     	$this->data['button_save'] = $this->language->get('button_save');
     	$this->data['button_cancel'] = $this->language->get('button_cancel');
-	
-		$this->data['tab_general'] = $this->language->get('tab_general');
 	  
  		if (isset($this->error['warning'])) {
 			$this->data['error_warning'] = $this->error['warning'];
@@ -364,9 +343,17 @@ class ControllerCatalogManufacturer extends Controller {
 		} else {
 			$this->data['keyword'] = '';
 		}
+
+		if (isset($this->request->post['image'])) {
+			$this->data['image'] = $this->request->post['image'];
+		} elseif (isset($manufacturer_info)) {
+			$this->data['image'] = $manufacturer_info['image'];
+		} else {
+			$this->data['image'] = '';
+		}
 		
 		$this->load->helper('image');
-		
+
 		if (isset($manufacturer_info) && $manufacturer_info['image'] && file_exists(DIR_IMAGE . $manufacturer_info['image'])) {
 			$this->data['preview'] = image_resize($manufacturer_info['image'], 100, 100);
 		} else {
@@ -398,36 +385,6 @@ class ControllerCatalogManufacturer extends Controller {
     	if ((strlen(utf8_decode($this->request->post['name'])) < 3) || (strlen(utf8_decode($this->request->post['name'])) > 32)) {
       		$this->error['name'] = $this->language->get('error_name');
     	}
-		
-  		if ($this->request->files['image']['name']) {
-	  		if ((strlen(utf8_decode($this->request->files['image']['name'])) < 3) || (strlen(utf8_decode($this->request->files['image']['name'])) > 255)) {
-        		$this->error['warning'] = $this->language->get('error_filename');
-	  		}
-
-		    $allowed = array(
-		    	'image/jpeg',
-		    	'image/pjpeg',
-				'image/png',
-				'image/x-png',
-				'image/gif'
-		    );
-				
-			if (!in_array($this->request->files['image']['type'], $allowed)) {
-				$this->error['warning'] = $this->language->get('error_filetype');
-			}
-			
-			if (!is_writable(DIR_IMAGE)) {
-				$this->error['warning'] = $this->language->get('error_writable_image');
-			}
-			
-			if (!is_writable(DIR_IMAGE . 'cache/')) {
-				$this->error['warning'] = $this->language->get('error_writable_image_cache');
-			}
-			
-			if ($this->request->files['image']['error'] != UPLOAD_ERR_OK) { 
-				$this->error['warning'] = $this->language->get('error_upload_' . $this->request->files['image']['error']);
-			}
-		}
 		
 		if (!$this->error) {
 	  		return TRUE;

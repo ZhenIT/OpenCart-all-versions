@@ -1,28 +1,34 @@
 <?php echo $header; ?><?php echo $column_left; ?><?php echo $column_right; ?>
 <div id="content">
   <div class="top">
-    <h1><?php echo $heading_title; ?></h1>
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center">
+      <h1><?php echo $heading_title; ?></h1>
+    </div>
   </div>
   <div class="middle">
     <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="contact">
-      <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px; display: inline-block; width: 536px;">
-        <div style="float: left; display: inline-block; width: 50%;"><b><?php echo $text_address; ?></b><br />
-          <?php echo $store; ?><br />
-          <?php echo $address; ?></div>
-        <div style="float: right; display: inline-block; width: 50%;">
-          <?php if ($telephone) { ?>
-          <b><?php echo $text_telephone; ?></b><br />
-          <?php echo $telephone; ?><br />
-          <br />
-          <?php } ?>
-          <?php if ($fax) { ?>
-          <b><?php echo $text_fax; ?></b><br />
-          <?php echo $fax; ?>
-          <?php } ?>
+      <div class="content">
+        <div style="display: inline-block; width: 100%;">
+          <div style="float: left; display: inline-block; width: 50%;"><b><?php echo $text_address; ?></b><br />
+            <?php echo $store; ?><br />
+            <?php echo $address; ?></div>
+          <div style="float: right; display: inline-block; width: 50%;">
+            <?php if ($telephone) { ?>
+            <b><?php echo $text_telephone; ?></b><br />
+            <?php echo $telephone; ?><br />
+            <br />
+            <?php } ?>
+            <?php if ($fax) { ?>
+            <b><?php echo $text_fax; ?></b><br />
+            <?php echo $fax; ?>
+            <?php } ?>
+          </div>
         </div>
       </div>
-      <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;">
-        <table width="536">
+      <div class="content">
+        <table width="100%">
           <tr>
             <td><?php echo $entry_name; ?><br />
               <input type="text" name="name" value="<?php echo $name; ?>" />
@@ -64,6 +70,10 @@
       </div>
     </form>
   </div>
-  <div class="bottom">&nbsp;</div>
+  <div class="bottom">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center"></div>
+  </div>
 </div>
 <?php echo $footer; ?> 

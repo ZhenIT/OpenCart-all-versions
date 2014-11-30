@@ -14,12 +14,14 @@ class ControllerAccountForgotten extends Controller {
 		$this->load->model('account/customer');
 		
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
+			$this->language->load('mail/account_forgotten');
+			
 			$password = substr(md5(rand()), 0, 7);
 			
-			$subject = sprintf($this->language->get('mail_subject'), $this->config->get('config_store'));
+			$subject = sprintf($this->language->get('text_subject'), $this->config->get('config_store'));
 			
-			$message  = sprintf($this->language->get('mail_greeting'), $this->config->get('config_store')) . "\n\n";
-			$message .= $this->language->get('mail_password') . "\n\n";
+			$message  = sprintf($this->language->get('text_greeting'), $this->config->get('config_store')) . "\n\n";
+			$message .= $this->language->get('text_password') . "\n\n";
 			$message .= $password;
 
 			$mail = new Mail($this->config->get('config_mail_protocol'), $this->config->get('config_smtp_host'), $this->config->get('config_smtp_username'), html_entity_decode($this->config->get('config_smtp_password')), $this->config->get('config_smtp_port'), $this->config->get('config_smtp_timeout'));

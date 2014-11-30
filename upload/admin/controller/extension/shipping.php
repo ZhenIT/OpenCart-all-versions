@@ -97,7 +97,7 @@ class ControllerExtensionShipping extends Controller {
 	
 	public function install() {
 		if (!$this->user->hasPermission('modify', 'extension/shipping')) {
-			$this->session['error'] = $this->language->get('error_permission'); 
+			$this->session->data['error'] = $this->language->get('error_permission'); 
 			
 			$this->redirect($this->url->https('extension/shipping'));
 		} else {		
@@ -116,7 +116,7 @@ class ControllerExtensionShipping extends Controller {
 	
 	public function uninstall() {
 		if (!$this->user->hasPermission('modify', 'extension/shipping')) {
-			$this->session['error'] = $this->language->get('error_permission'); 
+			$this->session->data['error'] = $this->language->get('error_permission'); 
 			
 			$this->redirect($this->url->https('extension/shipping'));
 		} else {		

@@ -1,5 +1,5 @@
 </div>
-<div id="column_right"></div>
+<div id="footer">
+  <?php echo $text_footer; ?>
 </div>
-<div id="footer"><a href="http://www.opencart.com">www.opencart.com</a></div>
 </body></html>

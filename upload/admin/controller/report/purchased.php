@@ -44,7 +44,7 @@ class ControllerReportPurchased extends Controller {
 				'name'     => $result['name'],
 				'model'    => $result['model'],
 				'quantity' => $result['quantity'],
-				'total'    => $this->currency->format($result['total'])
+				'total'    => $this->currency->format($result['total'], $this->config->get('config_currency'))
 			);
 		}
 				

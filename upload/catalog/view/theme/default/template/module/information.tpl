@@ -1,5 +1,5 @@
 <div class="box">
-  <div class="top"><img src="catalog/view/theme/default/image/icon_information.png" alt="" /><?php echo $heading_title; ?></div>
+  <div class="top"><img src="catalog/view/theme/default/image/information.png" alt="" /><?php echo $heading_title; ?></div>
   <div id="information" class="middle">
     <ul>
       <?php foreach ($informations as $information) { ?>

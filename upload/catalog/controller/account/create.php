@@ -20,19 +20,21 @@ class ControllerAccountCreate extends Controller {
 
 			$this->customer->login($this->request->post['email'], $this->request->post['password']);
 			
-			$subject = sprintf($this->language->get('mail_subject'), $this->config->get('config_store'));
+			$this->language->load('mail/account_create');
 			
-			$message = sprintf($this->language->get('mail_welcome'), $this->config->get('config_store')) . "\n\n";
+			$subject = sprintf($this->language->get('text_subject'), $this->config->get('config_store'));
+			
+			$message = sprintf($this->language->get('text_welcome'), $this->config->get('config_store')) . "\n\n";
 			
 			if (!$this->config->get('config_customer_approval')) {
-				$message .= $this->language->get('mail_login') . "\n";
+				$message .= $this->language->get('text_login') . "\n";
 			} else {
-				$message .= $this->language->get('mail_approval') . "\n";
+				$message .= $this->language->get('text_approval') . "\n";
 			}
 			
 			$message .= $this->url->https('account/login') . "\n\n";
-			$message .= $this->language->get('mail_services') . "\n\n";
-			$message .= $this->language->get('mail_thanks') . "\n";
+			$message .= $this->language->get('text_services') . "\n\n";
+			$message .= $this->language->get('text_thanks') . "\n";
 			$message .= $this->config->get('config_store');
 			
 			$mail = new Mail($this->config->get('config_mail_protocol'), $this->config->get('config_smtp_host'), $this->config->get('config_smtp_username'), html_entity_decode($this->config->get('config_smtp_password')), $this->config->get('config_smtp_port'), $this->config->get('config_smtp_timeout'));
@@ -302,8 +304,8 @@ class ControllerAccountCreate extends Controller {
       		$this->error['lastname'] = $this->language->get('error_lastname');
     	}
 
-		$pattern = '/^([a-z0-9])(([-a-z0-9._])*([a-z0-9]))*\@([a-z0-9])(([a-z0-9-])*([a-z0-9]))+(\.([a-z0-9])([-a-z0-9_-])?([a-z0-9])+)+$/i';
-		
+		$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i';
+
     	if (!preg_match($pattern, $this->request->post['email'])) {
       		$this->error['email'] = $this->language->get('error_email');
     	}

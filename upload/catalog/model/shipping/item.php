@@ -1,10 +1,10 @@
 <?php
 class ModelShippingItem extends Model {
-	function getQuote($country_id, $zone_id, $postcode = '') {
+	function getQuote($address) {
 		$this->load->language('shipping/item');
 		
 		if ($this->config->get('item_status')) {
-      		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone_to_geo_zone WHERE geo_zone_id = '" . (int)$this->config->get('item_geo_zone_id') . "' AND country_id = '" . (int)$country_id . "' AND (zone_id = '" . (int)$zone_id . "' OR zone_id = '0')");
+      		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone_to_geo_zone WHERE geo_zone_id = '" . (int)$this->config->get('item_geo_zone_id') . "' AND country_id = '" . (int)$address['country_id'] . "' AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
 			
 			if (!$this->config->get('item_geo_zone_id')) {
         		$status = TRUE;

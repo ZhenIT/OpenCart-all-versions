@@ -60,7 +60,7 @@ class ControllerCheckoutPayment extends Controller {
 		foreach ($results as $result) {
 			$this->load->model('payment/' . $result['key']);
 			
-			$method = $this->{'model_payment_' . $result['key']}->getMethod($payment_address['country_id'], $payment_address['zone_id']); 
+			$method = $this->{'model_payment_' . $result['key']}->getMethod($payment_address); 
 			 
 			if ($method) {
 				$method_data[$result['key']] = $method;
@@ -173,14 +173,14 @@ class ControllerCheckoutPayment extends Controller {
 		
 		$this->data['change_address'] = $this->url->https('checkout/address/payment');
 		
-		$this->data['methods'] = $this->session->data['payment_methods'];
+		$this->data['payment_methods'] = $this->session->data['payment_methods'];
 
 		if (isset($this->request->post['payment_method'])) {
-			$this->data['default'] = $this->request->post['payment_method'];
+			$this->data['payment'] = $this->request->post['payment_method'];
 		} elseif (isset($this->session->data['payment_method']['id'])) {
-    		$this->data['default'] = $this->session->data['payment_method']['id'];
+    		$this->data['payment'] = $this->session->data['payment_method']['id'];
 		} else {
-			$this->data['default'] = '';
+			$this->data['payment'] = '';
 		}
 		
 		if (isset($this->session->data['comment'])) {

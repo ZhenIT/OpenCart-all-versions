@@ -38,7 +38,7 @@ class ControllerPaymentTwoCheckout extends Controller {
 		
 		$this->data['products'] = array();
 		
-		$products = $this->config->getProducts();
+		$products = $this->cart->getProducts();
 
 		foreach ($products as $product) {
 			$this->data['products'][] = array(
@@ -54,18 +54,18 @@ class ControllerPaymentTwoCheckout extends Controller {
 			$this->data['demo'] = 'Y';
 		}	
 		
-		$this->data['lang'] = $this->language->getCode();
+		$this->data['lang'] = $this->session->data['language'];
 
-		if ($this->request->get['route'] != 'checkout/guest/confirm') {
+		if ($this->request->get['route'] != 'checkout/guest_step_3') {
 			$this->data['return_url'] = $this->url->https('checkout/confirm');
 		} else {
-			$this->data['return_url'] = $this->url->https('checkout/guest');
+			$this->data['return_url'] = $this->url->https('checkout/guest_step_3');
 		}
 		
-		if ($this->request->get['route'] != 'checkout/guest/confirm') {
+		if ($this->request->get['route'] != 'checkout/guest_step_3') {
 			$this->data['back'] = $this->url->https('checkout/payment');
 		} else {
-			$this->data['back'] = $this->url->https('checkout/guest');
+			$this->data['back'] = $this->url->https('checkout/guest_step_2');
 		}
 		
 		$this->id = 'payment';

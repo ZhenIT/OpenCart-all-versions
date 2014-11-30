@@ -28,7 +28,7 @@ class ControllerPaymentPPStandard extends Controller {
 		$this->data['notify_url'] = $this->url->http('payment/pp_standard/callback');
 		$this->data['email'] = $order_info['email'];
 		$this->data['invoice'] = $this->session->data['order_id'] . ' - ' . html_entity_decode($order_info['payment_firstname'], ENT_QUOTES, 'UTF-8') . ' ' . html_entity_decode($order_info['payment_lastname'], ENT_QUOTES, 'UTF-8');
-		$this->data['lc'] = $this->language->getCode();
+		$this->data['lc'] = $this->session->data['language'];
 		
 		if (!$this->config->get('pp_standard_transaction')) {
 			$this->data['paymentaction'] = 'authorization';
@@ -38,10 +38,10 @@ class ControllerPaymentPPStandard extends Controller {
 		
 		$this->data['return'] = $this->url->https('checkout/success');
 		
-		if ($this->request->get['route'] != 'checkout/guest/confirm') {
+		if ($this->request->get['route'] != 'checkout/guest_step_3') {
 			$this->data['cancel_return'] = $this->url->https('checkout/payment');
 		} else {
-			$this->data['cancel_return'] = $this->url->https('checkout/guest');
+			$this->data['cancel_return'] = $this->url->https('checkout/guest_step_2');
 		}
 		
 		$this->load->library('encryption');
@@ -50,10 +50,10 @@ class ControllerPaymentPPStandard extends Controller {
 		
 		$this->data['custom'] = $encryption->encrypt($this->session->data['order_id']);
 		
-		if ($this->request->get['route'] != 'checkout/guest/confirm') {
+		if ($this->request->get['route'] != 'checkout/guest_step_3') {
 			$this->data['back'] = $this->url->https('checkout/payment');
 		} else {
-			$this->data['back'] = $this->url->https('checkout/guest');
+			$this->data['back'] = $this->url->https('checkout/guest_step_2');
 		}
 		
 		$this->id = 'payment';
@@ -128,8 +128,10 @@ class ControllerPaymentPPStandard extends Controller {
 					while (!feof($fp)) {
 						$response = fgets($fp, 1024);
 					
-						if (strcmp($response, 'VERIFIED') == 0 || $this->request->post['payment_status'] == 'Completed') {
+						if (strcmp($response, 'VERIFIED') == 0) {
 							$this->model_checkout_order->confirm($order_id, $this->config->get('pp_standard_order_status_id'));
+						} else {
+							$this->model_checkout_order->confirm($order_id, $this->config->get('config_order_status_id'));
 						}
 					}
 				

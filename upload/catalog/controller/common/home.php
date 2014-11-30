@@ -5,17 +5,9 @@ class ControllerCommonHome extends Controller {
 		
 		$this->document->title = $this->config->get('config_title');
 		$this->document->description = $this->config->get('config_meta_description');
-
-		$this->document->breadcrumbs = array();
-
-      	$this->document->breadcrumbs[] = array(
-        	'href'      => $this->url->http('common/home'),
-        	'text'      => $this->language->get('text_home'),
-        	'separator' => FALSE
-      	);
 		
 		$this->data['heading_title'] = sprintf($this->language->get('heading_title'), $this->config->get('config_store'));
-		$this->data['welcome'] = html_entity_decode($this->config->get('config_welcome_' . $this->language->getId()));
+		$this->data['welcome'] = html_entity_decode($this->config->get('config_welcome_' . $this->config->get('config_language_id')));
 		
 		$this->data['text_latest'] = $this->language->get('text_latest');
 		

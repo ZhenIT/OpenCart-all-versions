@@ -1,12 +1,12 @@
 <?php
-class ModelShippingRoyalMail1stClassRecorded extends Model {
-	function getQuote($country_id, $zone_id, $postcode = '') {
-		$this->load->language('shipping/royal_mail_1st_class_recorded');
+class ModelShippingRoyalMail extends Model {
+	function getQuote($address) {
+		$this->load->language('shipping/royal_mail');
 		
-		if ($this->config->get('royal_mail_1st_class_recorded_status')) {
-      		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone_to_geo_zone WHERE geo_zone_id = '" . (int)$this->config->get('royal_mail_1st_class_recorded_geo_zone_id') . "' AND country_id = '" . (int)$country_id . "' AND (zone_id = '" . (int)$zone_id . "' OR zone_id = '0')");
+		if ($this->config->get('royal_mail_status')) {
+      		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone_to_geo_zone WHERE geo_zone_id = '" . (int)$this->config->get('royal_mail_geo_zone_id') . "' AND country_id = '" . (int)$address['country_id'] . "' AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
 		
-      		if (!$this->config->get('royal_mail_1st_class_recorded_geo_zone_id')) {
+      		if (!$this->config->get('royal_mail_geo_zone_id')) {
         		$status = TRUE;
       		} elseif ($query->num_rows) {
         		$status = TRUE;
@@ -21,10 +21,11 @@ class ModelShippingRoyalMail1stClassRecorded extends Model {
 	
 		if ($status) {
 			$cost = 0;
+			$compensation = 0;
 			$weight = $this->cart->getWeight();
 			$sub_total = $this->cart->getSubTotal();
 
-			$rates = explode(',', $this->config->get('royal_mail_1st_class_recorded_rate'));
+			$rates = explode(',', $this->config->get('royal_mail_rate'));
 			
 			foreach ($rates as $rate) {
   				$data = explode(':', $rate);
@@ -38,7 +39,7 @@ class ModelShippingRoyalMail1stClassRecorded extends Model {
   				}
 			}
 
-			$rates = explode(',', $this->config->get('royal_mail_1st_class_recorded_compensation'));
+			$rates = explode(',', $this->config->get('royal_mail_compensation'));
 			
 			foreach ($rates as $rate) {
   				$data = explode(':', $rate);
@@ -54,34 +55,146 @@ class ModelShippingRoyalMail1stClassRecorded extends Model {
 			
 			$quote_data = array();
 			
-			if ($cost) {
+			if ((float)$cost) {
 				$text = $this->language->get('text_description') . ' : ';
 			
-				if ($this->config->get('royal_mail_1st_class_recorded_display_weight')) {
+				if ($this->config->get('royal_mail_display_weight')) {
 					$text .= ' Weight ' . $this->weight->format($weight, $this->config->get('config_weight_class_id'));
 				}
 			
-				if ($this->config->get('royal_mail_1st_class_recorded_display_insurance') && (int)$compensation) {
+				if ($this->config->get('royal_mail_display_insurance') && (int)$compensation) {
 					$text .= ' (' . sprintf($this->language->get('text_insurance'), $this->currency->format($compensation));
 				}		
 
-				if ($this->config->get('royal_mail_1st_class_recorded_display_time')) {
-					$text .= ' ' . $this->language->get('text_time') . ')';
+				if ($this->config->get('royal_mail_display_time')) {
+					$text .= ' ' . $this->language->get('text_time');
 				}	
 				
-      			$quote_data['royal_mail_1st_class_recorded'] = array(
-        			'id'           => 'royal_mail_1st_class_recorded.royal_mail_1st_class_recorded',
-        			'title'        => $text,
-        			'cost'         => $cost,
-        			'tax_class_id' => $this->config->get('royal_mail_1st_class_recorded_tax_class_id'),
-					'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('royal_mail_1st_class_recorded_tax_class_id'), $this->config->get('config_tax')))
-      			);
+				if ($this->config->get('royal_mail_1st_class_standard')) {
+      				$quote_data['1st_class_standard'] = array(
+        				'id'           => 'royal_mail.1st_class_standard',
+        				'title'        => $this->language->get('text_1st_class_standard'),
+        				'cost'         => $cost,
+        				'tax_class_id' => $this->config->get('royal_mail_tax_class_id'),
+						'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('royal_mail_tax_class_id'), $this->config->get('config_tax')))
+      				);
+				}
+				 
+				if ($this->config->get('royal_mail_1st_class_standard')) {
+					$quote_data['royal_mail'] = array(
+						'id'           => 'royal_mail.royal_mail',
+						'title'        => $this->language->get('text_1st_class_standard'),
+						'cost'         => $cost,
+						'tax_class_id' => $this->config->get('royal_mail_tax_class_id'),
+						'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('royal_mail_tax_class_id'), $this->config->get('config_tax')))
+					);
+				}
 
+				if ($this->config->get('royal_mail_1st_class_standard')) {
+					$quote_data['royal_mail'] = array(
+						'id'           => 'royal_mail.royal_mail',
+						'title'        => $this->language->get('text_1st_class_standard'),
+						'cost'         => $cost,
+						'tax_class_id' => $this->config->get('royal_mail_tax_class_id'),
+						'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('royal_mail_tax_class_id'), $this->config->get('config_tax')))
+					);
+				}
+
+				if ($this->config->get('royal_mail_1st_class_standard')) {
+					$quote_data['royal_mail'] = array(
+						'id'           => 'royal_mail.royal_mail',
+						'title'        => $this->language->get('text_1st_class_standard'),
+						'cost'         => $cost,
+						'tax_class_id' => $this->config->get('royal_mail_tax_class_id'),
+						'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('royal_mail_tax_class_id'), $this->config->get('config_tax')))
+					);
+				}
+
+				if ($this->config->get('royal_mail_1st_class_standard')) {
+					$quote_data['royal_mail'] = array(
+						'id'           => 'royal_mail.royal_mail',
+						'title'        => $this->language->get('text_1st_class_standard'),
+						'cost'         => $cost,
+						'tax_class_id' => $this->config->get('royal_mail_tax_class_id'),
+						'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('royal_mail_tax_class_id'), $this->config->get('config_tax')))
+					);
+				}
+
+				if ($this->config->get('royal_mail_1st_class_standard')) {
+					$quote_data['royal_mail'] = array(
+						'id'           => 'royal_mail.royal_mail',
+						'title'        => $this->language->get('text_1st_class_standard'),
+						'cost'         => $cost,
+						'tax_class_id' => $this->config->get('royal_mail_tax_class_id'),
+						'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('royal_mail_tax_class_id'), $this->config->get('config_tax')))
+					);
+				}
+
+				if ($this->config->get('royal_mail_1st_class_standard')) {
+					$quote_data['royal_mail'] = array(
+						'id'           => 'royal_mail.royal_mail',
+						'title'        => $this->language->get('text_1st_class_standard'),
+						'cost'         => $cost,
+						'tax_class_id' => $this->config->get('royal_mail_tax_class_id'),
+						'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('royal_mail_tax_class_id'), $this->config->get('config_tax')))
+					);
+				}
+
+				if ($this->config->get('royal_mail_1st_class_standard')) {
+					$quote_data['royal_mail'] = array(
+						'id'           => 'royal_mail.royal_mail',
+						'title'        => $this->language->get('text_1st_class_standard'),
+						'cost'         => $cost,
+						'tax_class_id' => $this->config->get('royal_mail_tax_class_id'),
+						'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('royal_mail_tax_class_id'), $this->config->get('config_tax')))
+					);
+				}
+
+				if ($this->config->get('royal_mail_1st_class_standard')) {
+					$quote_data['royal_mail'] = array(
+						'id'           => 'royal_mail.royal_mail',
+						'title'        => $this->language->get('text_1st_class_standard'),
+						'cost'         => $cost,
+						'tax_class_id' => $this->config->get('royal_mail_tax_class_id'),
+						'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('royal_mail_tax_class_id'), $this->config->get('config_tax')))
+					);
+				}
+
+				if ($this->config->get('royal_mail_1st_class_standard')) {
+					$quote_data['royal_mail'] = array(
+						'id'           => 'royal_mail.royal_mail',
+						'title'        => $this->language->get('text_1st_class_standard'),
+						'cost'         => $cost,
+						'tax_class_id' => $this->config->get('royal_mail_tax_class_id'),
+						'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('royal_mail_tax_class_id'), $this->config->get('config_tax')))
+					);
+				}
+				
+				if ($this->config->get('royal_mail_1st_class_standard')) {
+					$quote_data['royal_mail'] = array(
+						'id'           => 'royal_mail.royal_mail',
+						'title'        => $this->language->get('text_1st_class_standard'),
+						'cost'         => $cost,
+						'tax_class_id' => $this->config->get('royal_mail_tax_class_id'),
+						'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('royal_mail_tax_class_id'), $this->config->get('config_tax')))
+					);
+				}
+				
+				if ($this->config->get('royal_mail_1st_class_standard')) {
+					$quote_data['royal_mail'] = array(
+						'id'           => 'royal_mail.royal_mail',
+						'title'        => $this->language->get('text_1st_class_standard'),
+						'cost'         => $cost,
+						'tax_class_id' => $this->config->get('royal_mail_tax_class_id'),
+						'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('royal_mail_tax_class_id'), $this->config->get('config_tax')))
+					);
+				}
+				
       			$method_data = array(
-        			'id'         => 'royal_mail_1st_class_recorded',
+        			'id'         => 'royal_mail',
         			'title'      => $this->language->get('text_title'),
         			'quote'      => $quote_data,
-					'sort_order' => $this->config->get('royal_mail_1st_class_recorded_sort_order'),
+					'sort_order' => $this->config->get('royal_mail_sort_order'),
         			'error'      => FALSE
       			);
 			}

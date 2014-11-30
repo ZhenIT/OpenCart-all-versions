@@ -34,10 +34,10 @@ class ControllerPaymentAuthorizeNetAim extends Controller {
 			);
 		}
 		
-		if ($this->request->get['route'] != 'checkout/guest/confirm') {
+		if ($this->request->get['route'] != 'checkout/guest_step_3') {
 			$this->data['back'] = $this->url->https('checkout/payment');
 		} else {
-			$this->data['back'] = $this->url->https('checkout/guest');
+			$this->data['back'] = $this->url->https('checkout/guest_step_2');
 		}
 		
 		$this->id = 'payment';
@@ -73,22 +73,22 @@ class ControllerPaymentAuthorizeNetAim extends Controller {
 		$data['x_delim_char'] = ',';
 		$data['x_encap_char'] = '"';
 		$data['x_relay_response'] = 'FALSE';
-		$data['x_first_name'] = html_entity_decode($order_info['payment_firstname']);
-		$data['x_last_name'] = html_entity_decode($order_info['payment_lastname']);
-		$data['x_company'] = html_entity_decode($order_info['payment_company']);
-		$data['x_address'] = html_entity_decode($order_info['payment_address_1']);
-		$data['x_city'] = html_entity_decode($order_info['payment_city']);
-		$data['x_state'] = html_entity_decode($order_info['payment_zone']);
-		$data['x_zip'] = html_entity_decode($order_info['payment_postcode']);
-		$data['x_country'] = html_entity_decode($order_info['payment_country']);
+		$data['x_first_name'] = html_entity_decode($order_info['payment_firstname'], ENT_QUOTES, 'UTF-8');
+		$data['x_last_name'] = html_entity_decode($order_info['payment_lastname'], ENT_QUOTES, 'UTF-8');
+		$data['x_company'] = html_entity_decode($order_info['payment_company'], ENT_QUOTES, 'UTF-8');
+		$data['x_address'] = html_entity_decode($order_info['payment_address_1'], ENT_QUOTES, 'UTF-8');
+		$data['x_city'] = html_entity_decode($order_info['payment_city'], ENT_QUOTES, 'UTF-8');
+		$data['x_state'] = html_entity_decode($order_info['payment_zone'], ENT_QUOTES, 'UTF-8');
+		$data['x_zip'] = html_entity_decode($order_info['payment_postcode'], ENT_QUOTES, 'UTF-8');
+		$data['x_country'] = html_entity_decode($order_info['payment_country'], ENT_QUOTES, 'UTF-8');
 		$data['x_phone'] = $order_info['telephone'];
 		$data['x_customer_ip'] = $this->request->server['REMOTE_ADDR'];
 		$data['x_email'] = $order_info['email'];
-		$data['x_description'] = html_entity_decode($this->config->get('config_store'));
+		$data['x_description'] = html_entity_decode($this->config->get('config_store'), ENT_QUOTES, 'UTF-8');
 		$data['x_amount'] = $this->currency->format($order_info['total'], $order_info['currency'], 1.00000, FALSE);
 		$data['x_currency_code'] = $this->currency->getCode();
 		$data['x_method'] = 'CC';
-		$data['x_type'] = ($this->config->get('authorizenet_aim_method') == 'Capture') ? 'AUTH_CAPTURE' : 'AUTH_ONLY';
+		$data['x_type'] = ($this->config->get('authorizenet_aim_method') == 'capture') ? 'AUTH_CAPTURE' : 'AUTH_ONLY';
 		$data['x_card_num'] = str_replace(' ', '', $this->request->post['cc_number']);
 		$data['x_exp_date'] = $this->request->post['cc_expire_date_month'] . $this->request->post['cc_expire_date_year'];
 		$data['x_card_code'] = $this->request->post['cc_cvv2'];

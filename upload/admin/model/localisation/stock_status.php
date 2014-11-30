@@ -31,14 +31,14 @@ class ModelLocalisationStockStatus extends Model {
 	}
 		
 	public function getStockStatus($stock_status_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "stock_status WHERE stock_status_id = '" . (int)$stock_status_id . "' AND language_id = '" . (int)$this->language->getId() . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "stock_status WHERE stock_status_id = '" . (int)$stock_status_id . "' AND language_id = '" . (int)$this->config->get('config_language_id') . "'");
 		
 		return $query->row;
 	}
 	
 	public function getStockStatuses($data = array()) {
 		if ($data) {
-			$sql = "SELECT * FROM " . DB_PREFIX . "stock_status WHERE language_id = '" . (int)$this->language->getId() . "'";
+			$sql = "SELECT * FROM " . DB_PREFIX . "stock_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'";
       		
 			$sql .= " ORDER BY name";	
 			
@@ -64,14 +64,14 @@ class ModelLocalisationStockStatus extends Model {
 		
 			return $query->rows;
 		} else {
-			$stock_status_data = $this->cache->get('stock_status.' . $this->language->getId());
+			$stock_status_data = $this->cache->get('stock_status.' . $this->config->get('config_language_id'));
 		
 			if (!$stock_status_data) {
-				$query = $this->db->query("SELECT stock_status_id, name FROM " . DB_PREFIX . "stock_status WHERE language_id = '" . (int)$this->language->getId() . "' ORDER BY name");
+				$query = $this->db->query("SELECT stock_status_id, name FROM " . DB_PREFIX . "stock_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY name");
 	
 				$stock_status_data = $query->rows;
 			
-				$this->cache->set('stock_status.' . $this->language->getId(), $stock_status_data);
+				$this->cache->set('stock_status.' . $this->config->get('config_language_id'), $stock_status_data);
 			}	
 	
 			return $stock_status_data;			
@@ -91,7 +91,7 @@ class ModelLocalisationStockStatus extends Model {
 	}
 	
 	public function getTotalStockStatuses() {
-      	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "stock_status WHERE language_id = '" . (int)$this->language->getId() . "'");
+      	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "stock_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
 		
 		return $query->row['total'];
 	}	

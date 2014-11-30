@@ -15,14 +15,14 @@ class ControllerPaymentMoneybookers extends Controller {
 		$this->data['transaction_id'] = $this->session->data['order_id'];
         $this->data['return_url'] = $this->url->https('checkout/success');
 		
-		if ($this->request->get['route'] != 'checkout/guest/confirm') {
+		if ($this->request->get['route'] != 'checkout/guest_step_3') {
 			$this->data['cancel_url'] = $this->url->https('checkout/payment');
 		} else {
-			$this->data['cancel_url'] = $this->url->https('checkout/guest');
+			$this->data['cancel_url'] = $this->url->https('checkout/guest_step_2');
 		}
 		
 		$this->data['status_url'] = $this->url->https('payment/moneybookers/callback');
-		$this->data['language'] = $this->language->getCode();		
+		$this->data['language'] = $this->session->data['language'];		
 		$this->data['logo'] = HTTP_IMAGE . $this->config->get('config_logo');
 		
         $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
@@ -54,10 +54,10 @@ class ControllerPaymentMoneybookers extends Controller {
 		
 		$this->data['order_id'] = $encryption->encrypt($this->session->data['order_id']);
 
-		if ($this->request->get['route'] != 'checkout/guest/confirm') {
+		if ($this->request->get['route'] != 'checkout/guest_step_3') {
 			$this->data['back'] = $this->url->https('checkout/payment');
 		} else {
-			$this->data['back'] = $this->url->https('checkout/guest');
+			$this->data['back'] = $this->url->https('checkout/guest_step_2');
 		}
 		
 		$this->id = 'payment';

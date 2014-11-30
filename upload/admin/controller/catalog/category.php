@@ -20,17 +20,7 @@ class ControllerCatalogCategory extends Controller {
 		$this->load->model('catalog/category');
 		
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$data = array();
-			
-			if (is_uploaded_file($this->request->files['image']['tmp_name']) && is_writable(DIR_IMAGE) && is_writable(DIR_IMAGE . 'cache/')) {
-				move_uploaded_file($this->request->files['image']['tmp_name'], DIR_IMAGE . $this->request->files['image']['name']);
-				
-				if (file_exists(DIR_IMAGE . $this->request->files['image']['name'])) {
-					$data['image'] = $this->request->files['image']['name'];
-				}
-			}
-			
-			$this->model_catalog_category->addCategory(array_merge($this->request->post, $data));
+			$this->model_catalog_category->addCategory($this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 			
@@ -48,17 +38,7 @@ class ControllerCatalogCategory extends Controller {
 		$this->load->model('catalog/category');
 		
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$data = array();
-			
-			if (is_uploaded_file($this->request->files['image']['tmp_name']) && is_writable(DIR_IMAGE) && is_writable(DIR_IMAGE . 'cache/')) {
-				move_uploaded_file($this->request->files['image']['tmp_name'], DIR_IMAGE . $this->request->files['image']['name']);
-				
-				if (file_exists(DIR_IMAGE . $this->request->files['image']['name'])) {
-					$data['image'] = $this->request->files['image']['name'];
-				}
-			}
-
-			$this->model_catalog_category->editCategory($this->request->get['category_id'], array_merge($this->request->post, $data));
+			$this->model_catalog_category->editCategory($this->request->get['category_id'], $this->request->post);
 			
 			$this->session->data['success'] = $this->language->get('text_success');
 			
@@ -165,6 +145,7 @@ class ControllerCatalogCategory extends Controller {
 		$this->data['heading_title'] = $this->language->get('heading_title');
 
 		$this->data['text_none'] = $this->language->get('text_none');
+		$this->data['text_image_manager'] = $this->language->get('text_image_manager');
 		
 		$this->data['entry_name'] = $this->language->get('entry_name');
 		$this->data['entry_keyword'] = $this->language->get('entry_keyword');
@@ -176,9 +157,6 @@ class ControllerCatalogCategory extends Controller {
 
 		$this->data['button_save'] = $this->language->get('button_save');
 		$this->data['button_cancel'] = $this->language->get('button_cancel');
-
-		$this->data['tab_general'] = $this->language->get('tab_general');
-		$this->data['tab_data'] = $this->language->get('tab_data');
 
  		if (isset($this->error['warning'])) {
 			$this->data['error_warning'] = $this->error['warning'];
@@ -248,6 +226,14 @@ class ControllerCatalogCategory extends Controller {
 			$this->data['parent_id'] = 0;
 		}
 
+		if (isset($this->request->post['image'])) {
+			$this->data['image'] = $this->request->post['image'];
+		} elseif (isset($category_info)) {
+			$this->data['image'] = $category_info['image'];
+		} else {
+			$this->data['image'] = '';
+		}
+		
 		$this->load->helper('image');
 
 		if (isset($category_info) && $category_info['image'] && file_exists(DIR_IMAGE . $category_info['image'])) {
@@ -281,36 +267,6 @@ class ControllerCatalogCategory extends Controller {
 		foreach ($this->request->post['category_description'] as $language_id => $value) {
 			if ((strlen(utf8_decode($value['name'])) < 2) || (strlen(utf8_decode($value['name'])) > 32)) {
 				$this->error['name'][$language_id] = $this->language->get('error_name');
-			}
-		}
-   
-  		if ($this->request->files['image']['name']) {
-	  		if ((strlen(utf8_decode($this->request->files['image']['name'])) < 3) || (strlen(utf8_decode($this->request->files['image']['name'])) > 255)) {
-        		$this->error['warning'] = $this->language->get('error_filename');
-	  		}
-
-		    $allowed = array(
-		    	'image/jpeg',
-		    	'image/pjpeg',
-				'image/png',
-				'image/x-png',
-				'image/gif'
-		    );
-				
-			if (!in_array($this->request->files['image']['type'], $allowed)) {
-				$this->error['warning'] = $this->language->get('error_filetype');
-			}
-			
-			if (!is_writable(DIR_IMAGE)) {
-				$this->error['warning'] = $this->language->get('error_writable_image');
-			}
-			
-			if (!is_writable(DIR_IMAGE . 'cache/')) {
-				$this->error['warning'] = $this->language->get('error_writable_image_cache');
-			}
-			
-			if ($this->request->files['image']['error'] != UPLOAD_ERR_OK) { 
-				$this->error['warning'] = $this->language->get('error_upload_' . $this->request->files['image']['error']);
 			}
 		}
 

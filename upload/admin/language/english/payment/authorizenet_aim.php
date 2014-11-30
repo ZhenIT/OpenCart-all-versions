@@ -18,7 +18,7 @@ $_['entry_server']       = 'Transaction Server:';
 $_['entry_mode']         = 'Transaction Mode:';
 $_['entry_method']       = 'Transaction Method:';
 $_['entry_order_status'] = 'Order Status:';
-$_['entry_geo_zone']     = 'Geo Zone:';
+$_['entry_geo_zone']     = 'Geo Zone:'; 
 $_['entry_status']       = 'Status:';
 $_['entry_sort_order']   = 'Sort Order:';
 

@@ -20,16 +20,16 @@ class ControllerPaymentAlertPay extends Controller {
 		$this->data['ap_itemcode'] = $this->session->data['order_id'];
 		$this->data['ap_returnurl'] = $this->url->https('checkout/success');
 		
-		if ($this->request->get['route'] != 'checkout/guest/confirm') {
+		if ($this->request->get['route'] != 'checkout/guest_step_3') {
 			$this->data['ap_cancelurl'] = $this->url->https('checkout/payment');
 		} else {
-			$this->data['ap_cancelurl'] = $this->url->https('checkout/guest');
+			$this->data['ap_cancelurl'] = $this->url->https('checkout/guest_step_2');
 		}
 		
-		if ($this->request->get['route'] != 'checkout/guest/confirm') {
+		if ($this->request->get['route'] != 'checkout/guest_step_3') {
 			$this->data['back'] = $this->url->https('checkout/payment');
 		} else {
-			$this->data['back'] = $this->url->https('checkout/guest');
+			$this->data['back'] = $this->url->https('checkout/guest_step_2');
 		}
 		
 		$this->id = 'payment';

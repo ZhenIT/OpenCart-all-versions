@@ -123,6 +123,10 @@
             <td><?php echo is_writable($image_cache) ? '<span class="good">Writable</span>' : '<span class="bad">Unwritable</span>'; ?></td>
           </tr>
           <tr>
+            <td><?php echo $image_data . '/'; ?></td>
+            <td><?php echo is_writable($image_data) ? '<span class="good">Writable</span>' : '<span class="bad">Unwritable</span>'; ?></td>
+          </tr>          
+          <tr>
             <td><?php echo $download . '/'; ?></td>
             <td><?php echo is_writable($download) ? '<span class="good">Writable</span>' : '<span class="bad">Unwritable</span>'; ?></td>
           </tr>

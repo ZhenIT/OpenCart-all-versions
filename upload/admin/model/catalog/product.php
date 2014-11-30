@@ -198,14 +198,14 @@ class ModelCatalogProduct extends Model {
 	}
 	
 	public function getProduct($product_id) {
-		$query = $this->db->query("SELECT DISTINCT *, (SELECT keyword FROM " . DB_PREFIX . "url_alias WHERE query = 'product_id=" . (int)$product_id . "') AS keyword FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE p.product_id = '" . (int)$product_id . "' AND pd.language_id = '" . (int)$this->language->getId() . "'");
+		$query = $this->db->query("SELECT DISTINCT *, (SELECT keyword FROM " . DB_PREFIX . "url_alias WHERE query = 'product_id=" . (int)$product_id . "') AS keyword FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE p.product_id = '" . (int)$product_id . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 				
 		return $query->row;
 	}
 	
 	public function getProducts($data = array()) {
 		if ($data) {
-			$sql = "SELECT * FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE pd.language_id = '" . (int)$this->language->getId() . "'"; 
+			$sql = "SELECT * FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'"; 
 		
 			if (isset($data['filter_name']) && !is_null($data['filter_name'])) {
 				$sql .= " AND pd.name LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
@@ -259,21 +259,21 @@ class ModelCatalogProduct extends Model {
 		
 			return $query->rows;
 		} else {
-			$product_data = $this->cache->get('product.' . $this->language->getId());
+			$product_data = $this->cache->get('product.' . $this->config->get('config_language_id'));
 		
 			if (!$product_data) {
-				$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE pd.language_id = '" . (int)$this->language->getId() . "' ORDER BY pd.name ASC");
+				$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY pd.name ASC");
 	
 				$product_data = $query->rows;
 			
-				$this->cache->set('product.' . $this->language->getId(), $product_data);
+				$this->cache->set('product.' . $this->config->get('config_language_id'), $product_data);
 			}	
 	
 			return $product_data;
 		}
 	}
 	public function getProductsByCategoryId($category_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (p.product_id = p2c.product_id) WHERE pd.language_id = '" . (int)$this->language->getId() . "' AND p2c.category_id = '" . (int)$category_id . "' ORDER BY pd.name ASC");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (p.product_id = p2c.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p2c.category_id = '" . (int)$category_id . "' ORDER BY pd.name ASC");
 								  
 		return $query->rows;
 	} 
@@ -398,7 +398,7 @@ class ModelCatalogProduct extends Model {
 	}
 	
 	public function getTotalProducts($data = array()) {
-		$sql = "SELECT COUNT(*) AS total FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE pd.language_id = '" . (int)$this->language->getId() . "'";
+		$sql = "SELECT COUNT(*) AS total FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 		
 		if (isset($data['filter_name']) && !is_null($data['filter_name'])) {
 			$sql .= " AND pd.name LIKE '%" . $this->db->escape($data['filter_name']) . "%'";

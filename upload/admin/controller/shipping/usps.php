@@ -93,12 +93,6 @@ class ControllerShippingUsps extends Controller {
 			$this->data['error_user_id'] = '';
 		}
 
- 		if (isset($this->error['password'])) {
-			$this->data['error_password'] = $this->error['password'];
-		} else {
-			$this->data['error_password'] = '';
-		}
-
  		if (isset($this->error['postcode'])) {
 			$this->data['error_postcode'] = $this->error['postcode'];
 		} else {
@@ -487,10 +481,6 @@ class ControllerShippingUsps extends Controller {
 		
 		if (!$this->request->post['usps_user_id']) {
 			$this->error['user_id'] = $this->language->get('error_user_id');
-		}
-		
-		if (!$this->request->post['usps_password']) {
-			$this->error['password'] = $this->language->get('error_password');
 		}
 
 		if (!$this->request->post['usps_postcode']) {

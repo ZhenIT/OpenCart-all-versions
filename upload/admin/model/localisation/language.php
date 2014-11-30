@@ -8,7 +8,7 @@ class ModelLocalisationLanguage extends Model {
 		$language_id = $this->db->getLastId();
 
 		// Category
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "category_description WHERE language_id = '" . (int)$this->language->getId() . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "category_description WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 		foreach ($query->rows as $category) {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "category_description SET category_id = '" . (int)$category['category_id'] . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($category['name']) . "', meta_description= '" . $this->db->escape($category['meta_description']) . "', description = '" . $this->db->escape($category['description']) . "'");
@@ -17,21 +17,21 @@ class ModelLocalisationLanguage extends Model {
 		$this->cache->delete('category');
 
 		// Coupon
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "coupon_description WHERE language_id = '" . (int)$this->language->getId() . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "coupon_description WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 		foreach ($query->rows as $coupon) {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "coupon_description SET coupon_id = '" . (int)$coupon['coupon_id'] . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($coupon['name']) . "', description = '" . $this->db->escape($coupon['description']) . "'");
 		}
 		
 		// Download
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "download_description WHERE language_id = '" . (int)$this->language->getId() . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "download_description WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 		foreach ($query->rows as $download) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "download_description SET download_id = '" . (int)$coupon['download_id'] . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($download['name']) . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "download_description SET download_id = '" . (int)$download['download_id'] . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($download['name']) . "'");
 		}
 				
 		// Information
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "information_description WHERE language_id = '" . (int)$this->language->getId() . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "information_description WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 		foreach ($query->rows as $information) {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "information_description SET information_id = '" . (int)$information['information_id'] . "', language_id = '" . (int)$language_id . "', title = '" . $this->db->escape($information['title']) . "', description = '" . $this->db->escape($information['description']) . "'");
@@ -40,7 +40,7 @@ class ModelLocalisationLanguage extends Model {
 		$this->cache->delete('information');
 
 		// Measurement
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "measurement_class WHERE language_id = '" . (int)$this->language->getId() . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "measurement_class WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 		foreach ($query->rows as $measurement) {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "measurement_class SET measurement_class_id = '" . (int)$measurement['measurement_class_id'] . "', language_id = '" . (int)$language_id . "', title = '" . $this->db->escape($measurement['title']) . "', unit = '" . $this->db->escape($measurement['unit']) . "'");
@@ -49,7 +49,7 @@ class ModelLocalisationLanguage extends Model {
 		$this->cache->delete('measurement_class');
 		
 		// Order Status
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_status WHERE language_id = '" . (int)$this->language->getId() . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 		foreach ($query->rows as $order_status) {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "order_status SET order_status_id = '" . (int)$order_status['order_status_id'] . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($order_status['name']) . "'");
@@ -58,7 +58,7 @@ class ModelLocalisationLanguage extends Model {
 		$this->cache->delete('order_status');
 		
 		// Product
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_description WHERE language_id = '" . (int)$this->language->getId() . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_description WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 		foreach ($query->rows as $product) {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "product_description SET product_id = '" . (int)$product['product_id'] . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($product['name']) . "', meta_description= '" . $this->db->escape($product['meta_description']) . "', description = '" . $this->db->escape($product['description']) . "'");
@@ -67,21 +67,21 @@ class ModelLocalisationLanguage extends Model {
 		$this->cache->delete('product');
 
 		// Product Option
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_option_description WHERE language_id = '" . (int)$this->language->getId() . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_option_description WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 		foreach ($query->rows as $product_option) {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "product_option_description SET product_option_id = '" . (int)$product_option['product_option_id'] . "', language_id = '" . (int)$language_id . "', product_id = '" . (int)$product_option['product_id'] . "', name = '" . $this->db->escape($product_option['name']) . "'");
 		}
 		
 		// Product Option Value
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_option_value_description WHERE language_id = '" . (int)$this->language->getId() . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_option_value_description WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 		foreach ($query->rows as $product_option_value) {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "product_option_value_description SET product_option_value_id = '" . (int)$product_option_value['product_option_value_id'] . "', language_id = '" . (int)$language_id . "', product_id = '" . (int)$product_option_value['product_id'] . "', name = '" . $this->db->escape($product_option_value['name']) . "'");
 		}
 
 		// Stock Status
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "stock_status WHERE language_id = '" . (int)$this->language->getId() . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "stock_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 		foreach ($query->rows as $stock_status) {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "stock_status SET stock_status_id = '" . (int)$stock_status['stock_status_id'] . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($stock_status['name']) . "'");
@@ -90,7 +90,7 @@ class ModelLocalisationLanguage extends Model {
 		$this->cache->delete('stock_status');
 		
 		// Weight Class
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "weight_class WHERE language_id = '" . (int)$this->language->getId() . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "weight_class WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 		foreach ($query->rows as $weight_class) {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "weight_class SET weight_class_id = '" . (int)$weight_class['weight_class_id'] . "', language_id = '" . (int)$language_id . "', title = '" . $this->db->escape($weight_class['title']) . "', unit = '" . $this->db->escape($weight_class['unit']) . "'");

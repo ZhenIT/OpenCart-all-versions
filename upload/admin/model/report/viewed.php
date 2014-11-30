@@ -17,7 +17,7 @@ class ModelReportViewed extends Model {
 			$limit = 20;
 		}
 		
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE pd.language_id = '" . (int)$this->language->getId() . "' ORDER BY viewed DESC LIMIT " . (int)$start . "," . (int)$limit);
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY viewed DESC LIMIT " . (int)$start . "," . (int)$limit);
 		
 		foreach ($query->rows as $result) {
 			if ($result['viewed']) {

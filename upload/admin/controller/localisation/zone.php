@@ -386,7 +386,7 @@ class ControllerLocalisationZone extends Controller {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		
-		$this->load->model('customer/customer');
+		$this->load->model('sale/customer');
 		$this->load->model('localisation/geo_zone');
 		
 		foreach ($this->request->post['selected'] as $zone_id) {
@@ -394,7 +394,7 @@ class ControllerLocalisationZone extends Controller {
 				$this->error['warning'] = $this->language->get('error_default');
 			}
 		
-			$address_total = $this->model_customer_customer->getTotalAddressesByZoneId($zone_id);
+			$address_total = $this->model_sale_customer->getTotalAddressesByZoneId($zone_id);
 
 			if ($address_total) {
 				$this->error['warning'] = sprintf($this->language->get('error_address'), $address_total);

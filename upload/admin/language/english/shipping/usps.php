@@ -66,6 +66,5 @@ $_['entry_sort_order']      = 'Sort Order:';
 // Error
 $_['error_permission']      = 'Warning: You do not have permission to modify United States Postal Service!';
 $_['error_user_id']         = 'User ID Required!';
-$_['error_password']        = 'Password Required!';
 $_['error_postcode']        = 'Zip Code Required!';
 ?>

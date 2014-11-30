@@ -42,10 +42,26 @@ class ControllerCommonLogin extends Controller {
 		}
 		
     	$this->data['action'] = $this->url->https('common/login');
+
+		if (isset($this->error['username'])) {
+			$this->data['username'] = $this->request->post['username'];
+		} else {
+			$this->data['username'] = '';
+		}
+		
+		if (isset($this->error['password'])) {
+			$this->data['password'] = $this->request->post['password'];
+		} else {
+			$this->data['password'] = '';
+		}
 		
 		$this->template = 'common/login.tpl';
+		$this->children = array(
+			'common/header',	
+			'common/footer'	
+		);
 		
-    	$this->response->setOutput($this->render(TRUE), $this->config->get('config_compression'));
+		$this->response->setOutput($this->render(TRUE), $this->config->get('config_compression'));
   	}
 		
 	private function validate() {
@@ -57,12 +73,6 @@ class ControllerCommonLogin extends Controller {
 			return TRUE;
 		} else {
 			return FALSE;
-		}
-	}
-	
-	public function check() {
-		if (!$this->user->isLogged()) {
-			return $this->forward('common/login');
 		}
 	}
 }  

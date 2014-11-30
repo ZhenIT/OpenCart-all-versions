@@ -5,7 +5,7 @@ require_once('config.php');
 // Startup
 require_once(DIR_SYSTEM . 'startup.php');
 
-// Load the application classes
+// Application Classes
 require_once(DIR_SYSTEM . 'library/currency.php');
 require_once(DIR_SYSTEM . 'library/user.php');
 require_once(DIR_SYSTEM . 'library/weight.php');
@@ -91,7 +91,25 @@ Registry::set('url', new Url());
 Registry::set('document', new Document());
 
 // Language
-$language = new Language($config->get('config_admin_language'));
+$languages = array();
+
+$query = $db->query("SELECT * FROM " . DB_PREFIX . "language"); 
+
+foreach ($query->rows as $result) {
+	$languages[$result['code']] = array(
+		'language_id' => $result['language_id'],
+		'name'        => $result['name'],
+		'code'        => $result['code'],
+		'locale'      => $result['locale'],
+		'directory'   => $result['directory'],
+		'filename'    => $result['filename']
+	);
+}
+
+$config->set('config_language_id', $languages[$config->get('config_admin_language')]['language_id']);
+
+$language = new Language($languages[$config->get('config_admin_language')]['directory']);
+$language->load($languages[$config->get('config_admin_language')]['filename']);	
 Registry::set('language', $language);
 
 // Currency
@@ -110,20 +128,20 @@ Registry::set('user', new User());
 $controller = new Front();
 
 // Login
-$controller->addPreAction(new Router('common/login/check'));
+$controller->addPreAction(new Action('common/home/login'));
 
 // Permission
-$controller->addPreAction(new Router('common/permission/check'));
+$controller->addPreAction(new Action('common/home/permission'));
 
 // Router
 if (isset($request->get['route'])) {
-	$action = new Router($request->get['route']);
+	$action = new Action($request->get['route']);
 } else {
-	$action = new Router('common/home');
+	$action = new Action('common/home');
 }
 
 // Dispatch
-$controller->dispatch($action, new Router('error/not_found'));
+$controller->dispatch($action, new Action('error/not_found'));
 
 // Output
 $response->output();

@@ -18,7 +18,11 @@ class ControllerProductSearch extends Controller {
 		if (isset($this->request->get['keyword'])) {
 			$url .= '&keyword=' . $this->request->get['keyword'];
 		}
-				
+		
+		if (isset($this->request->get['category_id'])) {
+			$url .= '&category_id=' . $this->request->get['category_id'];
+		}
+		
 		if (isset($this->request->get['description'])) {
 			$url .= '&description=' . $this->request->get['description'];
 		}
@@ -45,7 +49,8 @@ class ControllerProductSearch extends Controller {
    
     	$this->data['text_critea'] = $this->language->get('text_critea');
     	$this->data['text_search'] = $this->language->get('text_search');
-		$this->data['text_keywords'] = $this->language->get('text_keywords');
+		$this->data['text_keyword'] = $this->language->get('text_keyword');
+		$this->data['text_category'] = $this->language->get('text_category');
 		$this->data['text_empty'] = $this->language->get('text_empty');
 		$this->data['text_sort'] = $this->language->get('text_sort');
 			 
@@ -77,6 +82,16 @@ class ControllerProductSearch extends Controller {
 		} else {
 			$this->data['keyword'] = '';
 		}
+
+		if (isset($this->request->get['category_id'])) {
+			$this->data['category_id'] = $this->request->get['category_id'];
+		} else {
+			$this->data['category_id'] = '';
+		}
+
+		$this->load->model('catalog/category');
+		
+		$this->data['categories'] = $this->getCategories(0);
 		
 		if (isset($this->request->get['description'])) {
 			$this->data['description'] = $this->request->get['description'];
@@ -87,11 +102,15 @@ class ControllerProductSearch extends Controller {
 		if (isset($this->request->get['keyword'])) {
 			$this->load->model('catalog/product');
 			
-			$product_total = $this->model_catalog_product->getTotalProductsByKeyword($this->request->get['keyword'], isset($this->request->get['description']) ? $this->request->get['description'] : '');
+			$product_total = $this->model_catalog_product->getTotalProductsByKeyword($this->request->get['keyword'], isset($this->request->get['category_id']) ? $this->request->get['category_id'] : '', isset($this->request->get['description']) ? $this->request->get['description'] : '');
 						
 			if ($product_total) {
 				$url = '';
-	
+
+				if (isset($this->request->get['category_id'])) {
+					$url .= '&category_id=' . $this->request->get['category_id'];
+				}
+		
 				if (isset($this->request->get['description'])) {
 					$url .= '&description=' . $this->request->get['description'];
 				}    
@@ -102,7 +121,7 @@ class ControllerProductSearch extends Controller {
 				
         		$this->data['products'] = array();
 				
-				$results = $this->model_catalog_product->getProductsByKeyword($this->request->get['keyword'], isset($this->request->get['description']) ? $this->request->get['description'] : '', $sort, $order, ($page - 1) * 12, 12);
+				$results = $this->model_catalog_product->getProductsByKeyword($this->request->get['keyword'], isset($this->request->get['category_id']) ? $this->request->get['category_id'] : '', isset($this->request->get['description']) ? $this->request->get['description'] : '', $sort, $order, ($page - 1) * 12, 12);
         		
 				foreach ($results as $result) {
 					if ($result['image']) {
@@ -153,6 +172,10 @@ class ControllerProductSearch extends Controller {
 				
 				if (isset($this->request->get['keyword'])) {
 					$url .= '&keyword=' . $this->request->get['keyword'];
+				}
+				
+				if (isset($this->request->get['category_id'])) {
+					$url .= '&category_id=' . $this->request->get['category_id'];
 				}
 				
 				if (isset($this->request->get['description'])) {
@@ -207,6 +230,10 @@ class ControllerProductSearch extends Controller {
 					$url .= '&keyword=' . $this->request->get['keyword'];
 				}
 				
+				if (isset($this->request->get['category_id'])) {
+					$url .= '&category_id=' . $this->request->get['category_id'];
+				}
+				
 				if (isset($this->request->get['description'])) {
 					$url .= '&description=' . $this->request->get['description'];
 				}
@@ -248,5 +275,28 @@ class ControllerProductSearch extends Controller {
 		
 		$this->response->setOutput($this->render(TRUE), $this->config->get('config_compression'));
   	}
+	
+	private function getCategories($parent_id, $level = 0) {
+		$level++;
+		
+		$data = array();
+		
+		$results = $this->model_catalog_category->getCategories($parent_id);
+		
+		foreach ($results as $result) {
+			$data[] = array(
+				'category_id' => $result['category_id'],
+				'name'        => str_repeat('&nbsp;&nbsp;&nbsp;', $level) . $result['name']
+			);
+			
+			$children = $this->getCategories($result['category_id'], $level);
+			
+			if ($children) {
+			  $data = array_merge($data, $children);
+			}
+		}
+		
+		return $data;
+	}	
 }
 ?>

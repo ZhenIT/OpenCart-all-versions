@@ -1,7 +1,11 @@
 <?php echo $header; ?><?php echo $column_left; ?><?php echo $column_right; ?>
 <div id="content">
   <div class="top">
-    <h1><?php echo $heading_title; ?></h1>
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center">
+      <h1><?php echo $heading_title; ?></h1>
+    </div>
   </div>
   <div class="middle">
     <?php if ($error_warning) { ?>
@@ -9,8 +13,8 @@
     <?php } ?>
     <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="payment">
       <b style="margin-bottom: 2px; display: block;"><?php echo $text_payment_address; ?></b>
-      <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px; display: inline-block;">
-        <table width="536">
+      <div class="content">
+        <table width="100%">
           <tr>
             <td width="50%" valign="top"><?php echo $text_payment_to; ?><br />
               <br />
@@ -20,26 +24,26 @@
           </tr>
         </table>
       </div>
-      <?php if ($methods) { ?>
+      <?php if ($payment_methods) { ?>
       <b style="margin-bottom: 2px; display: block;"><?php echo $text_payment_method; ?></b>
-      <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;">
+      <div class="content">
         <p><?php echo $text_payment_methods; ?></p>
-        <table width="536" cellpadding="3">
-          <?php foreach ($methods as $method) { ?>
+        <table width="100%" cellpadding="3">
+          <?php foreach ($payment_methods as $payment_method) { ?>
           <tr>
-            <td width="1"><?php if ($method['id'] == $default) { ?>
-              <input type="radio" name="payment_method" value="<?php echo $method['id']; ?>" id="<?php echo $method['id']; ?>" checked="checked" style="margin: 0px;" />
+            <td width="1"><?php if ($payment_method['id'] == $payment) { ?>
+              <input type="radio" name="payment_method" value="<?php echo $payment_method['id']; ?>" id="<?php echo $payment_method['id']; ?>" checked="checked" style="margin: 0px;" />
               <?php } else { ?>
-              <input type="radio" name="payment_method" value="<?php echo $method['id']; ?>" id="<?php echo $method['id']; ?>" style="margin: 0px;" />
+              <input type="radio" name="payment_method" value="<?php echo $payment_method['id']; ?>" id="<?php echo $payment_method['id']; ?>" style="margin: 0px;" />
               <?php } ?></td>
-            <td><label for="<?php echo $method['id']; ?>" style="cursor: pointer;"><?php echo $method['title']; ?></label></td>
+            <td><label for="<?php echo $payment_method['id']; ?>" style="cursor: pointer;"><?php echo $payment_method['title']; ?></label></td>
           </tr>
           <?php } ?>
         </table>
       </div>
       <?php } ?>
       <b style="margin-bottom: 2px; display: block;"><?php echo $text_comments; ?></b>
-      <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;">
+      <div class="content">
         <textarea name="comment" rows="8" style="width: 99%;"><?php echo $comment; ?></textarea>
       </div>
       <?php if ($text_agree) { ?>
@@ -69,6 +73,10 @@
       <?php } ?>
     </form>
   </div>
-  <div class="bottom">&nbsp;</div>
+  <div class="bottom">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center"></div>
+  </div>
 </div>
 <?php echo $footer; ?> 

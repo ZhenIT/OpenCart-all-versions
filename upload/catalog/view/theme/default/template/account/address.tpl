@@ -1,12 +1,16 @@
 <?php echo $header; ?><?php echo $column_left; ?><?php echo $column_right; ?>
 <div id="content">
   <div class="top">
-    <h1><?php echo $heading_title; ?></h1>
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center">
+      <h1><?php echo $heading_title; ?></h1>
+    </div>
   </div>
   <div class="middle">
     <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="address">
       <b style="margin-bottom: 2px; display: block;"><?php echo $text_edit_address; ?></b>
-      <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px; width: 536px; display: inline-block;">
+      <div class="content">
         <table>
           <tr>
             <td width="150"><span class="required">*</span> <?php echo $entry_firstname; ?></td>
@@ -94,11 +98,15 @@
       </div>
     </form>
   </div>
-  <div class="bottom">&nbsp;</div>
-  <script type="text/javascript"><!--
+  <div class="bottom">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center"></div>
+  </div>
+</div>
+<script type="text/javascript"><!--
 $('select[name=\'zone_id\']').load('index.php?route=account/address/zone&country_id=<?php echo $country_id; ?>&zone_id=<?php echo $zone_id; ?>');
 
 $('#country_id').attr('value', '<?php echo $country_id; ?>');
 //--></script>
-</div>
 <?php echo $footer; ?> 

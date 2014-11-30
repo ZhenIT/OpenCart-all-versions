@@ -15,7 +15,7 @@ abstract class Controller {
 	}
 			
 	protected function forward($route, $args = array()) {
-		return new Router($route, $args);
+		return new Action($route, $args);
 	}
 
 	protected function redirect($url) {

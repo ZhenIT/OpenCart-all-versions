@@ -41,13 +41,13 @@ $controller = new Front();
 
 // Router
 if (isset($request->get['route'])) {
-	$action = new Router($request->get['route']);
+	$action = new Action($request->get['route']);
 } else {
-	$action = new Router('step_1');
+	$action = new Action('step_1');
 }
 
 // Dispatch
-$controller->dispatch($action, new Router('not_found'));
+$controller->dispatch($action, new Action('not_found'));
 
 // Output
 $response->output();

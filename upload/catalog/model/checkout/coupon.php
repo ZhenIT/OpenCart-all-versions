@@ -3,7 +3,7 @@ class ModelCheckoutCoupon extends Model {
 	public function getCoupon($coupon) {
 		$status = TRUE;
 		
-		$coupon_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "coupon c LEFT JOIN " . DB_PREFIX . "coupon_description cd ON (c.coupon_id = cd.coupon_id) WHERE cd.language_id = '" . (int)$this->language->getId() . "' AND c.code = '" . $this->db->escape($coupon) . "' AND ((date_start = '0000-00-00' OR date_start < NOW()) AND (date_end = '0000-00-00' OR date_end > NOW())) AND c.status = '1'");
+		$coupon_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "coupon c LEFT JOIN " . DB_PREFIX . "coupon_description cd ON (c.coupon_id = cd.coupon_id) WHERE cd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND c.code = '" . $this->db->escape($coupon) . "' AND ((date_start = '0000-00-00' OR date_start < NOW()) AND (date_end = '0000-00-00' OR date_end > NOW())) AND c.status = '1'");
 			
 		if ($coupon_query->num_rows) {
 			if ($coupon_query->row['total'] >= $this->cart->getSubTotal()) {

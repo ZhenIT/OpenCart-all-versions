@@ -1,9 +1,13 @@
 <?php echo $header; ?><?php echo $column_left; ?><?php echo $column_right; ?>
 <div id="content">
   <div class="top">
-    <h1><?php echo $heading_title; ?></h1>
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center">
+      <h1><?php echo $heading_title; ?></h1>
+    </div>
   </div>
-  <div class="middle" style="padding-bottom: 1px;">
+  <div class="middle">
     <?php if ($error_warning) { ?>
     <div class="warning"><?php echo $error_warning; ?></div>
     <?php } ?>
@@ -60,7 +64,7 @@
       <div style="float: left; width: 274px;">
         <div style="border: 1px solid #DDDDDD; min-height: 125px;">
           <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="coupon">
-            <div style="background: #F7F7F7 url('catalog/view/theme/default/image/icon_discount.png') 8px 8px no-repeat; border-bottom: 1px solid #DDDDDD; padding: 8px 8px 8px 29px;"><span style="text-transform: uppercase; font-size: 14px; font-weight: bold;"><?php echo $text_discount; ?></span></div>
+            <div style="background: #F7F7F7 url('catalog/view/theme/default/image/discount.png') 8px 8px no-repeat; border-bottom: 1px solid #DDDDDD; padding: 8px 8px 8px 29px;"><span style="text-transform: uppercase; font-size: 14px; font-weight: bold;"><?php echo $text_discount; ?></span></div>
             <div style="padding: 8px;"><?php echo $text_coupon; ?><br />
               <input type="text" name="coupon" value="<?php echo $coupon; ?>" />
               <a onclick="$('#coupon').submit();" class="button"><span><?php echo $button_coupon; ?></span></a></div>
@@ -68,12 +72,16 @@
         </div>
       </div>
     </div>
-    <script type="text/javascript"><!--
-	$('#shipping').bind('click', function (e) {
-		$('#test').slideToggle('slow');									  
-	});
-	//--></script>
   </div>
-  <div class="bottom">&nbsp;</div>
+  <div class="bottom">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center"></div>
+  </div>
 </div>
+<script type="text/javascript"><!--
+$('#shipping').bind('click', function (e) {
+	$('#test').slideToggle('slow');									  
+});
+//--></script>
 <?php echo $footer; ?> 

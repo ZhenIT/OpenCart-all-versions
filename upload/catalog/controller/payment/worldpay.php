@@ -31,10 +31,10 @@ class ControllerPaymentWorldPay extends Controller {
 		$this->data['email'] = $order_info['email'];
 		$this->data['test'] = $this->config->get('worldpay_test');
 		
-		if ($this->request->get['route'] != 'checkout/guest/confirm') {
+		if ($this->request->get['route'] != 'checkout/guest_step_3') {
 			$this->data['back'] = $this->url->https('checkout/payment');
 		} else {
-			$this->data['back'] = $this->url->https('checkout/guest');
+			$this->data['back'] = $this->url->https('checkout/guest_step_2');
 		}
 		
 		$this->id = 'payment';
@@ -71,10 +71,10 @@ class ControllerPaymentWorldPay extends Controller {
 			$this->data['text_success_wait'] = sprintf($this->language->get('text_success_wait'), $this->url->https('checkout/success'));
 			$this->data['text_failure'] = $this->language->get('text_failure');
 			
-			if ($this->request->get['route'] != 'checkout/guest/confirm') {
+			if ($this->request->get['route'] != 'checkout/guest_step_3') {
 				$this->data['text_failure_wait'] = sprintf($this->language->get('text_failure_wait'), $this->url->https('checkout/payment'));
 			} else {
-				$this->data['text_failure_wait'] = sprintf($this->language->get('text_failure_wait'), $this->url->https('checkout/guest'));
+				$this->data['text_failure_wait'] = sprintf($this->language->get('text_failure_wait'), $this->url->https('checkout/guest_step_2'));
 			}
 		
 			if (isset($this->request->post['transStatus']) && $this->request->post['transStatus'] == 'Y') { 

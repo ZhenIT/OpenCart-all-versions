@@ -5,9 +5,9 @@ final class Measurement {
 	
 	public function __construct() {
 		$this->db = Registry::get('db');
-		$this->language = Registry::get('language');
+		$this->config = Registry::get('config');
 
-		$measurement_class_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "measurement_class WHERE language_id = '" . (int)$this->language->getId() . "'");
+		$measurement_class_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "measurement_class WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
     
     	foreach ($measurement_class_query->rows as $result) {
       		$this->classes[$result['measurement_class_id']] = array(

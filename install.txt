@@ -1,5 +1,5 @@
 /////////////////////////////////
-///       OpenCart V1.3       ///
+///       OpenCart V1.4       ///
 ///    Install Instruction    ///
 ///  http://www.opencart.com  ///
 /////////////////////////////////
@@ -16,6 +16,7 @@ INSTALL
 2. If you have a Linux/Unix make sure the following folders and files are writable.
    chmod 0755 or 0777 image/
    chmod 0755 or 0777 image/cache/
+   chmod 0755 or 0777 image/data/   
    chmod 0755 or 0777 system/cache/
    chmod 0755 or 0777 system/logs/
    chmod 0755 or 0777 download/

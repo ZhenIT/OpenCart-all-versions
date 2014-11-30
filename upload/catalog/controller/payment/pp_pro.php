@@ -8,7 +8,6 @@ class ControllerPaymentPPPro extends Controller {
 		$this->data['text_issue'] = $this->language->get('text_issue');
 		$this->data['text_wait'] = $this->language->get('text_wait');
 		
-		$this->data['entry_cc_owner'] = $this->language->get('entry_cc_owner');
 		$this->data['entry_cc_type'] = $this->language->get('entry_cc_type');
 		$this->data['entry_cc_number'] = $this->language->get('entry_cc_number');
 		$this->data['entry_cc_start_date'] = $this->language->get('entry_cc_start_date');
@@ -80,10 +79,10 @@ class ControllerPaymentPPPro extends Controller {
 			);
 		}
 
-		if ($this->request->get['route'] != 'checkout/guest/confirm') {
+		if ($this->request->get['route'] != 'checkout/guest_step_3') {
 			$this->data['back'] = $this->url->https('checkout/payment');
 		} else {
-			$this->data['back'] = $this->url->https('checkout/guest');
+			$this->data['back'] = $this->url->https('checkout/guest_step_2');
 		}
 		
 		$this->id = 'payment';

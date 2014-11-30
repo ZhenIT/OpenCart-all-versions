@@ -20,29 +20,7 @@ class ControllerCatalogProduct extends Controller {
 		$this->load->model('catalog/product');
 		
     	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$data = array();
-			
-			if (is_uploaded_file($this->request->files['image']['tmp_name']) && is_writable(DIR_IMAGE) && is_writable(DIR_IMAGE . 'cache/')) {
-				move_uploaded_file($this->request->files['image']['tmp_name'], DIR_IMAGE . $this->request->files['image']['name']);
-				
-				if (file_exists(DIR_IMAGE . $this->request->files['image']['name'])) {
-					$data['image'] = $this->request->files['image']['name'];
-				}			
-			}
-			
-			if (isset($this->request->files['product_image'])) {
-				foreach (array_keys($this->request->files['product_image']['name']) as $key) {
-					if (is_uploaded_file($this->request->files['product_image']['tmp_name'][$key]) && is_writable(DIR_IMAGE) && is_writable(DIR_IMAGE . 'cache/')) {
-						move_uploaded_file($this->request->files['product_image']['tmp_name'][$key], DIR_IMAGE . $this->request->files['product_image']['name'][$key]);
-						
-						if (file_exists(DIR_IMAGE . $this->request->files['product_image']['name'][$key])) {
-							$data['product_image'][] = $this->request->files['product_image']['name'][$key];
-						}
-					}
-				}
-			}
-			
-			$this->model_catalog_product->addProduct(array_merge($this->request->post, $data));
+			$this->model_catalog_product->addProduct($this->request->post);
 	  		
 			$this->session->data['success'] = $this->language->get('text_success');
 	  
@@ -90,39 +68,7 @@ class ControllerCatalogProduct extends Controller {
 		$this->load->model('catalog/product');
 	
     	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$data = array(); 
-			
-			if (is_uploaded_file($this->request->files['image']['tmp_name']) && is_writable(DIR_IMAGE) && is_writable(DIR_IMAGE . 'cache/')) {
-				move_uploaded_file($this->request->files['image']['tmp_name'], DIR_IMAGE . $this->request->files['image']['name']);
-				
-				if (file_exists(DIR_IMAGE . $this->request->files['image']['name'])) {
-					$data['image'] = $this->request->files['image']['name'];
-				}			
-			} 
-	
-			if (isset($this->request->files['product_image'])) {
-				foreach (array_keys($this->request->files['product_image']['name']) as $key) {
-					if (is_uploaded_file($this->request->files['product_image']['tmp_name'][$key]) && is_writable(DIR_IMAGE) && is_writable(DIR_IMAGE . 'cache/')) {
-						move_uploaded_file($this->request->files['product_image']['tmp_name'][$key], DIR_IMAGE . $this->request->files['product_image']['name'][$key]);
-						
-						if (file_exists(DIR_IMAGE . $this->request->files['product_image']['name'][$key])) {
-							$data['product_image'][] = $this->request->files['product_image']['name'][$key];
-						}
-						
-						unset($this->request->post['product_image'][$key]);
-					}
-				}
-			}
-			
-			if (isset($this->request->post['product_image'])) {
-				foreach (array_keys($this->request->post['product_image']) as $key) {
-					$data['product_image'][] = $this->request->post['product_image'][$key];
-					
-					unset($this->request->post['product_image'][$key]);
-				}
-			}	
-				
-			$this->model_catalog_product->editProduct($this->request->get['product_id'], array_merge($this->request->post, $data));
+			$this->model_catalog_product->editProduct($this->request->get['product_id'], $this->request->post);
 			
 			$this->session->data['success'] = $this->language->get('text_success');
 			
@@ -315,6 +261,8 @@ class ControllerCatalogProduct extends Controller {
 			'limit'           => 10
 		);
 		
+		$this->load->helper('image');
+		
 		$product_total = $this->model_catalog_product->getTotalProducts($data);
 			
 		$results = $this->model_catalog_product->getProducts($data);
@@ -327,10 +275,17 @@ class ControllerCatalogProduct extends Controller {
 				'href' => $this->url->https('catalog/product/update&product_id=' . $result['product_id'] . $url)
 			);
 			
+			if ($result['image'] && file_exists(DIR_IMAGE . $result['image'])) {
+				$image = image_resize($result['image'], 40, 40);
+			} else {
+				$image = image_resize('no_image.jpg', 40, 40);
+			}
+			
       		$this->data['products'][] = array(
 				'product_id' => $result['product_id'],
 				'name'       => $result['name'],
 				'model'      => $result['model'],
+				'image'      => $image,
 				'quantity'   => $result['quantity'],
 				'status'     => ($result['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled')),
 				'selected'   => isset($this->request->post['selected']) && in_array($result['product_id'], $this->request->post['selected']),
@@ -343,7 +298,9 @@ class ControllerCatalogProduct extends Controller {
 		$this->data['text_enabled'] = $this->language->get('text_enabled');
 		$this->data['text_disabled'] = $this->language->get('text_disabled');
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
+		$this->data['text_image_manager'] = $this->language->get('text_image_manager');
 
+		$this->data['column_image'] = $this->language->get('column_image');
 		$this->data['column_name'] = $this->language->get('column_name');
     	$this->data['column_model'] = $this->language->get('column_model');
 		$this->data['column_quantity'] = $this->language->get('column_quantity');
@@ -464,6 +421,7 @@ class ControllerCatalogProduct extends Controller {
     	$this->data['text_no'] = $this->language->get('text_no');
 		$this->data['text_plus'] = $this->language->get('text_plus');
 		$this->data['text_minus'] = $this->language->get('text_minus');
+		$this->data['text_image_manager'] = $this->language->get('text_image_manager');
 
 		$this->data['entry_name'] = $this->language->get('entry_name');
 		$this->data['entry_keyword'] = $this->language->get('entry_keyword');
@@ -650,6 +608,14 @@ class ControllerCatalogProduct extends Controller {
 			$this->data['keyword'] = '';
 		}
 		
+		if (isset($this->request->post['image'])) {
+			$this->data['image'] = $this->request->post['image'];
+		} elseif (isset($product_info)) {
+			$this->data['image'] = $product_info['image'];
+		} else {
+			$this->data['image'] = '';
+		}
+		
 		$this->load->helper('image');
 		
 		if (isset($product_info) && $product_info['image'] && file_exists(DIR_IMAGE . $product_info['image'])) {
@@ -790,6 +756,8 @@ class ControllerCatalogProduct extends Controller {
       		$this->data['measurement_class_id'] = $this->config->get('config_measurement_class_id');
     	}
 		
+		$this->data['language_id'] = $this->config->get('config_language_id');
+		
 		if (isset($this->request->post['product_option'])) {
 			$this->data['product_options'] = $this->request->post['product_option'];
 		} elseif (isset($product_info)) {
@@ -798,9 +766,9 @@ class ControllerCatalogProduct extends Controller {
 			$this->data['product_options'] = array();
 		}
 		
-		$this->load->model('customer/customer_group');
+		$this->load->model('sale/customer_group');
 		
-		$this->data['customer_groups'] = $this->model_customer_customer_group->getCustomerGroups();
+		$this->data['customer_groups'] = $this->model_sale_customer_group->getCustomerGroups();
 		
 		if (isset($this->request->post['product_discount'])) {
 			$this->data['product_discounts'] = $this->request->post['product_discount'];
@@ -828,7 +796,7 @@ class ControllerCatalogProduct extends Controller {
 			foreach ($results as $result) {
 				if ($result['image'] && file_exists(DIR_IMAGE . $result['image'])) {
 					$this->data['product_images'][] = array(
-						'preview' => image_resize($result['image'], 100, 100),#
+						'preview' => image_resize($result['image'], 100, 100),
 						'file'    => $result['image']
 					);
 				} else {
@@ -895,70 +863,6 @@ class ControllerCatalogProduct extends Controller {
     	if ((strlen(utf8_decode($this->request->post['model'])) < 3) || (strlen(utf8_decode($this->request->post['model'])) > 24)) {
       		$this->error['model'] = $this->language->get('error_model');
     	}
-		
-  		if ($this->request->files['image']['name']) {
-	  		if ((strlen(utf8_decode($this->request->files['image']['name'])) < 3) || (strlen(utf8_decode($this->request->files['image']['name'])) > 255)) {
-        		$this->error['warning'] = $this->language->get('error_filename');
-	  		}
-
-		    $allowed = array(
-		    	'image/jpeg',
-		    	'image/pjpeg',
-				'image/png',
-				'image/x-png',
-				'image/gif'
-		    );
-				
-			if (!in_array($this->request->files['image']['type'], $allowed)) {
-				$this->error['warning'] = $this->language->get('error_filetype');
-			}
-			
-			if (!is_writable(DIR_IMAGE)) {
-				$this->error['warning'] = $this->language->get('error_writable_image');
-			}
-			
-			if (!is_writable(DIR_IMAGE . 'cache/')) {
-				$this->error['warning'] = $this->language->get('error_writable_image_cache');
-			}
-			
-			if ($this->request->files['image']['error'] != UPLOAD_ERR_OK) { 
-				$this->error['warning'] = $this->language->get('error_upload_' . $this->request->files['image']['error']);
-			}
-		}
-		
-		if (isset($this->request->files['product_image'])) {
-			foreach (array_keys($this->request->files['product_image']['name']) as $key) {
-				if ($this->request->files['product_image']['name'][$key]) {
-					if ((strlen(utf8_decode($this->request->files['product_image']['name'][$key])) < 3) || (strlen(utf8_decode($this->request->files['product_image']['name'][$key])) > 255)) {
-						$this->error['warning'] = $this->language->get('error_filename');
-					}
-	
-					$allowed = array(
-						'image/jpeg',
-						'image/pjpeg',
-						'image/png',
-						'image/x-png',
-						'image/gif'
-					);
-						
-					if (!in_array($this->request->files['product_image']['type'][$key], $allowed)) {
-						$this->error['warning'] = $this->language->get('error_filetype');
-					}
-					
-					if (!is_writable(DIR_IMAGE)) {
-						$this->error['warning'] = $this->language->get('error_writable_image');
-					}
-					
-					if (!is_writable(DIR_IMAGE . 'cache/')) {
-						$this->error['warning'] = $this->language->get('error_writable_image_cache');
-					}
-					
-					if ($this->request->files['product_image']['error'][$key] != UPLOAD_ERR_OK) { 
-						$this->error['warning'] = $this->language->get('error_upload_' . $this->request->files['product_image']['error'][$key]);
-					}	
-				}
-			}
-		}
 		
     	if (!$this->error) {
       		return TRUE;

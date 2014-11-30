@@ -1,11 +1,15 @@
 <?php echo $header; ?><?php echo $column_left; ?><?php echo $column_right; ?>
 <div id="content">
   <div class="top">
-    <h1><?php echo $heading_title; ?></h1>
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center">
+      <h1><?php echo $heading_title; ?></h1>
+    </div>
   </div>
   <div class="middle">
-    <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;">
-      <table width="536">
+    <div class="content">
+      <table width="100%">
         <tr>
           <td width="33.3%" valign="top"><?php if ($shipping_method) { ?>
             <b><?php echo $text_shipping_method; ?></b><br />
@@ -27,8 +31,8 @@
         </tr>
       </table>
     </div>
-    <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;">
-      <table width="536">
+    <div class="content">
+      <table width="100%">
         <tr>
           <th align="left"><?php echo $column_product; ?></th>
           <th align="left"><?php echo $column_model; ?></th>
@@ -65,10 +69,14 @@
     </div>
     <?php if ($comment) { ?>
     <b style="margin-bottom: 2px; display: block;"><?php echo $text_comment; ?></b>
-    <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;"><?php echo $comment; ?></div>
+    <div class="content"><?php echo $comment; ?></div>
     <?php } ?>
     <div id="payment"><?php echo $payment; ?></div>
   </div>
-  <div class="bottom">&nbsp;</div>
+  <div class="bottom">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center"></div>
+  </div>
 </div>
 <?php echo $footer; ?> 

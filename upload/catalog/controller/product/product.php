@@ -55,6 +55,10 @@ class ControllerProductProduct extends Controller {
 		
 		if (isset($this->request->get['keyword'])) {
 			$url = '';
+
+			if (isset($this->request->get['category_id'])) {
+				$url .= '&category_id=' . $this->request->get['category_id'];
+			}	
 			
 			if (isset($this->request->get['description'])) {
 				$url .= '&description=' . $this->request->get['description'];
@@ -91,7 +95,11 @@ class ControllerProductProduct extends Controller {
 			if (isset($this->request->get['keyword'])) {
 				$url .= '&keyword=' . $this->request->get['keyword'];
 			}			
-			
+
+			if (isset($this->request->get['category_id'])) {
+				$url .= '&category_id=' . $this->request->get['category_id'];
+			}
+				
 			if (isset($this->request->get['description'])) {
 				$url .= '&description=' . $this->request->get['description'];
 			}				
@@ -323,7 +331,11 @@ class ControllerProductProduct extends Controller {
 			if (isset($this->request->get['keyword'])) {
 				$url .= '&keyword=' . $this->request->get['keyword'];
 			}			
-			
+
+			if (isset($this->request->get['category_id'])) {
+				$url .= '&category_id=' . $this->request->get['category_id'];
+			}
+				
 			if (isset($this->request->get['description'])) {
 				$url .= '&description=' . $this->request->get['description'];
 			}		

@@ -93,7 +93,7 @@ class ControllerReportSale extends Controller {
 				'date_start' => date($this->language->get('date_format_short'), strtotime($result['date_start'])),
 				'date_end'   => date($this->language->get('date_format_short'), strtotime($result['date_end'])),
 				'orders'     => $result['orders'],
-				'total'      => $this->currency->format($result['total'])
+				'total'      => $this->currency->format($result['total'], $this->config->get('config_currency'))
 			);
 		}
 

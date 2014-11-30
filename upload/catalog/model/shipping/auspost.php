@@ -1,10 +1,10 @@
 <?php
 class ModelShippingAuspost extends Model {
-	public function getQuote($country_id, $zone_id, $postcode = '') {
+	public function getQuote($address) {
 		$this->load->language('shipping/auspost');
 
 		if ($this->config->get('auspost_status')) {
-      		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone_to_geo_zone WHERE geo_zone_id = '" . (int)$this->config->get('auspost_geo_zone_id') . "' AND country_id = '" . (int)$country_id . "' AND (zone_id = '" . (int)$zone_id . "' OR zone_id = '0')");
+      		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone_to_geo_zone WHERE geo_zone_id = '" . (int)$this->config->get('auspost_geo_zone_id') . "' AND country_id = '" . (int)$address['country_id'] . "' AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
 		
       		if (!$this->config->get('auspost_geo_zone_id')) {
         		$status = TRUE;
@@ -19,24 +19,20 @@ class ModelShippingAuspost extends Model {
 		
 		$weight = intval($this->weight->convert($this->cart->getWeight(), $this->config->get('config_weight_class_id'), 2));
 		
-		$this->load->model('localisation/country');
-			
-		$country_info = $this->model_localisation_country->getCountry($country_id);
-			
 		$method_data = array();
 		
-		if ($this->config->get('auspost_status') && ($this->config->get('auspost_standard') || $this->config->get('auspost_express')) && $country_info['iso_code_2'] == 'AU') {
+		if ($this->config->get('auspost_status') && ($this->config->get('auspost_standard') || $this->config->get('auspost_express')) && $address['iso_code_2'] == 'AU') {
 			$quote_data = array();
 		
-			$error = FALSE;
+			$error = FALSE; 
 		
-			if (!preg_match('/^[0-9]{4}$/', $postcode)) {
+			if (!preg_match('/^[0-9]{4}$/', $address['postcode'])) {
 				$error = 'Your postcode is not valid in Australia';
 			} else {
 				if ($this->config->get('auspost_standard')) {
 					$ch = curl_init();
 					
-					curl_setopt($ch, CURLOPT_URL, 'http://drc.edeliver.com.au/ratecalc.asp?pickup_postcode=' . $this->config->get('auspost_origin') . '&destination_postcode=' . $postcode . '&height=70&width=70&length=70&country=AU&service_type=standard&quantity=1&weight=' . $weight);
+					curl_setopt($ch, CURLOPT_URL, 'http://drc.edeliver.com.au/ratecalc.asp?pickup_postcode=' . $this->config->get('auspost_postcode') . '&destination_postcode=' . $address['postcode'] . '&height=70&width=70&length=70&country=AU&service_type=standard&quantity=1&weight=' . $weight);
 					curl_setopt($ch, CURLOPT_HEADER, 0);
 					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 			
@@ -77,7 +73,7 @@ class ModelShippingAuspost extends Model {
 								'title'        => $this->language->get('text_standard') . $post_days_standard_append,
 								'cost'         => $post_charge_standard,
 								'tax_class_id' => 0,
-								'text'         => "$" . $post_charge_standard
+								'text'         => '$' . $post_charge_standard
 							);
 						}
 					}
@@ -86,7 +82,7 @@ class ModelShippingAuspost extends Model {
 				if ($this->config->get('auspost_express') && $error == FALSE) {
 					$ch = curl_init();
 					
-					curl_setopt($ch, CURLOPT_URL, 'http://drc.edeliver.com.au/ratecalc.asp?pickup_postcode=' . $this->config->get('auspost_origin') . '&destination_postcode=' . $postcode . '&height=70&width=70&length=70&country=AU&service_type=express&quantity=1&weight=' . $weight);
+					curl_setopt($ch, CURLOPT_URL, 'http://drc.edeliver.com.au/ratecalc.asp?pickup_postcode=' . $this->config->get('auspost_postcode') . '&destination_postcode=' . $address['postcode'] . '&height=70&width=70&length=70&country=AU&service_type=express&quantity=1&weight=' . $weight);
 					curl_setopt($ch, CURLOPT_HEADER, 0);
 					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 			

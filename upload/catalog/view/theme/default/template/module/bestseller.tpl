@@ -1,5 +1,5 @@
 <div class="box">
-  <div class="top"><img src="catalog/view/theme/default/image/icon_bestsellers.png" alt="" /><?php echo $heading_title; ?></div>
+  <div class="top"><img src="catalog/view/theme/default/image/bestsellers.png" alt="" /><?php echo $heading_title; ?></div>
   <div class="middle">
     <?php if ($products) { ?>
     <table cellpadding="2" cellspacing="0" style="width: 100%;">

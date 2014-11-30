@@ -173,7 +173,7 @@ class ControllerCheckoutConfirm extends Controller {
 		$data['totals'] = $total_data;
 		$data['comment'] = $this->session->data['comment'];
 		$data['total'] = $total;
-		$data['language_id'] = $this->language->getId();
+		$data['language_id'] = $this->config->get('config_language_id');
 		$data['currency_id'] = $this->currency->getId();
 		$data['currency'] = $this->currency->getCode();
 		$data['value'] = $this->currency->getValue($this->currency->getCode());

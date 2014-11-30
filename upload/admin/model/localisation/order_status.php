@@ -31,14 +31,14 @@ class ModelLocalisationOrderStatus extends Model {
 	}
 		
 	public function getOrderStatus($order_status_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_status WHERE order_status_id = '" . (int)$order_status_id . "' AND language_id = '" . (int)$this->language->getId() . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_status WHERE order_status_id = '" . (int)$order_status_id . "' AND language_id = '" . (int)$this->config->get('config_language_id') . "'");
 		
 		return $query->row;
 	}
 		
 	public function getOrderStatuses($data = array()) {
       	if ($data) {
-			$sql = "SELECT * FROM " . DB_PREFIX . "order_status WHERE language_id = '" . (int)$this->language->getId() . "'";
+			$sql = "SELECT * FROM " . DB_PREFIX . "order_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'";
 			
 			$sql .= " ORDER BY name";	
 			
@@ -64,14 +64,14 @@ class ModelLocalisationOrderStatus extends Model {
 			
 			return $query->rows;
 		} else {
-			$order_status_data = $this->cache->get('order_status.' . $this->language->getId());
+			$order_status_data = $this->cache->get('order_status.' . $this->config->get('config_language_id'));
 		
 			if (!$order_status_data) {
-				$query = $this->db->query("SELECT order_status_id, name FROM " . DB_PREFIX . "order_status WHERE language_id = '" . (int)$this->language->getId() . "' ORDER BY name");
+				$query = $this->db->query("SELECT order_status_id, name FROM " . DB_PREFIX . "order_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY name");
 	
 				$order_status_data = $query->rows;
 			
-				$this->cache->set('order_status.' . $this->language->getId(), $order_status_data);
+				$this->cache->set('order_status.' . $this->config->get('config_language_id'), $order_status_data);
 			}	
 	
 			return $order_status_data;				
@@ -91,7 +91,7 @@ class ModelLocalisationOrderStatus extends Model {
 	}
 	
 	public function getTotalOrderStatuses() {
-      	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "order_status WHERE language_id = '" . (int)$this->language->getId() . "'");
+      	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "order_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
 		
 		return $query->row['total'];
 	}	

@@ -1,7 +1,11 @@
 <?php echo $header; ?><?php echo $column_left; ?><?php echo $column_right; ?>
 <div id="content">
   <div class="top">
-    <h1><?php echo $heading_title; ?></h1>
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center">
+      <h1><?php echo $heading_title; ?></h1>
+    </div>
   </div>
   <div class="middle">
     <div style="width: 100%; margin-bottom: 30px;">
@@ -65,8 +69,8 @@
                   </tr>
                   <?php } ?>
                 </table>
-                <?php } ?>
               </div>
+              <?php } ?>
               <?php if ($display_price) { ?>
               <?php if ($discounts) { ?>
               <b><?php echo $text_discount; ?></b><br />
@@ -174,7 +178,14 @@
       <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;"><?php echo $text_no_related; ?></div>
       <?php } ?>
     </div>
-    <script type="text/javascript"><!--
+  </div>
+  <div class="bottom">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center"></div>
+  </div>
+</div>
+<script type="text/javascript"><!--
 $('#review .pagination a').live('click', function() {
 	$('#review').slideUp('slow');
 		
@@ -219,10 +230,7 @@ function review() {
 	});
 }
 //--></script>
-    <script type="text/javascript"><!--
+<script type="text/javascript"><!--
 $.tabs('.tabs a'); 
 //--></script>
-  </div>
-  <div class="bottom">&nbsp;</div>
-</div>
 <?php echo $footer; ?> 

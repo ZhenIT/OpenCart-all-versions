@@ -28,15 +28,15 @@ class ControllerPaymentSagepay extends Controller {
 		$data['Amount'] = $this->currency->format($order_info['total'], $order_info['currency'], $order_info['value'], FALSE);
 		$data['Currency'] = $order_info['currency'];
 		$data['Description'] = sprintf($this->language->get('text_description'), date($this->language->get('date_format_short')), $this->session->data['order_id']);
-		$data['SuccessURL'] = html_entity_decode($this->url->https('payment/sagepay/success&order_id=' . $this->session->data['order_id']));
+		$data['SuccessURL'] = $this->url->https('payment/sagepay/success&order_id=' . $this->session->data['order_id']);
 		
-		if ($this->request->get['route'] != 'checkout/guest/confirm') {
+		if ($this->request->get['route'] != 'checkout/guest_step_3') {
 			$this->data['FailureURL'] = $this->url->https('checkout/payment');
 		} else {
-			$this->data['FailureURL'] = $this->url->https('checkout/guest');
+			$this->data['FailureURL'] = $this->url->https('checkout/guest_step_2');
 		}
 		
-		$data['CustomerName'] = $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'];
+		$data['CustomerName'] = html_entity_decode($order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'], ENT_QUOTES, 'UTF-8');
 		$data['SendEMail'] = '1';
 		$data['CustomerEMail'] = $order_info['email'];
 		$data['VendorEMail'] = $this->config->get('config_email');  
@@ -50,14 +50,14 @@ class ControllerPaymentSagepay extends Controller {
 		}
 		
 		$data['BillingCity'] = $order_info['payment_city'];
-       	$data['BillingPostCode'] = $order_info[payment_'postcode'];	
+       	$data['BillingPostCode'] = $order_info['payment_postcode'];	
         $data['BillingCountry'] = $order_info['payment_iso_code_2'];
 		
 		if ($order_info['payment_iso_code_2'] == 'US') {
 			$data['BillingState'] = $order_info['payment_zone_code'];
 		}
 		
-		$data['BillingPhone=' . $order_info['telephone'];
+		$data['BillingPhone'] = $order_info['telephone'];
 		
 		if ($this->cart->hasShipping()) {
 			$data['DeliveryFirstnames'] = $order_info['shipping_firstname'];
@@ -109,10 +109,10 @@ class ControllerPaymentSagepay extends Controller {
 		$this->data['vendor'] = $vendor;
 		$this->data['crypt'] = base64_encode($this->simpleXor(http_build_query($data), $password));
 		
-		if ($this->request->get['route'] != 'checkout/guest/confirm') {
+		if ($this->request->get['route'] != 'checkout/guest_step_3') {
 			$this->data['back'] = $this->url->https('checkout/payment');
 		} else {
-			$this->data['back'] = $this->url->https('checkout/guest');
+			$this->data['back'] = $this->url->https('checkout/guest_step_2');
 		}
 		
 		$this->id = 'payment';

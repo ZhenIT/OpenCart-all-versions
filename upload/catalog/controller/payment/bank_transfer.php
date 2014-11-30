@@ -9,14 +9,14 @@ class ControllerPaymentBankTransfer extends Controller {
 		$this->data['button_confirm'] = $this->language->get('button_confirm');
 		$this->data['button_back'] = $this->language->get('button_back');
 		
-		$this->data['bank'] = nl2br($this->config->get('bank_transfer_bank_' . $this->language->getId()));
+		$this->data['bank'] = nl2br($this->config->get('bank_transfer_bank_' . $this->config->get('config_language_id')));
 
 		$this->data['continue'] = $this->url->https('checkout/success');
 
-		if ($this->request->get['route'] != 'checkout/guest/confirm') {
+		if ($this->request->get['route'] != 'checkout/guest_step_3') {
 			$this->data['back'] = $this->url->https('checkout/payment');
 		} else {
-			$this->data['back'] = $this->url->https('checkout/guest');
+			$this->data['back'] = $this->url->https('checkout/guest_step_2');
 		}
 		
 		$this->id = 'payment';
@@ -36,7 +36,7 @@ class ControllerPaymentBankTransfer extends Controller {
 		$this->load->model('checkout/order');
 		
 		$comment  = $this->language->get('text_instruction') . "\n\n";
-		$comment .= $this->config->get('bank_transfer_bank_' . $this->language->getId()) . "\n\n";
+		$comment .= $this->config->get('bank_transfer_bank_' . $this->config->get('config_language_id')) . "\n\n";
 		$comment .= $this->language->get('text_payment');
 		
 		$this->model_checkout_order->confirm($this->session->data['order_id'], $this->config->get('bank_transfer_order_status_id'), $comment);

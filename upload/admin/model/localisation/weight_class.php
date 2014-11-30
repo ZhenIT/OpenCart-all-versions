@@ -47,7 +47,7 @@ class ModelLocalisationWeightClass extends Model {
 	
 	public function getWeightClasses($data = array()) {
 		if ($data) {
-			$sql = "SELECT * FROM " . DB_PREFIX . "weight_class WHERE language_id = '" . (int)$this->language->getId() . "'";
+			$sql = "SELECT * FROM " . DB_PREFIX . "weight_class WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'";
 		
 			$sort_data = array(
 				'title',
@@ -82,14 +82,14 @@ class ModelLocalisationWeightClass extends Model {
 	
 			return $query->rows;			
 		} else {
-			$weight_class_data = $this->cache->get('weight_class.' . $this->language->getId());
+			$weight_class_data = $this->cache->get('weight_class.' . $this->config->get('config_language_id'));
 
 			if (!$weight_class_data) {
-				$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "weight_class WHERE language_id = '" . (int)$this->language->getId() . "'");
+				$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "weight_class WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
 	
 				$weight_class_data = $query->rows;
 			
-				$this->cache->set('weight_class.' . $this->language->getId(), $weight_class_data);
+				$this->cache->set('weight_class.' . $this->config->get('config_language_id'), $weight_class_data);
 			}
 			
 			return $weight_class_data;
@@ -124,13 +124,13 @@ class ModelLocalisationWeightClass extends Model {
 	}
 
 	public function getWeightTo($weight_class_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "weight_class WHERE language_id = '" . (int)$this->language->getId() . "' AND weight_class_id != '" . (int)$weight_class_id . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "weight_class WHERE language_id = '" . (int)$this->config->get('config_language_id') . "' AND weight_class_id != '" . (int)$weight_class_id . "'");
 				
 		return $query->rows;
 	}
 			
 	public function getTotalWeightClasses() {
-      	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "weight_class WHERE language_id = '" . (int)$this->language->getId() . "'");
+      	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "weight_class WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
 		
 		return $query->row['total'];
 	}		

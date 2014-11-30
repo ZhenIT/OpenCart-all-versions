@@ -1,10 +1,10 @@
 <?php
 class ModelShippingFedex extends Model {
-	function getQuote($country_id, $zone_id, $postcode = '') {
+	function getQuote($address) {
 		$this->load->language('shipping/fedex');
 		
 		if ($this->config->get('fedex_status')) {
-      		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone_to_geo_zone WHERE geo_zone_id = '" . (int)$this->config->get('fedex_geo_zone_id') . "' AND country_id = '" . (int)$country_id . "' AND (zone_id = '" . (int)$country_id . "' OR zone_id = '0')");
+      		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone_to_geo_zone WHERE geo_zone_id = '" . (int)$this->config->get('fedex_geo_zone_id') . "' AND country_id = '" . (int)$address['country_id'] . "' AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
 		
       		if (!$this->config->get('fedex_geo_zone_id')) {
         		$status = TRUE;
@@ -47,9 +47,9 @@ class ModelShippingFedex extends Model {
 			$xml .= '		<CountryCode>' . 'UK' . '</CountryCode>';
 			$xml .= '	</OriginAddress>';
 			$xml .= '	<DestinationAddress>';
-			$xml .= '		<StateOrProvinceCode>' . $shipping_address['zone_code'] . '</StateOrProvinceCode>';
-			$xml .= '		<PostalCode>' . $shipping_address['postcode'] . '</PostalCode>';
-			$xml .= '		<CountryCode>' . $shipping_address['iso_code_2'] . '</CountryCode>';
+			$xml .= '		<StateOrProvinceCode>' . $address['zone_code'] . '</StateOrProvinceCode>';
+			$xml .= '		<PostalCode>' . $address['postcode'] . '</PostalCode>';
+			$xml .= '		<CountryCode>' . $address['iso_code_2'] . '</CountryCode>';
 			$xml .= '	</DestinationAddress>';
 			$xml .= '	<Payment>';
 			$xml .= '		<PayorType>' . 'SENDER' . '</PayorType>';

@@ -18,6 +18,10 @@ class ControllerPaymentPPProUK extends Controller {
 		
 		$this->data['button_confirm'] = $this->language->get('button_confirm');
 		$this->data['button_back'] = $this->language->get('button_back');
+
+		$this->load->model('checkout/order');
+		
+		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 		
 		$this->data['owner'] = $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'];
 		
@@ -72,10 +76,10 @@ class ControllerPaymentPPProUK extends Controller {
 			);
 		}
 		
-		if ($this->request->get['route'] != 'checkout/guest/confirm') {
+		if ($this->request->get['route'] != 'checkout/guest_step_3') {
 			$this->data['back'] = $this->url->https('checkout/payment');
 		} else {
-			$this->data['back'] = $this->url->https('checkout/guest');
+			$this->data['back'] = $this->url->https('checkout/guest_step_2');
 		}
 		
 		$this->id = 'payment';

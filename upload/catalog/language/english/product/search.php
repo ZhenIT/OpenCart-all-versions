@@ -4,7 +4,8 @@ $_['heading_title']     = 'Search';
  
 // Text
 $_['text_search']       = 'Products meeting the search criteria';
-$_['text_keywords']     = 'Keywords';
+$_['text_keyword']      = 'Keywords';
+$_['text_category']     = 'All Categories';
 $_['text_critea']       = 'Search Criteria';
 $_['text_empty']        = 'There is no product that matches the search criteria.';
 $_['text_stars']        = '%s out of 5 Stars!';

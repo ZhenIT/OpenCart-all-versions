@@ -1,13 +1,17 @@
 <?php echo $header; ?><?php echo $column_left; ?><?php echo $column_right; ?>
 <div id="content">
   <div class="top">
-    <h1><?php echo $heading_title; ?></h1>
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center">
+      <h1><?php echo $heading_title; ?></h1>
+    </div>
   </div>
   <div class="middle">
-    <table width="558">
+    <table width="100%">
       <tr>
-        <td width="50%"><?php echo $category; ?></td>
-        <td width="50%"><ul>
+        <td style="width: 50%; vertical-align: top;"><?php echo $category; ?></td>
+        <td style="width: 50%; vertical-align: top;"><ul>
             <li><a href="<?php echo $special; ?>"><?php echo $text_special; ?></a></li>
             <li><a href="<?php echo $account; ?>"><?php echo $text_account; ?></a>
               <ul>
@@ -33,6 +37,10 @@
       </tr>
     </table>
   </div>
-  <div class="bottom">&nbsp;</div>
+  <div class="bottom">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center"></div>
+  </div>
 </div>
 <?php echo $footer; ?> 

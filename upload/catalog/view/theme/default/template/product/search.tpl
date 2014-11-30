@@ -1,7 +1,11 @@
 <?php echo $header; ?><?php echo $column_left; ?><?php echo $column_right; ?>
 <div id="content">
   <div class="top">
-    <h1><?php echo $heading_title; ?></h1>
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center">
+      <h1><?php echo $heading_title; ?></h1>
+    </div>
   </div>
   <div class="middle"><b><?php echo $text_critea; ?></b>
     <div id="content_search" style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-top: 3px; margin-bottom: 10px;">
@@ -9,10 +13,20 @@
         <tr>
           <td><?php echo $entry_search; ?></td>
           <td><?php if ($keyword) { ?>
-            <input type="text" name="keyword" value="<?php echo $keyword; ?>" id="keyword" />
+            <input type="text" value="<?php echo $keyword; ?>" id="keyword" />
             <?php } else { ?>
-            <input type="text" name="keyword" value="<?php echo $text_keywords; ?>" id="keyword" />
-            <?php } ?></td>
+            <input type="text" value="<?php echo $text_keyword; ?>" id="keyword" onclick="this.value = '';" onkeydown="this.style.color = '000000'" style="color: #999;" />
+            <?php } ?>
+            <select id="category_id">
+              <option value="0"><?php echo $text_category; ?></option>
+              <?php foreach ($categories as $category) { ?>
+              <?php if ($category['category_id'] == $category_id) { ?>
+              <option value="<?php echo $category['category_id']; ?>" selected="selected"><?php echo $category['name']; ?></option>
+              <?php } else { ?>
+              <option value="<?php echo $category['category_id']; ?>"><?php echo $category['name']; ?></option>
+              <?php } ?>
+              <?php } ?>
+            </select></td>
         </tr>
         <tr>
           <td colspan="2"><?php if ($description) { ?>
@@ -75,8 +89,13 @@
     <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-top: 3px; margin-bottom: 15px;"><?php echo $text_empty; ?></div>
     <?php }?>
   </div>
-  <div class="bottom">&nbsp;</div>
-  <script type="text/javascript"><!--
+  <div class="bottom">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center"></div>
+  </div>
+</div>
+<script type="text/javascript"><!--
 $('#content_search input').keydown(function(e) {
 	if (e.keyCode == 13) {
 		contentSearch();
@@ -91,6 +110,12 @@ function contentSearch() {
 	if (keyword) {
 		url += '&keyword=' + encodeURIComponent(keyword);
 	}
+
+	var category_id = $('#category_id').attr('value');
+	
+	if (category_id) {
+		url += '&category_id=' + encodeURIComponent(category_id);
+	}
 	
 	if ($('#description').attr('checked')) {
 		url += '&description=1';
@@ -99,5 +124,4 @@ function contentSearch() {
 	location = url;
 }
 //--></script>
-</div>
 <?php echo $footer; ?> 

@@ -1,10 +1,10 @@
 <?php
 class ModelShippingParcelforce48 extends Model {
-	function getQuote($country_id, $zone_id, $postcode = '') {
+	function getQuote($address) {
 		$this->load->language('shipping/parcelforce_48');
 		
 		if ($this->config->get('parcelforce_48_status')) {
-      		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone_to_geo_zone WHERE geo_zone_id = '" . (int)$this->config->get('parcelforce_48_geo_zone_id') . "' AND country_id = '" . (int)$country_id . "' AND (zone_id = '" . (int)$zone_id . "' OR zone_id = '0')");
+      		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone_to_geo_zone WHERE geo_zone_id = '" . (int)$this->config->get('parcelforce_48_geo_zone_id') . "' AND country_id = '" . (int)$address['country_id'] . "' AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
 		
       		if (!$this->config->get('parcelforce_48_geo_zone_id')) {
         		$status = TRUE;
@@ -54,7 +54,7 @@ class ModelShippingParcelforce48 extends Model {
 			
 			$quote_data = array();
 			
-			if ($cost) {
+			if ((float)$cost) {
 				$text = $this->language->get('text_description');
 			
 				if ($this->config->get('parcelforce_48_display_weight')) {

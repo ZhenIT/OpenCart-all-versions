@@ -1,7 +1,11 @@
 <?php echo $header; ?><?php echo $column_left; ?><?php echo $column_right; ?>
 <div id="content">
   <div class="top">
-    <h1><?php echo $heading_title; ?></h1>
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center">
+      <h1><?php echo $heading_title; ?></h1>
+    </div>
   </div>
   <div class="middle">
     <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="newsletter">
@@ -11,12 +15,12 @@
             <td width="150"><?php echo $entry_newsletter; ?></td>
             <td><?php if ($newsletter) { ?>
               <input type="radio" name="newsletter" value="1" checked="checked" />
-              <?php echo $text_yes; ?>
+              <?php echo $text_yes; ?>&nbsp;
               <input type="radio" name="newsletter" value="0" />
               <?php echo $text_no; ?>
               <?php } else { ?>
               <input type="radio" name="newsletter" value="1" />
-              <?php echo $text_yes; ?>
+              <?php echo $text_yes; ?>&nbsp;
               <input type="radio" name="newsletter" value="0" checked="checked" />
               <?php echo $text_no; ?>
               <?php } ?></td>
@@ -33,6 +37,10 @@
       </div>
     </form>
   </div>
-  <div class="bottom">&nbsp;</div>
+  <div class="bottom">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center"></div>
+  </div>
 </div>
 <?php echo $footer; ?> 

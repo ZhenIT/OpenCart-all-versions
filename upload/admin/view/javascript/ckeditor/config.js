@@ -16,16 +16,18 @@ CKEDITOR.editorConfig = function( config )
 	// config.language = 'fr';
 
 	// config.uiColor = '#AADC6E';
-	
+
+	config.filebrowserBrowseUrl = 'index.php?route=common/filemanager';
+	config.filebrowserImageBrowseUrl = 'index.php?route=common/filemanager';
+	config.filebrowserFlashBrowseUrl = 'index.php?route=common/filemanager';
+	config.filebrowserUploadUrl = 'index.php?route=common/filemanager';
+	config.filebrowserImageUploadUrl = 'index.php?route=common/filemanager';
+	config.filebrowserFlashUploadUrl = 'index.php?route=common/filemanager';		
+	config.filebrowserWindowWidth = '800';
+	config.filebrowserWindowHeight = '500';
+
 	config.resize_enabled = false;
 	
-	config.filebrowserBrowseUrl = '/admin/view/javascript/ckfinder/ckfinder.html';
-	config.filebrowserImageBrowseUrl = '/admin/view/javascript/ckfinder/ckfinder.html?Type=Images';
-	config.filebrowserFlashBrowseUrl = '/admin/view/javascript/ckfinder/ckfinder.html?Type=Flash';
-	config.filebrowserUploadUrl = '/admin/view/javascript/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files';
-	config.filebrowserImageUploadUrl = '/admin/view/javascript/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images';
-	config.filebrowserFlashUploadUrl = '/admin/view/javascript/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash';
-
 	config.toolbar = 'Custom';
 
 	config.toolbar_Custom = [

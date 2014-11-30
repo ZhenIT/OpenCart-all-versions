@@ -10,31 +10,13 @@ class ControllerSettingSetting extends Controller {
 		$this->load->model('setting/setting');
 		
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
-			$data = array();
-			
-			if (is_uploaded_file($this->request->files['config_logo']['tmp_name']) && is_writable(DIR_IMAGE) && is_writable(DIR_IMAGE . 'cache/')) {
-				move_uploaded_file($this->request->files['config_logo']['tmp_name'], DIR_IMAGE . $this->request->files['config_logo']['name']);
-				
-				if (file_exists(DIR_IMAGE . $this->request->files['config_logo']['name'])) {
-					$data['config_logo'] = $this->request->files['config_logo']['name'];
-				}				
-			}
-
-			if (is_uploaded_file($this->request->files['config_icon']['tmp_name']) && is_writable(DIR_IMAGE) && is_writable(DIR_IMAGE . 'cache/')) {
-				move_uploaded_file($this->request->files['config_icon']['tmp_name'], DIR_IMAGE . $this->request->files['config_icon']['name']);
-
-				if (file_exists(DIR_IMAGE . $this->request->files['config_icon']['name'])) {
-					$data['config_icon'] = $this->request->files['config_icon']['name'];
-				}	
-			}
-			
 			if ($this->config->get('config_currency_auto')) {
 				$this->load->model('localisation/currency');
 			
 				$this->model_localisation_currency->updateCurrencies();
 			}			
 			
-			$this->model_setting_setting->editSetting('config', array_merge($this->request->post, $data));
+			$this->model_setting_setting->editSetting('config', $this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -48,6 +30,7 @@ class ControllerSettingSetting extends Controller {
 		$this->data['text_no'] = $this->language->get('text_no');
 		$this->data['text_mail'] = $this->language->get('text_mail');
 		$this->data['text_smtp'] = $this->language->get('text_smtp');
+		$this->data['text_image_manager'] = $this->language->get('text_image_manager');
 		
 		$this->data['entry_store'] = $this->language->get('entry_store');
 		$this->data['entry_title'] = $this->language->get('entry_title');
@@ -208,32 +191,6 @@ class ControllerSettingSetting extends Controller {
 			$this->data['config_meta_description'] = $this->config->get('config_meta_description');
 		}
 		
-		$this->load->helper('image');
-		
-		$this->data['config_logo'] = $this->config->get('config_logo');
-
-		if ($this->config->get('config_logo') && file_exists(DIR_IMAGE . $this->config->get('config_logo'))) {
-			if ((isset($this->request->server['HTTPS'])) && ($this->request->server['HTTPS'] == 'on')) {
-				$this->data['preview_logo'] = HTTPS_IMAGE . $this->config->get('config_logo');
-			} else {
-				$this->data['preview_logo'] = HTTP_IMAGE . $this->config->get('config_logo');
-			}			
-		} else {
-			$this->data['preview_logo'] = image_resize('no_image.jpg', 100, 100);
-		}
-		
-		$this->data['config_icon'] = $this->config->get('config_icon');		
-		
-		if ($this->config->get('config_icon') && file_exists(DIR_IMAGE . $this->config->get('config_icon'))) {
-			if ((isset($this->request->server['HTTPS'])) && ($this->request->server['HTTPS'] == 'on')) {
-				$this->data['preview_icon'] = HTTPS_IMAGE . $this->config->get('config_icon');
-			} else {
-				$this->data['preview_icon'] = HTTP_IMAGE . $this->config->get('config_icon');
-			}	
-		} else {
-			$this->data['preview_icon'] = image_resize('no_image.jpg', 100, 100);
-		}
-
 		$this->load->model('localisation/language');
 		
 		$languages = $this->model_localisation_language->getLanguages();
@@ -370,9 +327,9 @@ class ControllerSettingSetting extends Controller {
 			$this->data['config_alert_mail'] = $this->config->get('config_alert_mail');
 		}
 
-		$this->load->model('customer/customer_group');
+		$this->load->model('sale/customer_group');
 		
-		$this->data['customer_groups'] = $this->model_customer_customer_group->getCustomerGroups();
+		$this->data['customer_groups'] = $this->model_sale_customer_group->getCustomerGroups();
 		
 		if (isset($this->request->post['config_customer_group_id'])) {
 			$this->data['config_customer_group_id'] = $this->request->post['config_customer_group_id'];
@@ -468,6 +425,32 @@ class ControllerSettingSetting extends Controller {
 			$this->data['config_download_status'] = $this->request->post['config_download_status'];
 		} else {
 			$this->data['config_download_status'] = $this->config->get('config_download_status');
+		}
+
+		$this->load->helper('image');
+		
+		$this->data['config_logo'] = $this->config->get('config_logo');
+
+		if ($this->config->get('config_logo') && file_exists(DIR_IMAGE . $this->config->get('config_logo'))) {
+			if ((isset($this->request->server['HTTPS'])) && ($this->request->server['HTTPS'] == 'on')) {
+				$this->data['preview_logo'] = HTTPS_IMAGE . $this->config->get('config_logo');
+			} else {
+				$this->data['preview_logo'] = HTTP_IMAGE . $this->config->get('config_logo');
+			}			
+		} else {
+			$this->data['preview_logo'] = image_resize('no_image.jpg', 100, 100);
+		}
+		
+		$this->data['config_icon'] = $this->config->get('config_icon');		
+		
+		if ($this->config->get('config_icon') && file_exists(DIR_IMAGE . $this->config->get('config_icon'))) {
+			if ((isset($this->request->server['HTTPS'])) && ($this->request->server['HTTPS'] == 'on')) {
+				$this->data['preview_icon'] = HTTPS_IMAGE . $this->config->get('config_icon');
+			} else {
+				$this->data['preview_icon'] = HTTP_IMAGE . $this->config->get('config_icon');
+			}	
+		} else {
+			$this->data['preview_icon'] = image_resize('no_image.jpg', 100, 100);
 		}
 		
 		if (isset($this->request->post['config_image_thumb_width'])) {
@@ -666,8 +649,8 @@ class ControllerSettingSetting extends Controller {
 			$this->error['address'] = $this->language->get('error_address');
 		}
 		
-		$pattern = '/^([a-z0-9])(([-a-z0-9._])*([a-z0-9]))*\@([a-z0-9])(([a-z0-9-])*([a-z0-9]))+(\.([a-z0-9])([-a-z0-9_-])?([a-z0-9])+)+$/i';
-		
+		$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i';
+
     	if ((strlen(utf8_decode($this->request->post['config_email'])) > 32) || (!preg_match($pattern, $this->request->post['config_email']))) {
       		$this->error['email'] = $this->language->get('error_email');
     	}
@@ -678,66 +661,6 @@ class ControllerSettingSetting extends Controller {
 		
 		if (!$this->request->post['config_error_filename']) {
 			$this->error['error_filename'] = $this->language->get('error_error_filename');
-		}
-		
-  		if ($this->request->files['config_logo']['name']) {
-	  		if ((strlen(utf8_decode($this->request->files['config_logo']['name'])) < 3) || (strlen(utf8_decode($this->request->files['config_logo']['name'])) > 255)) {
-        		$this->error['warning'] = $this->language->get('error_filename');
-	  		}
-
-		    $allowed = array(
-		    	'image/jpeg',
-		    	'image/pjpeg',
-				'image/png',
-				'image/x-png',
-				'image/gif'
-		    );
-				
-			if (!in_array($this->request->files['config_logo']['type'], $allowed)) {
-				$this->error['warning'] = $this->language->get('error_filetype');
-			}
-			
-			if (!is_writable(DIR_IMAGE)) {
-				$this->error['warning'] = $this->language->get('error_writable_image');
-			}
-			
-			if (!is_writable(DIR_IMAGE . 'cache/')) {
-				$this->error['warning'] = $this->language->get('error_writable_image_cache');
-			}
-			
-			if ($this->request->files['config_logo']['error'] != UPLOAD_ERR_OK) { 
-				$this->error['warning'] = $this->language->get('error_upload_' . $this->request->files['config_logo']['error']);
-			}
-		}
-
-  		if ($this->request->files['config_icon']['name']) {
-	  		if ((strlen(utf8_decode($this->request->files['config_icon']['name'])) < 3) || (strlen(utf8_decode($this->request->files['config_icon']['name'])) > 255)) {
-        		$this->error['warning'] = $this->language->get('error_filename');
-	  		}
-
-		    $allowed = array(
-		    	'image/jpeg',
-		    	'image/pjpeg',
-				'image/png',
-				'image/x-png',
-				'image/gif'
-		    );
-				
-			if (!in_array($this->request->files['config_icon']['type'], $allowed)) {
-				$this->error['warning'] = $this->language->get('error_filetype');
-			}
-			
-			if (!is_writable(DIR_IMAGE)) {
-				$this->error['warning'] = $this->language->get('error_writable_image');
-			}
-			
-			if (!is_writable(DIR_IMAGE . 'cache/')) {
-				$this->error['warning'] = $this->language->get('error_writable_image_cache');
-			}
-			
-			if ($this->request->files['config_icon']['error'] != UPLOAD_ERR_OK) { 
-				$this->error['warning'] = $this->language->get('error_upload_' . $this->request->files['config_icon']['error']);
-			}
 		}
 
 		if (!$this->error) {

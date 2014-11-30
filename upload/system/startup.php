@@ -49,12 +49,12 @@ if (!ini_get('date.timezone')) {
 }
 
 // Engine
+require_once(DIR_SYSTEM . 'engine/action.php'); 
 require_once(DIR_SYSTEM . 'engine/controller.php');
 require_once(DIR_SYSTEM . 'engine/front.php');
 require_once(DIR_SYSTEM . 'engine/loader.php'); 
 require_once(DIR_SYSTEM . 'engine/model.php');
 require_once(DIR_SYSTEM . 'engine/registry.php');
-require_once(DIR_SYSTEM . 'engine/router.php'); 
 require_once(DIR_SYSTEM . 'engine/url.php');
 
 // Common

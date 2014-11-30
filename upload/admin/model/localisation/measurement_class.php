@@ -47,7 +47,7 @@ class ModelLocalisationMeasurementClass extends Model {
 	
 	public function getMeasurementClasses($data = array()) {
 		if ($data) {
-			$sql = "SELECT * FROM " . DB_PREFIX . "measurement_class WHERE language_id = '" . (int)$this->language->getId() . "'";
+			$sql = "SELECT * FROM " . DB_PREFIX . "measurement_class WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'";
 		
 			$sort_data = array(
 				'title',
@@ -82,14 +82,14 @@ class ModelLocalisationMeasurementClass extends Model {
 	
 			return $query->rows;			
 		} else {
-			$measurement_class_data = $this->cache->get('measurement_class.' . $this->language->getId());
+			$measurement_class_data = $this->cache->get('measurement_class.' . $this->config->get('config_language_id'));
 
 			if (!$measurement_class_data) {
-				$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "measurement_class WHERE language_id = '" . (int)$this->language->getId() . "'");
+				$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "measurement_class WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
 	
 				$measurement_class_data = $query->rows;
 			
-				$this->cache->set('measurement_class.' . $this->language->getId(), $measurement_class_data);
+				$this->cache->set('measurement_class.' . $this->config->get('config_language_id'), $measurement_class_data);
 			}
 			
 			return $measurement_class_data;
@@ -124,13 +124,13 @@ class ModelLocalisationMeasurementClass extends Model {
 	}
 
 	public function getMeasurementTo($measurement_class_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "measurement_class WHERE language_id = '" . (int)$this->language->getId() . "' AND measurement_class_id != '" . (int)$measurement_class_id . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "measurement_class WHERE language_id = '" . (int)$this->config->get('config_language_id') . "' AND measurement_class_id != '" . (int)$measurement_class_id . "'");
 				
 		return $query->rows;
 	}
 			
 	public function getTotalMeasurementClasses() {
-      	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "measurement_class WHERE language_id = '" . (int)$this->language->getId() . "'");
+      	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "measurement_class WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
 		
 		return $query->row['total'];
 	}		

@@ -338,6 +338,7 @@ class ControllerUserUserPermission extends Controller {
 			'common/permission',
 			'error/not_found',
 			'error/permission',
+			'common/filemanager',
 			'common/footer',
 			'common/header',
 			'common/menu'

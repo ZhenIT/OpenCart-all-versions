@@ -1,10 +1,10 @@
 <?php 
 class ModelPaymentPayJunction extends Model {
-  	public function getMethod($country_id, $zone_id) {
+  	public function getMethod($address) {
 		$this->load->language('payment/payjunction');
 		
 		if ($this->config->get('payjunction_status')) {
-      		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone_to_geo_zone WHERE geo_zone_id = '" . (int)$this->config->get('payjunction_geo_zone_id') . "' AND country_id = '" . (int)$country_id . "' AND (zone_id = '" . (int)$zone_id . "' OR zone_id = '0')");
+      		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone_to_geo_zone WHERE geo_zone_id = '" . (int)$this->config->get('payjunction_geo_zone_id') . "' AND country_id = '" . (int)$address['country_id'] . "' AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
 			
 			if (!$this->config->get('payjunction_geo_zone_id')) {
         		$status = TRUE;

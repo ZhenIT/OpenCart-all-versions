@@ -1,10 +1,10 @@
 <?php
 class ModelShippingCitylink extends Model {
-	function getQuote($country_id, $zone_id, $postcode = '') {
+	function getQuote($address) {
 		$this->load->language('shipping/citylink');
 		
 		if ($this->config->get('citylink_status')) {
-      		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone_to_geo_zone WHERE geo_zone_id = '" . (int)$this->config->get('citylink_geo_zone_id') . "' AND country_id = '" . (int)$country_id . "' AND (zone_id = '" . (int)$zone_id . "' OR zone_id = '0')");
+      		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone_to_geo_zone WHERE geo_zone_id = '" . (int)$this->config->get('citylink_geo_zone_id') . "' AND country_id = '" . (int)$address['country_id'] . "' AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
 		
       		if (!$this->config->get('citylink_geo_zone_id')) {
         		$status = TRUE;
@@ -39,7 +39,7 @@ class ModelShippingCitylink extends Model {
 			
 			$quote_data = array();
 			
-			if ((int)$cost) {
+			if ((float)$cost) {
 				$quote_data['citylink'] = array(
         			'id'           => 'citylink.citylink',
         			'title'        => $this->language->get('text_title') . '  (' . $this->weight->format($weight, $this->config->get('config_weight_class_id')) . ')',

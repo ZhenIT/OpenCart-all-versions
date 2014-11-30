@@ -13,6 +13,12 @@ class ControllerCommonFooter extends Controller {
 			$this->template = 'default/template/common/footer.tpl';
 		}
 		
+		if ($this->config->get('google_analytics_status')) {
+			$this->data['google_analytics'] = $this->config->get('google_analytics_code');
+		} else {
+			$this->data['google_analytics'] = '';
+		}
+		
 		$this->render();
 	}
 }

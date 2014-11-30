@@ -166,15 +166,15 @@ class ControllerAccountDownload extends Controller {
 			$encoding = 'binary';
 
 			if (!headers_sent()) {
-				header('Pragma: public');
-				header('Expires: 0');
-				header('Content-Description: File Transfer');
-				header('Content-Type: ' . $mime);
-				header('Content-Transfer-Encoding: ' . $encoding);
-				header('Content-Disposition: attachment; filename=' . ($mask ? $mask : basename($file)));
-				header('Content-Length: ' . filesize($file));
-			
 				if (file_exists($file)) {
+					header('Pragma: public');
+					header('Expires: 0');
+					header('Content-Description: File Transfer');
+					header('Content-Type: ' . $mime);
+					header('Content-Transfer-Encoding: ' . $encoding);
+					header('Content-Disposition: attachment; filename=' . ($mask ? $mask : basename($file)));
+					header('Content-Length: ' . filesize($file));
+				
 					$file = readfile($file, 'rb');
 				
 					print($file);

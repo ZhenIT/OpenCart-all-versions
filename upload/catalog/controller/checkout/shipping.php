@@ -42,35 +42,37 @@ class ControllerCheckoutShipping extends Controller {
 		$this->tax->setZone($shipping_address['country_id'], $shipping_address['zone_id']);
 		
 		$this->load->model('checkout/extension');
-			
-		$quote_data = array();
 		
-		$results = $this->model_checkout_extension->getExtensions('shipping');
-		
-		foreach ($results as $result) {
-			$this->load->model('shipping/' . $result['key']);
+		if (!isset($this->session->data['shipping_methods'])) {
+			$quote_data = array();
 			
-			$quote = $this->{'model_shipping_' . $result['key']}->getQuote($shipping_address['country_id'], $shipping_address['zone_id'], $shipping_address['postcode']); 
-
-			if ($quote) {
-				$quote_data[$result['key']] = array(
-					'title'      => $quote['title'],
-					'quote'      => $quote['quote'], 
-					'sort_order' => $quote['sort_order'],
-					'error'      => $quote['error']
-				);
+			$results = $this->model_checkout_extension->getExtensions('shipping');
+			
+			foreach ($results as $result) {
+				$this->load->model('shipping/' . $result['key']);
+				
+				$quote = $this->{'model_shipping_' . $result['key']}->getQuote($shipping_address); 
+	
+				if ($quote) {
+					$quote_data[$result['key']] = array(
+						'title'      => $quote['title'],
+						'quote'      => $quote['quote'], 
+						'sort_order' => $quote['sort_order'],
+						'error'      => $quote['error']
+					);
+				}
 			}
+	
+			$sort_order = array();
+		  
+			foreach ($quote_data as $key => $value) {
+				$sort_order[$key] = $value['sort_order'];
+			}
+	
+			array_multisort($sort_order, SORT_ASC, $quote_data);
+			
+			$this->session->data['shipping_methods'] = $quote_data;
 		}
-
-		$sort_order = array();
-	  
-		foreach ($quote_data as $key => $value) {
-      		$sort_order[$key] = $value['sort_order'];
-    	}
-
-    	array_multisort($sort_order, SORT_ASC, $quote_data);
-		
-		$this->session->data['shipping_methods'] = $quote_data;
 		
 		$this->language->load('checkout/shipping');
 		
@@ -160,12 +162,12 @@ class ControllerCheckoutShipping extends Controller {
 		    	
 		$this->data['change_address'] = $this->url->https('checkout/address/shipping'); 
 
-		$this->data['methods'] = $this->session->data['shipping_methods']; 
+		$this->data['shipping_methods'] = $this->session->data['shipping_methods']; 
     	
 		if (isset($this->session->data['shipping_method']['id'])) {
-			$this->data['default'] = $this->session->data['shipping_method']['id'];
+			$this->data['shipping'] = $this->session->data['shipping_method']['id'];
 		} else {
-			$this->data['default'] = '';
+			$this->data['shipping'] = '';
 		}
 		
 		if (isset($this->session->data['comment'])) {

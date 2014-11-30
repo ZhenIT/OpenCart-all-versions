@@ -20,7 +20,7 @@ class ControllerAccountLogin extends Controller {
 				}
 				
 				if ($this->request->post['account'] == 'guest') {
-					$this->redirect($this->url->https('checkout/guest'));
+					$this->redirect($this->url->https('checkout/guest_step_1'));
 				}
 			}
 			
