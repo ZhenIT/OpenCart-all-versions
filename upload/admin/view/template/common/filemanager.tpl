@@ -164,12 +164,10 @@ $(document).ready(function() {
 								filename = json[i]['filename'];
 								
 								for (j = 0; j < filename.length; j = j + 15) {
-									name += filename.substr(j, 15) + '<br />';
+									name += filename.substr(j, 15);
 								}
 								
-								name += json[i]['size'];
-								
-								html += '<a>' + name + '<input type="hidden" name="image" value="' + json[i]['file'] + '" /></a>';
+								html += '<a><img src="<?php echo $no_image; ?>" alt="" title="" /><br />' + name + '<br />' + json[i]['size'] + '<input type="hidden" name="image" value="' + json[i]['file'] + '" /></a>';
 							}
 						}
 						
@@ -178,15 +176,18 @@ $(document).ready(function() {
 						$('#column-right').html(html);
 						
 						$('#column-right a').each(function(index, element) {
-							$.ajax({
-								url: 'index.php?route=common/filemanager/image&token=<?php echo $token; ?>&image=' + encodeURIComponent('data/' + $(element).find('input[name=\'image\']').attr('value')),
-								dataType: 'html',
-								success: function(html) {
-									$(element).prepend('<img src="' + html + '" title="" style="display: none;" /><br />');
-									
-									$(element).find('img').fadeIn();
-								}
-							});
+							var offset = $(element).offset();
+							var height = $('#column-right').height();
+							
+							if ((offset.top > 0) && (offset.top < height) && $(element).find('img').attr('src') == '<?php echo $no_image; ?>') {
+								$.ajax({
+									url: 'index.php?route=common/filemanager/image&token=<?php echo $token; ?>&image=' + encodeURIComponent('data/' + $(element).find('input[name=\'image\']').attr('value')),
+									dataType: 'html',
+									success: function(html) {
+										$(element).find('img').replaceWith('<img src="' + html + '" alt="" title="" />');
+									}
+								});
+							}
 						});
 					},
 					error: function(xhr, ajaxOptions, thrownError) {
@@ -196,6 +197,23 @@ $(document).ready(function() {
 			}
 		}
 	});	
+	
+	$('#column-right').bind('scroll', function() {
+		$('#column-right a').each(function(index, element) {
+			var height = $('#column-right').height();
+			var offset = $(element).offset();
+						
+			if ((offset.top > 0) && (offset.top < height) && $(element).find('img').attr('src') == '<?php echo $no_image; ?>') {
+				$.ajax({
+					url: 'index.php?route=common/filemanager/image&token=<?php echo $token; ?>&image=' + encodeURIComponent('data/' + $(element).find('input[name=\'image\']').attr('value')),
+					dataType: 'html',
+					success: function(html) {
+						$(element).find('img').replaceWith('<img src="' + html + '" alt="" title="" />');
+					}
+				});
+			}
+		});
+	});
 	
 	$('#column-right a').live('click', function() {
 		if ($(this).attr('class') == 'selected') {
