@@ -58,5 +58,6 @@ $_['error_image_product']     = 'Product List Size dimensions required!';
 $_['error_image_additional']  = 'Additional Product Image Size dimensions required!';
 $_['error_image_related']     = 'Related Product Image Size dimensions required!';
 $_['error_image_cart']        = 'Cart Image Size dimensions required!';
+$_['error_default']           = 'Warning: This Store cannot be deleted as it is currently assigned as the default store!';
 $_['error_store']             = 'Warning: This Store cannot be deleted as it is currently assigned to %s orders!';
 ?>

@@ -183,7 +183,7 @@ class ControllerSettingStore extends Controller {
 						
 			$this->data['stores'][] = array(
 				'store_id' => $result['store_id'],
-				'name'     => $result['name'],
+				'name'     => $result['name'] . (($result['store_id'] == $this->config->get('config_store_id')) ? $this->language->get('text_default') : NULL),
 				'url'      => $result['url'],
 				'selected' => isset($this->request->post['selected']) && in_array($result['store_id'], $this->request->post['selected']),
 				'action'   => $action
@@ -853,6 +853,10 @@ class ControllerSettingStore extends Controller {
 		$this->load->model('sale/order');
 		
 		foreach ($this->request->post['selected'] as $store_id) {
+			if ($this->config->get('config_store_id') == $store_id) {
+				$this->error['warning'] = $this->language->get('error_default');
+			}			
+			
 			$store_total = $this->model_sale_order->getTotalOrdersByStoreId($store_id);
 
 			if ($store_total) {
