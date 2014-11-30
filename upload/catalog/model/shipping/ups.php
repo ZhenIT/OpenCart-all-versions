@@ -123,7 +123,6 @@ class ModelShippingUps extends Model {
 			}
 			
 			$xml .= '	<Shipment>';  
-			
 			$xml .= '		<Shipper>';  
 			$xml .= '			<Address>';  
 			$xml .= '				<City>' . $this->config->get('ups_city') . '</City>';
@@ -215,7 +214,13 @@ class ModelShippingUps extends Model {
 			
 			$quote_data = array();
 			
-			if ($result) { 
+			if ($result) {
+			
+				if ($this->config->get('ups_debug')) {
+					$this->log->write("UPS DATA SENT: " . $xml);
+					$this->log->write("UPS DATA RECV: " . $result);
+				}
+				
 				$dom = new DOMDocument('1.0', 'UTF-8');
 				$dom->loadXml($result);	
 				
@@ -267,11 +272,6 @@ class ModelShippingUps extends Model {
 			if ($this->config->get('ups_display_weight')) {	  
 				$title .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('ups_weight_class_id')) . ')';
 			}
-		
-			function comparecost ($a, $b) {
-				return $a['cost'] > $b['cost'];
-			}
-			uasort($quote_data, 'comparecost');
 		
 			$method_data = array(
 				'code'       => 'ups',

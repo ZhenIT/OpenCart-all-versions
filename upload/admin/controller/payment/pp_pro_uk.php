@@ -121,7 +121,7 @@ class ControllerPaymentPPProUK extends Controller {
 		} elseif ($this->config->has('pp_pro_uk_partner')) {
 			$this->data['pp_pro_uk_partner'] = $this->config->get('pp_pro_uk_partner');
 		} else {
-			$this->data['pp_pro_uk_test'] = 'PayPal';
+			$this->data['pp_pro_uk_partner'] = 'PayPal';
 		}
 		
 		if (isset($this->request->post['pp_pro_uk_test'])) {
