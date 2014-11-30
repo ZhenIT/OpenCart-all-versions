@@ -166,6 +166,7 @@ class ControllerCheckoutGuestStep3 extends Controller {
         		'option'     => $option_data,
 				'download'   => $product['download'],
 				'quantity'   => $product['quantity'], 
+				'subtract'   => $product['subtract'], 
 				'price'      => $product['price'],
         		'total'      => $product['total'],
 				'tax'        => $this->tax->getRate($product['tax_class_id'])
