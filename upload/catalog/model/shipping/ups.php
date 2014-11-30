@@ -1,49 +1,28 @@
 <?php
 class ModelShippingUps extends Model {
-	function getQuote($address, $weight = false, $dimensions = false) {
+	function getQuote($address) {
 		$this->load->language('shipping/ups');
 		
-		if ($this->config->get('ups_status')) {
-      		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone_to_geo_zone WHERE geo_zone_id = '" . (int)$this->config->get('ups_geo_zone_id') . "' AND country_id = '" . (int)$address['country_id'] . "' AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
-		
-      		if (!$this->config->get('ups_geo_zone_id')) {
-        		$status = TRUE;
-      		} elseif ($query->num_rows) {
-        		$status = TRUE;
-      		} else {
-        		$status = FALSE;
-      		}
-		} else { 
-			$status = FALSE;
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone_to_geo_zone WHERE geo_zone_id = '" . (int)$this->config->get('ups_geo_zone_id') . "' AND country_id = '" . (int)$address['country_id'] . "' AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
+	
+		if (!$this->config->get('ups_geo_zone_id')) {
+			$status = true;
+		} elseif ($query->num_rows) {
+			$status = true;
+		} else {
+			$status = false;
 		}
 
 		$method_data = array();
 		
 		if ($status) {
-			
-			// If weight passed in through function, use that, otherwise use cart weight
-			if (!(float)$weight) {
-				$weight = $this->cart->getWeight();
-			}
-			
-			$weight = $this->weight->convert($weight, $this->config->get('config_weight_class'), $this->config->get('ups_weight_class'));
+			$weight = $this->weight->convert($this->cart->getWeight(), $this->config->get('config_weight_class'), $this->config->get('ups_weight_class'));
 			
 			$weight = ($weight < 0.1 ? 0.1 : $weight);
 			
-			// If dimensions passed in through function, use those, otherwise use default
-			$length = (isset($dimensions['length'])) ? $dimensions['length'] : $this->config->get('ups_length');
-			$length = $this->length->convert($length, $this->config->get('config_length_class'), $this->config->get('ups_measurement_class'));
-			
-			$width  = (isset($dimensions['width'])) ? $dimensions['width'] : $this->config->get('ups_width');
-			$width  = $this->length->convert($width, $this->config->get('config_length_class'), $this->config->get('ups_measurement_class'));
-			
-			$height = (isset($dimensions['height'])) ? $dimensions['height'] : $this->config->get('ups_height');
-			$height = $this->length->convert($height, $this->config->get('config_length_class'), $this->config->get('ups_measurement_class'));
-			
-			// Default 10x10x10 if dimensions are blank
-			if (!$length) { $length = '10'; }
-			if (!$width) { $width = '10'; }
-			if (!$height) { $height = '10'; }
+			$length = $this->length->convert($this->config->get('ups_length'), $this->config->get('config_length_class'), $this->config->get('ups_length_class'));
+			$width = $this->length->convert($this->config->get('ups_width'), $this->config->get('config_length_class'), $this->config->get('ups_length_class'));
+			$height = $this->length->convert($this->config->get('ups_height'), $this->config->get('config_length_class'), $this->config->get('ups_length_class'));
 			
 			$service_code = array(
 				// US Origin
@@ -182,7 +161,7 @@ class ModelShippingUps extends Model {
 
 			$xml .= '		    <Dimensions>';
     		$xml .= '				<UnitOfMeasurement>';
-    		$xml .= '					<Code>' . $this->config->get('ups_measurement_code') . '</Code>';
+    		$xml .= '					<Code>' . $this->config->get('ups_length_code') . '</Code>';
     		$xml .= '				</UnitOfMeasurement>';
     		$xml .= '				<Length>' . $length . '</Length>';
     		$xml .= '				<Width>' . $width . '</Width>';
@@ -200,7 +179,7 @@ class ModelShippingUps extends Model {
 				$xml .= '           <PackageServiceOptions>';
 				$xml .= '               <InsuredValue>';
 				$xml .= '                   <CurrencyCode>' . $this->currency->getCode() . '</CurrencyCode>';
-				$xml .= '                   <MonetaryValue>' . $this->currency->format($this->cart->getTotal(), FALSE, FALSE, FALSE) . '</MonetaryValue>';
+				$xml .= '                   <MonetaryValue>' . $this->currency->format($this->cart->getTotal(), false, false, false) . '</MonetaryValue>';
 				$xml .= '               </InsuredValue>';
 				$xml .= '           </PackageServiceOptions>';
 			}
@@ -236,13 +215,7 @@ class ModelShippingUps extends Model {
 			
 			$quote_data = array();
 			
-			if ($result) {
-			
-				if ($this->config->get('ups_debug')) {
-					$this->log->write("UPS DATA SENT: " . urldecode($request));
-					$this->log->write("UPS DATA RECV: " . $result);
-				}
-					
+			if ($result) { 
 				$dom = new DOMDocument('1.0', 'UTF-8');
 				$dom->loadXml($result);	
 				
@@ -268,17 +241,17 @@ class ModelShippingUps extends Model {
 
 						$total_charges = $rated_shipment->getElementsByTagName('TotalCharges')->item(0);
 							
-						$cost = $total_charges->getElementsByTagName('MonetaryValue')->item(0)->nodeValue;
+						$cost = $total_charges->getElementsByTagName('MonetaryValue')->item(0)->nodeValue;	
 						
 						$currency = $total_charges->getElementsByTagName('CurrencyCode')->item(0)->nodeValue;
 						
 						if (!($code && $cost)) {
 							continue;
 						}
-							
+													
 						if ($this->config->get('ups_' . strtolower($this->config->get('ups_origin')) . '_' . $code)) {
 							$quote_data[$code] = array(
-								'id'           => 'ups.' . $code,
+								'code'         => 'ups.' . $code,
 								'title'        => $service_code[$this->config->get('ups_origin')][$code],
 								'cost'         => $this->currency->convert($cost, $currency, $this->config->get('config_currency')),
 								'tax_class_id' => $this->config->get('ups_tax_class_id'),
@@ -296,7 +269,7 @@ class ModelShippingUps extends Model {
 			}
 		
 			$method_data = array(
-				'id'         => 'ups',
+				'code'       => 'ups',
 				'title'      => $title,
 				'quote'      => $quote_data,
 				'sort_order' => $this->config->get('ups_sort_order'),

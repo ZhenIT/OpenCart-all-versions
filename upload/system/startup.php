@@ -2,9 +2,6 @@
 // Error Reporting
 error_reporting(E_ALL);
 
-// RegEx
-define('EMAIL_PATTERN', '/^[^\@]+@.*\.[a-z]{2,6}$/i');
-
 // Check Version
 if (version_compare(phpversion(), '5.1.0', '<') == TRUE) {
 	exit('PHP5.1+ Required');
@@ -43,13 +40,13 @@ if (ini_get('magic_quotes_gpc')) {
 	
 	$_GET = clean($_GET);
 	$_POST = clean($_POST);
+	$_REQUEST = clean($_REQUEST);
 	$_COOKIE = clean($_COOKIE);
 }
 
 if (!ini_get('date.timezone')) {
 	date_default_timezone_set('UTC');
 }
-
 
 // Windows IIS Compatibility  
 if (!isset($_SERVER['DOCUMENT_ROOT'])) { 
@@ -82,6 +79,7 @@ require_once(DIR_SYSTEM . 'engine/registry.php');
 
 // Common
 require_once(DIR_SYSTEM . 'library/cache.php');
+require_once(DIR_SYSTEM . 'library/url.php');
 require_once(DIR_SYSTEM . 'library/config.php');
 require_once(DIR_SYSTEM . 'library/db.php');
 require_once(DIR_SYSTEM . 'library/document.php');

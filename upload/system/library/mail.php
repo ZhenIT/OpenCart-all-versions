@@ -6,7 +6,6 @@ final class Mail {
 	protected $subject;
 	protected $text;
 	protected $html;
-	protected $headers = array();
 	protected $attachments = array();
 	public $protocol = 'mail';
 	public $hostname;
@@ -95,8 +94,6 @@ final class Mail {
 		}
 		
 		$header .= 'Date: ' . date("D, d M Y H:i:s O") . $this->newline;
-		//$header .= 'From: "' . $this->sender . '" <' . $this->from . '>' . $this->newline;
-		//$header .= 'From: ' . $this->sender . '<' . $this->from . '>' . $this->newline;
 		$header .= 'From: ' . '=?UTF-8?B?'.base64_encode($this->sender).'?=' . '<' . $this->from . '>' . $this->newline;
 		$header .= 'Reply-To: ' . $this->sender . '<' . $this->from . '>' . $this->newline;
 		$header .= 'Return-Path: ' . $this->from . $this->newline;
@@ -104,10 +101,6 @@ final class Mail {
 		$header .= 'MIME-Version: 1.0' . $this->newline;
 		$header .= 'Content-Type: multipart/mixed; boundary="' . $boundary . '"' . $this->newline;
 
-		foreach ($this->headers as $value) {
-			$header .= $value . $this->newline;
-		}
-		
 		if (!$this->html) {
 			$message  = '--' . $boundary . $this->newline;
 			$message .= 'Content-Type: text/plain; charset="utf-8"' . $this->newline;
@@ -155,16 +148,16 @@ final class Mail {
 			ini_set('sendmail_from', $this->from);
 
 			if ($this->parameter) {
-				mail($to, '=?UTF-8?B?'.base64_encode($this->subject).'?=', $message, $header, $this->parameter);
+				mail($to, '=?UTF-8?B?' . base64_encode($this->subject) . '?=', $message, $header, $this->parameter);
 			} else {
-				mail($to, '=?UTF-8?B?'.base64_encode($this->subject).'?=', $message, $header);
+				mail($to, '=?UTF-8?B?' . base64_encode($this->subject) . '?=', $message, $header);
 			}
 
 		} elseif ($this->protocol == 'smtp') {
 			$handle = fsockopen($this->hostname, $this->port, $errno, $errstr, $this->timeout);
 
 			if (!$handle) {
-				error_log('Error: ' . $errstr . ' (' . $errno . ')');
+				exit('Error: ' . $errstr . ' (' . $errno . ')');
 			} else {
 				if (substr(PHP_OS, 0, 3) != 'WIN') {
 					socket_set_timeout($handle, $this->timeout, 0);
@@ -188,7 +181,7 @@ final class Mail {
 					}
 
 					if (substr($reply, 0, 3) != 220) {
-						error_log('Error: STARTTLS not accepted from server!');
+						exit('Error: STARTTLS not accepted from server!');
 					}
 				}
 
@@ -206,7 +199,7 @@ final class Mail {
 					}
 
 					if (substr($reply, 0, 3) != 250) {
-						error_log('Error: EHLO not accepted from server!');
+						exit('Error: EHLO not accepted from server!');
 					}
 
 					fputs($handle, 'AUTH LOGIN' . $this->crlf);
@@ -222,7 +215,7 @@ final class Mail {
 					}
 
 					if (substr($reply, 0, 3) != 334) {
-						error_log('Error: AUTH LOGIN not accepted from server!');
+						exit('Error: AUTH LOGIN not accepted from server!');
 					}
 
 					fputs($handle, base64_encode($this->username) . $this->crlf);
@@ -238,7 +231,7 @@ final class Mail {
 					}
 
 					if (substr($reply, 0, 3) != 334) {
-						error_log('Error: Username not accepted from server!');
+						exit('Error: Username not accepted from server!');
 					}
 
 					fputs($handle, base64_encode($this->password) . $this->crlf);
@@ -254,7 +247,7 @@ final class Mail {
 					}
 
 					if (substr($reply, 0, 3) != 235) {
-						error_log('Error: Password not accepted from server!');
+						exit('Error: Password not accepted from server!');
 					}
 				} else {
 					fputs($handle, 'HELO ' . getenv('SERVER_NAME') . $this->crlf);
@@ -270,7 +263,7 @@ final class Mail {
 					}
 
 					if (substr($reply, 0, 3) != 250) {
-						error_log('Error: HELO not accepted from server!');
+						exit('Error: HELO not accepted from server!');
 					}
 				}
 
@@ -291,7 +284,7 @@ final class Mail {
 				}
 
 				if (substr($reply, 0, 3) != 250) {
-					error_log('Error: MAIL FROM not accepted from server!');
+					exit('Error: MAIL FROM not accepted from server!');
 				}
 
 				if (!is_array($this->to)) {
@@ -308,7 +301,7 @@ final class Mail {
 					}
 
 					if ((substr($reply, 0, 3) != 250) && (substr($reply, 0, 3) != 251)) {
-						error_log('Error: RCPT TO not accepted from server!');
+						exit('Error: RCPT TO not accepted from server!');
 					}
 				} else {
 					foreach ($this->to as $recipient) {
@@ -325,7 +318,7 @@ final class Mail {
 						}
 
 						if ((substr($reply, 0, 3) != 250) && (substr($reply, 0, 3) != 251)) {
-							error_log('Error: RCPT TO not accepted from server!');
+							exit('Error: RCPT TO not accepted from server!');
 						}
 					}
 				}
@@ -343,10 +336,27 @@ final class Mail {
 				}
 
 				if (substr($reply, 0, 3) != 354) {
-					error_log('Error: DATA not accepted from server!');
+					exit('Error: DATA not accepted from server!');
 				}
-
-				fputs($handle, $header . $message . $this->crlf);
+            	
+				// According to rfc 821 we should not send more than 1000 including the CRLF
+				$message = str_replace("\r\n", "\n",  $header . $message);
+				$message = str_replace("\r", "\n", $message);
+				
+				$lines = explode("\n", $message);
+				
+				foreach ($lines as $line) {
+					$results = str_split($line, 998);
+					
+					foreach ($results as $result) {
+						if (substr(PHP_OS, 0, 3) != 'WIN') {
+							fputs($handle, $result . $this->crlf);
+						} else {
+							fputs($handle, str_replace("\n", "\r\n", $result) . $this->crlf);
+						}							
+					}
+				}
+				
 				fputs($handle, '.' . $this->crlf);
 
 				$reply = '';
@@ -360,9 +370,9 @@ final class Mail {
 				}
 
 				if (substr($reply, 0, 3) != 250) {
-					error_log('Error: DATA not accepted from server!');
+					exit('Error: DATA not accepted from server!');
 				}
-
+				
 				fputs($handle, 'QUIT' . $this->crlf);
 
 				$reply = '';
@@ -376,7 +386,7 @@ final class Mail {
 				}
 
 				if (substr($reply, 0, 3) != 221) {
-					error_log('Error: QUIT not accepted from server!');
+					exit('Error: QUIT not accepted from server!');
 				}
 
 				fclose($handle);

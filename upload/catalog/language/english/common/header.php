@@ -1,20 +1,14 @@
 <?php
 // Text
 $_['text_home']     = 'Home';
-$_['text_special']  = 'Special Offers';
-$_['text_contact']  = 'Contact';
-$_['text_sitemap']  = 'Sitemap';
-$_['text_bookmark'] = 'Bookmark';
-$_['text_account']  = 'Account';
-$_['text_login']    = 'Log In';
-$_['text_logout']   = 'Log Off';
-$_['text_cart']     = 'Basket';
+$_['text_wishlist'] = 'Wish List (%s)';
+$_['text_cart']     = 'Shopping Cart';
+$_['text_items']    = '%s item(s) - %s';
+$_['text_search']   = 'Search';
+$_['text_welcome']  = 'Welcome visitor you can <a href="%s">login</a> or <a href="%s">create an account</a>.';
+$_['text_logged']   = 'You are logged in as <a href="%s">%s</a> <b>(</b> <a href="%s">Logout</a> <b>)</b>';
+$_['text_account']  = 'My Account';
 $_['text_checkout'] = 'Checkout';
-
-$_['text_keyword']  = 'Keywords';
-$_['text_advanced'] = 'Advanced Search';
-$_['text_category'] = 'All Categories';
-
-// Entry
-$_['entry_search']   = 'Search:';
+$_['text_language'] = 'Language';
+$_['text_currency'] = 'Currency';
 ?>

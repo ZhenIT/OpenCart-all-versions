@@ -18,7 +18,16 @@ class ControllerPaymentNochex extends Controller {
 
 		$this->data['error'] = (isset($this->session->data['error'])) ? $this->session->data['error'] : NULL;
 		unset($this->session->data['error']);
-				
+		
+		// Check for supported currency, otherwise convert to GBP.
+        $supported_currencies = array('GBP');
+        
+		if (in_array($order_info['currency_code'], $supported_currencies)) {
+            $currency = $order_info['currency_code'];
+        } else {
+            $currency = 'GBP';
+        }
+		
 		$this->data['fields'] = array();
 		
         // Nochex minimum requirements
@@ -29,7 +38,7 @@ class ControllerPaymentNochex extends Controller {
             $this->data['fields']['merchant_id']      = $this->config->get('nochex_merchant');
         }
         
-        $this->data['fields']['amount']               = $this->currency->format($order_info['total'], 'GBP', FALSE, FALSE);
+        $this->data['fields']['amount']               = $this->currency->format($order_info['total'], $currency, FALSE, FALSE);
         // End minimum requirements
 
         $this->data['fields']['order_id']             = $this->session->data['order_id'];
@@ -56,20 +65,20 @@ class ControllerPaymentNochex extends Controller {
         
 		$this->data['fields']['hide_billing_details'] = 'true'; // So customer can't change address settings
 
-        $this->data['fields']['success_url']        = HTTPS_SERVER . 'index.php?route=checkout/success';
-        $this->data['fields']['cancel_url']         = HTTPS_SERVER . 'index.php?route=checkout/payment';
-        $this->data['fields']['declined_url']       = HTTPS_SERVER . 'index.php?route=payment/nochex/callback&method=decline';
-        $this->data['fields']['callback_url']       = HTTPS_SERVER . ('index.php?route=payment/nochex/callback&order=' . $this->session->data['order_id']);
+        $this->data['fields']['success_url']        = $this->url->link('checkout/success', '', 'SSL');
+        $this->data['fields']['cancel_url']         = $this->url->link('checkout/payment', '', 'SSL');
+        $this->data['fields']['declined_url']       = $this->url->link('payment/nochex/callback', 'method=decline', 'SSL');
+        $this->data['fields']['callback_url']       = $this->url->link('payment/nochex/callback', '&order=' . $this->session->data['order_id'], 'SSL');
 
         if ($this->config->get('nochex_test')) {
 			$this->data['fields']['test_transaction'] = '100';
-			$this->data['fields']['test_success_url'] = HTTPS_SERVER . 'index.php?route=checkout/success';
+			$this->data['fields']['test_success_url'] = $this->url->link('checkout/success');
 		}
         
 		if ($this->request->get['route'] != 'checkout/guest/confirm') {
-			$this->data['back'] = HTTPS_SERVER . 'index.php?route=checkout/payment';
+			$this->data['back'] = $this->url->link('checkout/payment', '', 'SSL');
 		} else {
-			$this->data['back'] = HTTPS_SERVER . 'index.php?route=checkout/guest';
+			$this->data['back'] = $this->url->link('checkout/guest', '', 'SSL');
 		}
 		
 		$this->id = 'payment';
@@ -93,7 +102,7 @@ class ControllerPaymentNochex extends Controller {
 		
 		if (isset($this->request->get['method']) && $this->request->get['method'] == 'decline') {
 			$this->session->data['error'] = $this->language->get('error_declined');
-			$this->redirect((isset($this->session->data['guest'])) ? (HTTPS_SERVER . 'index.php?route=checkout/guest_step_3') : (HTTPS_SERVER . 'index.php?route=checkout/confirm')); 
+			$this->redirect((isset($this->session->data['guest'])) ? $this->url->link('checkout/guest_step_3', '', 'SSL') : $this->url->link('checkout/confirm', '', 'SSL')); 
 		}
 		
 		if (isset($this->request->post['order_id'])) {
@@ -108,7 +117,7 @@ class ControllerPaymentNochex extends Controller {
 		
 		if (!$order_info) {
 			$this->session->data['error'] = $this->language->get('error_no_order');
-			$this->redirect((isset($this->session->data['guest'])) ? (HTTPS_SERVER . 'index.php?route=checkout/guest_step_3') : (HTTPS_SERVER . 'index.php?route=checkout/confirm')); 
+			$this->redirect((isset($this->session->data['guest'])) ? $this->url->link('checkout/guest_step_3', '', 'SSL') : $this->url->link('checkout/confirm', '', 'SSL')); 
 		}
 		
 		// Fraud Verification Step.
@@ -139,7 +148,7 @@ class ControllerPaymentNochex extends Controller {
 		
 		// Since it returned, the customer should see success.
 		// It's up to the store owner to manually verify payment.
-		$this->redirect(HTTPS_SERVER  . 'index.php?route=checkout/success');
+		$this->redirect($this->url->link('checkout/success', '', 'SSL'));
 	}
 }
 ?>

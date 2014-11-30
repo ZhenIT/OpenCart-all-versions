@@ -22,7 +22,7 @@ if (!$link = @mysql_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD)) {
 	$errors[] = 'Could not connect to the database server using the username and password provided.';
 } else {
 	if (!@mysql_select_db(DB_DATABASE, $link)) {
-		$errors[] = 'The database could not be selected. Check that you have proper permissions, and that it exists on the server.';
+		$errors[] = 'The database could selected, check you have permissions, and check it exists on the server.';
 	}			
 }
 

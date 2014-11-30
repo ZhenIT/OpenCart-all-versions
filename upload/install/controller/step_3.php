@@ -3,12 +3,21 @@ class ControllerStep3 extends Controller {
 	private $error = array();
 	
 	public function index() {		
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->validate())) {
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$this->load->model('install');
 			
 			$this->model_install->mysql($this->request->post);
 			
 			$output  = '<?php' . "\n";
+			$output .= '// HTTP' . "\n";
+			$output .= 'define(\'HTTP_SERVER\', \'' . HTTP_OPENCART . '\');' . "\n";
+			$output .= 'define(\'HTTP_IMAGE\', \'' . HTTP_OPENCART . 'image/\');' . "\n";			
+			$output .= 'define(\'HTTP_ADMIN\', \'' . HTTP_OPENCART . 'admin/\');' . "\n\n";
+
+			$output .= '// HTTPS' . "\n";
+			$output .= 'define(\'HTTPS_SERVER\', \'' . HTTP_OPENCART . '\');' . "\n";
+			$output .= 'define(\'HTTPS_IMAGE\', \'' . HTTP_OPENCART . 'image/\');' . "\n\n";
+						
 			$output .= '// DIR' . "\n";
 			$output .= 'define(\'DIR_APPLICATION\', \'' . DIR_OPENCART . 'catalog/\');' . "\n";
 			$output .= 'define(\'DIR_SYSTEM\', \'' . DIR_OPENCART. 'system/\');' . "\n";
@@ -23,11 +32,11 @@ class ControllerStep3 extends Controller {
 		
 			$output .= '// DB' . "\n";
 			$output .= 'define(\'DB_DRIVER\', \'mysql\');' . "\n";
-			$output .= 'define(\'DB_HOSTNAME\', \'' . $this->request->post['db_host'] . '\');' . "\n";
-			$output .= 'define(\'DB_USERNAME\', \'' . $this->request->post['db_user'] . '\');' . "\n";
-			$output .= 'define(\'DB_PASSWORD\', \'' . $this->request->post['db_password'] . '\');' . "\n";
-			$output .= 'define(\'DB_DATABASE\', \'' . $this->request->post['db_name'] . '\');' . "\n";
-			$output .= 'define(\'DB_PREFIX\', \'' . $this->request->post['db_prefix'] . '\');' . "\n";
+			$output .= 'define(\'DB_HOSTNAME\', \'' . addslashes($this->request->post['db_host']) . '\');' . "\n";
+			$output .= 'define(\'DB_USERNAME\', \'' . addslashes($this->request->post['db_user']) . '\');' . "\n";
+			$output .= 'define(\'DB_PASSWORD\', \'' . addslashes($this->request->post['db_password']) . '\');' . "\n";
+			$output .= 'define(\'DB_DATABASE\', \'' . addslashes($this->request->post['db_name']) . '\');' . "\n";
+			$output .= 'define(\'DB_PREFIX\', \'' . addslashes($this->request->post['db_prefix']) . '\');' . "\n";
 			$output .= '?>';				
 		
 			$file = fopen(DIR_OPENCART . 'config.php', 'w');
@@ -62,11 +71,11 @@ class ControllerStep3 extends Controller {
 
 			$output .= '// DB' . "\n";
 			$output .= 'define(\'DB_DRIVER\', \'mysql\');' . "\n";
-			$output .= 'define(\'DB_HOSTNAME\', \'' . $this->request->post['db_host'] . '\');' . "\n";
-			$output .= 'define(\'DB_USERNAME\', \'' . $this->request->post['db_user'] . '\');' . "\n";
-			$output .= 'define(\'DB_PASSWORD\', \'' . $this->request->post['db_password'] . '\');' . "\n";
-			$output .= 'define(\'DB_DATABASE\', \'' . $this->request->post['db_name'] . '\');' . "\n";
-			$output .= 'define(\'DB_PREFIX\', \'' . $this->request->post['db_prefix'] . '\');' . "\n";
+			$output .= 'define(\'DB_HOSTNAME\', \'' . addslashes($this->request->post['db_host']) . '\');' . "\n";
+			$output .= 'define(\'DB_USERNAME\', \'' . addslashes($this->request->post['db_user']) . '\');' . "\n";
+			$output .= 'define(\'DB_PASSWORD\', \'' . addslashes($this->request->post['db_password']) . '\');' . "\n";
+			$output .= 'define(\'DB_DATABASE\', \'' . addslashes($this->request->post['db_name']) . '\');' . "\n";
+			$output .= 'define(\'DB_PREFIX\', \'' . addslashes($this->request->post['db_prefix']) . '\');' . "\n";
 			$output .= '?>';	
 
 			$file = fopen(DIR_OPENCART . 'admin/config.php', 'w');
@@ -170,13 +179,12 @@ class ControllerStep3 extends Controller {
 			$this->data['email'] = '';
 		}
 		
+		$this->template = 'step_3.tpl';
 		$this->children = array(
 			'header',
 			'footer'
 		);
 		
-		$this->template = 'step_3.tpl';
-
 		$this->response->setOutput($this->render(TRUE));		
 	}
 	
@@ -201,7 +209,7 @@ class ControllerStep3 extends Controller {
 			$this->error['password'] = 'Password required!';
 		}
 
-		if (!preg_match(EMAIL_PATTERN, $this->request->post['email'])) {
+		if ((strlen(utf8_decode($this->request->post['email'])) > 96) || !preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i', $this->request->post['email'])) {
 			$this->error['email'] = 'Invalid E-Mail!';
 		}
 

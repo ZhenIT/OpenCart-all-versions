@@ -512,13 +512,6 @@ ALTER TABLE oc_store DROP stock_status_id;
 
 ### Start 1.4.7
 
-SET @id=NULL;
-SET @dat='';
-SELECT @dat:=`value` FROM oc_setting WHERE `group` = 'config' and `key` = 'config_description_1';
-SELECT @id:=`setting_id` FROM oc_setting WHERE `group` = 'config' and `key` = 'config_description_1';
-SELECT @dat:=`value` FROM oc_setting WHERE `group` = 'config' and `key` = 'config_welcome_1';
-INSERT INTO `oc_setting` (`setting_id`, `group`, `key`, `value`) VALUES (@id, 'config', 'config_description_1', @dat) ON DUPLICATE KEY UPDATE setting_id=setting_id;
-
 ALTER TABLE `oc_country` ADD `status` INT( 1 ) NOT NULL DEFAULT '1';
 
 ALTER TABLE `oc_zone` ADD `status` INT( 1 ) NOT NULL DEFAULT '1';

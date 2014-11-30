@@ -16,8 +16,7 @@ CKEDITOR.editorConfig = function( config )
 	// config.language = 'fr';
 
 	// config.uiColor = '#AADC6E';
-	//config.entities = false;
-	config.entities_latin = false;
+
 	config.filebrowserBrowseUrl = 'index.php?route=common/filemanager';
 	config.filebrowserImageBrowseUrl = 'index.php?route=common/filemanager';
 	config.filebrowserFlashBrowseUrl = 'index.php?route=common/filemanager';
@@ -36,7 +35,7 @@ CKEDITOR.editorConfig = function( config )
 		['Maximize'],
 		['Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
 		['NumberedList','BulletedList','-','Outdent','Indent'],
-		['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+		['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
 		['SpecialChar'],
 		'/',
 		['Undo','Redo'],

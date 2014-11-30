@@ -2,7 +2,7 @@
 final class Json {
 	static public function encode($data) {
 		if (function_exists('json_encode')) {
-			return json_encode($data);
+			return json_encode($data) . "\n\n\n\n\n\n";
 		} else {
 			switch (gettype($data)) {
 				case 'boolean':
@@ -12,7 +12,7 @@ final class Json {
       				return $data;
     			case 'resource':
     			case 'string':
-      				return '"' . str_replace(array("\r", "\n", "<", ">", "&"), array('\r', '\n', '\x3c', '\x3e', '\x26'), addslashes($data)) . '"';
+      				return '"' . str_replace(array("\r", "\n", "/", "\""), array('\r', '\n', '\/', '\\"'), $data) . '"';
 				case 'array':
 					if (empty($data) || array_keys($data) === range(0, sizeof($data) - 1)) {
 						$output = array();
@@ -21,25 +21,25 @@ final class Json {
 							$output[] = Json::encode($value);
 						}
 						
-						return '[ ' . implode(', ', $output) . ' ]';
+						return '[' . implode(',', $output) . ']';
 					}
     			case 'object':
       				$output = array();
       				
 					foreach ($data as $key => $value) {
-        				$output[] = Json::encode(strval($key)) . ': ' . Json::encode($value);
+        				$output[] = Json::encode(strval($key)) . ':' . Json::encode($value);
 					}
 					
-					return '{ ' . implode(', ', $output) . ' }';
+					return '{' . implode(',', $output) . '}';
 				default:
 					return 'null';
 			}
 		}
 	}
 	
-	static public function decode($json, $assoc = FALSE) {
+	static public function decode($json, $assoc = false) {
 		if (function_exists('json_decode')) {
-			return json_decode($json);
+			return json_decode($json, true);
 		} else {
 			$match = '/".*?(?<!\\\\)"/';
 
@@ -47,7 +47,7 @@ final class Json {
 			$string = preg_replace('/[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]/', '', $string);
 
 			if ($string != '') {
-				return NULL;
+				return null;
 			}
 
 			$s2m = array();
@@ -80,7 +80,7 @@ final class Json {
  			$json = strtr($json, $m2s);
 
   			$function = @create_function('', "return {$json};");
-  			$return = ($function) ? $function() : NULL;
+  			$return = ($function) ? $function() : null;
 
   			unset($s2m); 
 			unset($m2s); 
