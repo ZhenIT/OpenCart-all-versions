@@ -877,7 +877,9 @@ class ControllerSettingStore extends Controller {
 			$this->error['address'] = $this->language->get('error_address');
 		}
 		
-    	if ((strlen(utf8_decode($this->request->post['config_email'])) > 96) || !preg_match('/^[^\@]+@.*\.[a-z]{2,6}$/i', $this->request->post['config_email'])) {
+		$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i';
+
+    	if ((strlen(utf8_decode($this->request->post['config_email'])) > 96) || (!preg_match($pattern, $this->request->post['config_email']))) {
       		$this->error['email'] = $this->language->get('error_email');
     	}
 

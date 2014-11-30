@@ -34,7 +34,7 @@ class ControllerModuleBestSeller extends Controller {
 				$special = false;
 			}	
 			
-			if ($this->config->get('config_review_status')) {
+			if ($this->config->get('config_review')) {
 				$rating = $result['rating'];
 			} else {
 				$rating = false;

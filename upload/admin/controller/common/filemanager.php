@@ -40,7 +40,7 @@ class ControllerCommonFileManager extends Controller {
 		}
 		
 		if (isset($this->request->get['CKEditorFuncNum'])) {
-			$this->data['fckeditor'] = $this->request->get['CKEditorFuncNum'];
+			$this->data['fckeditor'] = true;
 		} else {
 			$this->data['fckeditor'] = false;
 		}
@@ -107,43 +107,41 @@ class ControllerCommonFileManager extends Controller {
 		
 		$files = glob(rtrim($directory, '/') . '/*');
 		
-		if ($files) {
-			foreach ($files as $file) {
-				if (is_file($file)) {
-					$ext = strrchr($file, '.');
-				} else {
-					$ext = '';
-				}	
-				
-				if (in_array(strtolower($ext), $allowed)) {
-					$size = filesize($file);
-		
-					$i = 0;
-		
-					$suffix = array(
-						'B',
-						'KB',
-						'MB',
-						'GB',
-						'TB',
-						'PB',
-						'EB',
-						'ZB',
-						'YB'
-					);
-		
-					while (($size / 1024) > 1) {
-						$size = $size / 1024;
-						$i++;
-					}
-						
-					$json[] = array(
-						'file'     => substr($file, strlen(DIR_IMAGE . 'data/')),
-						'filename' => basename($file),
-						'size'     => round(substr($size, 0, strpos($size, '.') + 4), 2) . $suffix[$i],
-						'thumb'    => $this->model_tool_image->resize(substr($file, strlen(DIR_IMAGE)), 100, 100)
-					);
+		foreach ($files as $file) {
+			if (is_file($file)) {
+				$ext = strrchr($file, '.');
+			} else {
+				$ext = '';
+			}	
+			
+			if (in_array(strtolower($ext), $allowed)) {
+				$size = filesize($file);
+	
+				$i = 0;
+	
+				$suffix = array(
+					'B',
+					'KB',
+					'MB',
+					'GB',
+					'TB',
+					'PB',
+					'EB',
+					'ZB',
+					'YB'
+				);
+	
+				while (($size / 1024) > 1) {
+					$size = $size / 1024;
+					$i++;
 				}
+					
+				$json[] = array(
+					'file'     => substr($file, strlen(DIR_IMAGE . 'data/')),
+					'filename' => basename($file),
+					'size'     => round(substr($size, 0, strpos($size, '.') + 4), 2) . $suffix[$i],
+					'thumb'    => $this->model_tool_image->resize(substr($file, strlen(DIR_IMAGE)), 100, 100)
+				);
 			}
 		}
 		

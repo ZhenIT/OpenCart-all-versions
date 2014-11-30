@@ -35,6 +35,7 @@ abstract class Controller {
 		$file = $action->getFile();
 		$class = $action->getClass();
 		$method = $action->getMethod();
+		//$args = $action->getArgs();
 	
 		if (file_exists($file)) {
 			require_once($file);

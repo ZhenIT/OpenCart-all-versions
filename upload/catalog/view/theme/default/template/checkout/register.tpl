@@ -98,11 +98,4 @@
 <?php } ?>
 <script type="text/javascript"><!--
 $('#payment-address select[name=\'zone_id\']').load('index.php?route=checkout/address/zone&country_id=<?php echo $country_id; ?>');
-//--></script>
-<script type="text/javascript"><!--
-$('.fancybox').fancybox({
-	width: 560,
-	height: 560,
-	autoDimensions: false
-});
-//--></script>  
+//--></script> 

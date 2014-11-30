@@ -149,7 +149,7 @@ class ModelCheckoutOrder extends Model {
 		$order_info = $this->getOrder($order_id);
 		 
 		if ($order_info && !$order_info['order_status_id']) {
-			$query = $this->db->query("SELECT MAX(invoice_no) AS invoice_no FROM `" . DB_PREFIX . "order` WHERE invoice_prefix = '" . $this->db->escape($order_info['invoice_prefix']) . "'");
+			$query = $this->db->query("SELECT MAX(invoice_no) AS invoice_no FROM `" . DB_PREFIX . "order`");
 	
 			if ($query->row['invoice_no']) {
 				$invoice_no = (int)$query->row['invoice_no'] + 1;
@@ -157,7 +157,7 @@ class ModelCheckoutOrder extends Model {
 				$invoice_no = 1;
 			}
 			
-			$this->db->query("UPDATE `" . DB_PREFIX . "order` SET invoice_no = '" . (int)$invoice_no . "', invoice_prefix = '" . $this->db->escape($order_info['invoice_prefix']) . "', order_status_id = '" . (int)$order_status_id . "', date_modified = NOW() WHERE order_id = '" . (int)$order_id . "'");
+			$this->db->query("UPDATE `" . DB_PREFIX . "order` SET invoice_no = '" . (int)$invoice_no . "', invoice_prefix = '" . $this->db->escape($this->config->get('config_invoice_prefix')) . "', order_status_id = '" . (int)$order_status_id . "', date_modified = NOW() WHERE order_id = '" . (int)$order_id . "'");
 
 			$this->db->query("INSERT INTO " . DB_PREFIX . "order_history SET order_id = '" . (int)$order_id . "', order_status_id = '" . (int)$order_status_id . "', notify = '1', comment = '" . $this->db->escape($comment) . "', date_added = NOW()");
 
@@ -365,7 +365,7 @@ class ModelCheckoutOrder extends Model {
 			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/mail/order.tpl')) {
 				$html = $template->fetch($this->config->get('config_template') . '/template/mail/order.tpl');
 			} else {
-				$html = $template->fetch('default/template/mail/order.tpl');
+				$html = $template->fetch('default/template/checkout/mail/order.tpl');
 			}
 			
 			// Text Mail
@@ -527,15 +527,19 @@ class ModelCheckoutOrder extends Model {
 				$order_status_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_status WHERE order_status_id = '" . (int)$order_status_id . "' AND language_id = '" . (int)$order_info['language_id'] . "'");
 				
 				if ($order_status_query->num_rows) {
+					$order_status = $order_status_query->row['name'];	
+				} else {
+					$order_status = '';
+				}
+				
+				if ($order_status_query->num_rows) {
 					$message .= $language->get('text_update_order_status') . "\n\n";
-					$message .= $order_status_query->row['name'] . "\n\n";					
+					$message .= $order_status . "\n\n";
 				}
 				
-				if ($order_info['customer_id']) {
-					$message .= $language->get('text_update_link') . "\n";
-					$message .= $order_info['store_url'] . 'index.php?route=account/order/info&order_id=' . $order_id . "\n\n";
-				}
-				
+				$message .= $language->get('text_update_link') . "\n";
+				$message .= $order_info['store_url'] . 'index.php?route=account/order/info&order_id=' . $order_id . "\n\n";
+					
 				if ($comment) { 
 					$message .= $language->get('text_update_comment') . "\n\n";
 					$message .= $comment . "\n\n";

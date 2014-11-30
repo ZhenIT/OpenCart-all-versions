@@ -134,9 +134,9 @@
         <textarea name="comment" cols="50" rows="6"><?php echo $comment; ?></textarea>
       </div>
       <div class="return-captcha"><b><?php echo $entry_captcha; ?></b><br />
-        <input type="text" name="captcha" value="<?php echo $captcha; ?>" />
+        <input type="text" name="captcha" value="<?php echo $captcha; ?>" autocomplete="off" />
         <br />
-        <img src="index.php?route=account/return/captcha" alt="" />
+        <img src="index.php?route=account/return/captcha" />
         <?php if ($error_captcha) { ?>
         <span class="error"><?php echo $error_captcha; ?></span>
         <?php } ?>

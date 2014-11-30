@@ -474,12 +474,12 @@
             <tr>
               <td><?php echo $entry_logo; ?></td>
               <td><input type="hidden" name="config_logo" value="<?php echo $config_logo; ?>" id="logo" />
-                <img src="<?php echo $logo; ?>" alt="" id="preview-logo" class="image" onclick="image_upload('logo', 'preview-logo');" /></td>
+                <img src="<?php echo $logo; ?>" alt="" id="preview-logo" class="image" onclick="image_upload('logo', 'preview_logo');" /></td>
             </tr>
             <tr>
               <td><?php echo $entry_icon; ?></td>
               <td><input type="hidden" name="config_icon" value="<?php echo $config_icon; ?>" id="icon" />
-                <img src="<?php echo $icon; ?>" alt="" id="preview-icon" class="image" onclick="image_upload('icon', 'preview-icon');" /></td>
+                <img src="<?php echo $icon; ?>" alt="" id="preview-icon" class="image" onclick="image_upload('icon', 'preview_icon');" /></td>
             </tr>
             <tr>
               <td><span class="required">*</span> <?php echo $entry_image_thumb; ?></td>
@@ -746,7 +746,7 @@
   </div>
 </div>
 <script type="text/javascript"><!--
-$('#template').load('index.php?route=setting/setting/template&token=<?php echo $token; ?>&template=' + encodeURIComponent($('select[name=\'config_template\']').attr('value')));
+$('#template').load('index.php?route=setting/setting/template&token=<?php echo $token; ?>&template=' + encodeURIComponent($('select[name=\'template\']').attr('value')));
 
 $('select[name=\'config_zone_id\']').load('index.php?route=setting/setting/zone&token=<?php echo $token; ?>&country_id=<?php echo $config_country_id; ?>&zone_id=<?php echo $config_zone_id; ?>');
 //--></script> 

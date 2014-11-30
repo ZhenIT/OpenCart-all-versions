@@ -39,7 +39,7 @@ class ControllerCheckoutCheckout extends Controller {
       	); 
 
       	$this->data['breadcrumbs'][] = array(
-        	'text'      => $this->language->get('text_cart'),
+        	'text'      => $this->language->get('text_basket'),
 			'href'      => $this->url->link('checkout/cart'),
         	'separator' => $this->language->get('text_separator')
       	);

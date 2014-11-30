@@ -175,7 +175,7 @@ class ControllerSaleVoucher extends Controller {
  
     	foreach ($results as $result) {
 			$action = array();
-									
+						
 			$action[] = array(
 				'text' => $this->language->get('text_edit'),
 				'href' => $this->url->link('sale/voucher/update', 'token=' . $this->session->data['token'] . '&voucher_id=' . $result['voucher_id'] . $url, 'SSL')
@@ -196,9 +196,7 @@ class ControllerSaleVoucher extends Controller {
 		}
 									
 		$this->data['heading_title'] = $this->language->get('heading_title');
-		
-		$this->data['text_send'] = $this->language->get('text_send');
-		$this->data['text_wait'] = $this->language->get('text_wait');
+
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
 
 		$this->data['column_code'] = $this->language->get('column_code');
@@ -213,8 +211,6 @@ class ControllerSaleVoucher extends Controller {
 		$this->data['button_insert'] = $this->language->get('button_insert');
 		$this->data['button_delete'] = $this->language->get('button_delete');
  
- 		$this->data['token'] = $this->session->data['token'];
-		
  		if (isset($this->error['warning'])) {
 			$this->data['error_warning'] = $this->error['warning'];
 		} else {
@@ -569,26 +565,6 @@ class ControllerSaleVoucher extends Controller {
 		$this->template = 'sale/voucher_history.tpl';		
 		
 		$this->response->setOutput($this->render());
-  	}
-	
-	public function send() {
-    	$this->language->load('sale/voucher');
-		
-		$json = array();
-    	
-     	if (!$this->user->hasPermission('modify', 'sale/voucher')) {
-      		$json['error'] = $this->language->get('error_permission'); 
-    	} elseif (isset($this->request->get['voucher_id'])) {
-			$this->load->model('sale/voucher');
-			
-			$this->model_sale_voucher->sendVoucher($this->request->get['voucher_id']);
-			
-			$json['success'] = $this->language->get('text_sent');
-		}	
-			
-		$this->load->library('json');
-		
-		$this->response->setOutput(Json::encode($json));			
-  	}			
+  	}		
 }
 ?>

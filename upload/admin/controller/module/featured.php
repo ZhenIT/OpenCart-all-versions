@@ -9,7 +9,7 @@ class ControllerModuleFeatured extends Controller {
 		
 		$this->load->model('setting/setting');
 				
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {			
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->validate())) {			
 			$this->model_setting_setting->editSetting('featured', $this->request->post);		
 			
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -43,19 +43,7 @@ class ControllerModuleFeatured extends Controller {
 		} else {
 			$this->data['error_warning'] = '';
 		}
-		
-		if (isset($this->request->post['featured_module'])) {
-			$modules = explode(',', $this->request->post['featured_module']);
-		} else {
-			$modules = array();
-		}	
-		
-		foreach ($modules as $module) {
-			if (isset($this->error['image_' . $module])) {
-				$this->data['error_image_' . $module] = $this->error['image_' . $module];
-			}
-		}
-		
+
   		$this->data['breadcrumbs'] = array();
 
    		$this->data['breadcrumbs'][] = array(
@@ -181,18 +169,6 @@ class ControllerModuleFeatured extends Controller {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		
-		if ($this->request->post['featured_module'] !== '') {
-			$modules = explode(',', $this->request->post['featured_module']);
-		} else {
-			$modules = array();
-		}	
-		
-		foreach ($modules as $module) {
-			if (!$this->request->post['featured_' . $module . '_image_width'] || !$this->request->post['featured_' . $module . '_image_height']) {
-				$this->error['image_' . $module] = $this->language->get('error_image');
-			}	
-		}
-				
 		if (!$this->error) {
 			return true;
 		} else {

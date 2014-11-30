@@ -42,7 +42,7 @@ class ControllerCheckoutShipping extends Controller {
 				$this->session->data['comment'] = strip_tags($this->request->post['comment']);
 			}			
 		} else {
-			if (isset($shipping_address)) {
+			if ($shipping_address) {
 				$this->tax->setZone($shipping_address['country_id'], $shipping_address['zone_id']);
 				
 				if (!isset($this->session->data['shipping_methods'])) {

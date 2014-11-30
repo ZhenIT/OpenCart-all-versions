@@ -3,7 +3,7 @@
 $_['heading_title']                  = 'Checkout';
 
 // Text
-$_['text_cart']                      = 'Shopping Cart';
+$_['text_basket']                    = 'Basket';
 $_['text_checkout_option']           = 'Step 1: Checkout Options';
 $_['text_checkout_account']          = 'Step 2: Account &amp; Billing Details';
 $_['text_checkout_payment_address']  = 'Step 2: Billing Details';
@@ -23,9 +23,9 @@ $_['text_forgotten']                 = 'Forgotten Password';
 $_['text_your_details']              = 'Your Personal Details';
 $_['text_your_address']              = 'Your Address';
 $_['text_your_password']             = 'Your Password';
-$_['text_agree']                     = 'I have read and agree to the <a class="fancybox" href="%s" alt="%s"><b>%s</b></a>';
-$_['text_address_new']               = 'I want to use a new address';
-$_['text_address_existing']          = 'I want to use an existing address';
+$_['text_agree']                     = 'I have read and agree to the <a class="thickbox" href="%s" alt="%s"><b>%s</b></a>';
+$_['text_address_new']               = 'I want to use a new billing address';
+$_['text_address_existing']          = 'I want to use an existing billing address';
 $_['text_shipping_method']           = 'Please select the preferred shipping method to use on this order.';
 $_['text_payment_method']            = 'Please select the preferred payment method to use on this order.';
 $_['text_comments']                  = 'Add Comments About Your Order';

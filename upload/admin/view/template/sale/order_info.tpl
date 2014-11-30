@@ -106,7 +106,7 @@
           <?php if ($affiliate) { ?>
           <tr>
             <td><?php echo $text_affiliate; ?></td>
-            <td><a href="<?php echo $affiliate; ?>"><?php echo $affiliate_firstname; ?> <?php echo $affiliate_lastname; ?></a></td>
+            <td><a href="<?php echo $affiliate; ?>"><?php echo $affiliate; ?></a></td>
           </tr>
           <tr>
             <td><?php echo $text_commission; ?></td>
@@ -493,11 +493,11 @@ function history() {
 		data: 'order_status_id=' + encodeURIComponent($('select[name=\'order_status_id\']').val()) + '&notify=' + encodeURIComponent($('input[name=\'notify\']').attr('checked') ? 1 : 0) + '&append=' + encodeURIComponent($('input[name=\'append\']').attr('checked') ? 1 : 0) + '&comment=' + encodeURIComponent($('textarea[name=\'comment\']').val()),
 		beforeSend: function() {
 			$('.success, .warning').remove();
-			$('#button-history').attr('disabled', true);
+			$('#button-history').attr('disabled', 'disabled');
 			$('#history').prepend('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
 		},
 		complete: function() {
-			$('#button-history').attr('disabled', false);
+			$('#button-history').attr('disabled', '');
 			$('.attention').remove();
 		},
 		success: function(html) {

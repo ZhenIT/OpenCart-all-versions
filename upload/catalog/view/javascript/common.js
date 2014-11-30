@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	/* Search */
-	$('.button-search').bind('click', function() {
+	$('#search .left').bind('click', function() {
 		url = 'index.php?route=product/search';
 		 
 		var filter_name = $('input[name=\'filter_name\']').attr('value')
@@ -47,15 +47,6 @@ $(document).ready(function() {
 	
 	/* Mega Menu */
 	$('#menu ul > li > a + div').each(function(index, element) {
-		// IE6 & IE7 Fixes
-		if ($.browser.msie && ($.browser.version == 7 || $.browser.version == 6)) {
-			var category = $(element).find('a');
-			var columns = $(element).find('ul').length;
-			
-			$(element).css('width', (columns * 143) + 'px');
-			$(element).find('ul').css('float', 'left');
-		}		
-		
 		var menu = $('#menu').offset();
 		var dropdown = $(this).parent().offset();
 		
@@ -65,27 +56,6 @@ $(document).ready(function() {
 			$(this).css('margin-left', '-' + (i + 5) + 'px');
 		}
 	});
-
-	// IE6 & IE7 Fixes
-	if ($.browser.msie) {
-		if ($.browser.version <= 6) {
-			$('#column-left + #column-right + #content, #column-left + #content').css('margin-left', '195px');
-			
-			$('#column-right + #content').css('margin-right', '195px');
-		
-			$('.box-category ul li a.active + ul').css('display', 'block');	
-		}
-		
-		if ($.browser.version <= 7) {
-			$('#menu > ul > li').bind('mouseover', function() {
-				$(this).addClass('active');
-			});
-				
-			$('#menu > ul > li').bind('mouseout', function() {
-				$(this).removeClass('active');
-			});	
-		}
-	}
 });
 
 $('.success img, .warning img, .attention img, .information img').live('click', function() {
@@ -109,18 +79,16 @@ function addToCart(product_id) {
 			
 			if (json['error']) {
 				if (json['error']['warning']) {
-					$('#notification').html('<div class="warning" style="display: none;">' + json['error']['warning'] + '<img src="catalog/view/theme/default/image/close.png" alt="" class="close" /></div>');
+					$('#menu').after('<div class="warning" style="display: none;">' + json['error']['warning'] + '<img src="catalog/view/theme/default/image/close.png" alt="" class="close" /></div>');
 				}
 			}	 
 						
 			if (json['success']) {
-				$('#notification').html('<div class="attention" style="display: none;">' + json['success'] + '<img src="catalog/view/theme/default/image/close.png" alt="" class="close" /></div>');
+				$('#menu').after('<div class="attention" style="display: none;">' + json['success'] + '<img src="catalog/view/theme/default/image/close.png" alt="" class="close" /></div>');
 				
 				$('.attention').fadeIn('slow');
 				
 				$('#cart_total').html(json['total']);
-				
-				$('html, body').animate({ scrollTop: 0 }, 'slow'); 
 			}	
 		}
 	});
@@ -172,19 +140,17 @@ function addToWishList(product_id) {
 			$('.success, .warning, .attention, .information').remove();
 						
 			if (json['success']) {
-				$('#notification').html('<div class="attention" style="display: none;">' + json['success'] + '<img src="catalog/view/theme/default/image/close.png" alt="" class="close" /></div>');
+				$('#menu').after('<div class="attention" style="display: none;">' + json['success'] + '<img src="catalog/view/theme/default/image/close.png" alt="" class="close" /></div>');
 				
 				$('.attention').fadeIn('slow');
 				
 				$('#wishlist_total').html(json['total']);
-				
-				$('html, body').animate({ scrollTop: 0 }, 'slow'); 				
 			}	
 		}
 	});
 }
 
-function addToCompare(product_id) { 
+function addToCompare(product_id) {
 	$.ajax({
 		url: 'index.php?route=product/compare/update',
 		type: 'post',
@@ -194,13 +160,11 @@ function addToCompare(product_id) {
 			$('.success, .warning, .attention, .information').remove();
 						
 			if (json['success']) {
-				$('#notification').html('<div class="attention" style="display: none;">' + json['success'] + '<img src="catalog/view/theme/default/image/close.png" alt="" class="close" /></div>');
+				$('#menu').after('<div class="attention" style="display: none;">' + json['success'] + '<img src="catalog/view/theme/default/image/close.png" alt="" class="close" /></div>');
 				
 				$('.attention').fadeIn('slow');
 				
 				$('#compare_total').html(json['total']);
-				
-				$('html, body').animate({ scrollTop: 0 }, 'slow'); 
 			}	
 		}
 	});

@@ -45,7 +45,7 @@ class ControllerCommonSeoUrl extends Controller {
 			} elseif (isset($this->request->get['path'])) {
 				$this->request->get['route'] = 'product/category';
 			} elseif (isset($this->request->get['manufacturer_id'])) {
-				$this->request->get['route'] = 'product/manufacturer/product';
+				$this->request->get['route'] = 'product/manufacturer';
 			} elseif (isset($this->request->get['information_id'])) {
 				$this->request->get['route'] = 'information/information';
 			}
@@ -63,32 +63,30 @@ class ControllerCommonSeoUrl extends Controller {
 			$url = ''; 
 			
 			$data = array();
-			
+		
 			parse_str($url_data['query'], $data);
 			
 			foreach ($data as $key => $value) {
-				if (isset($data['route'])) {
-					if (($data['route'] == 'product/product' && $key == 'product_id') || ($data['route'] == 'product/manufacturer/product' && $key == 'manufacturer_id') || ($data['route'] == 'information/information' && $key == 'information_id')) {
-						$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "url_alias WHERE `query` = '" . $this->db->escape($key . '=' . (int)$value) . "'");
-					
-						if ($query->num_rows) {
-							$url .= '/' . $query->row['keyword'];
-							
-							unset($data[$key]);
-						}					
-					} elseif ($key == 'path') {
-						$categories = explode('_', $value);
-						
-						foreach ($categories as $category) {
-							$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "url_alias WHERE `query` = 'category_id=" . (int)$category . "'");
-					
-							if ($query->num_rows) {
-								$url .= '/' . $query->row['keyword'];
-							}							
-						}
+				if (($key == 'product_id') || ($key == 'manufacturer_id') || ($key == 'information_id')) {
+					$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "url_alias WHERE `query` = '" . $this->db->escape($key . '=' . (int)$value) . "'");
+				
+					if ($query->num_rows) {
+						$url .= '/' . $query->row['keyword'];
 						
 						unset($data[$key]);
+					}					
+				} elseif ($key == 'path') {
+					$categories = explode('_', $value);
+					
+					foreach ($categories as $category) {
+						$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "url_alias WHERE `query` = 'category_id=" . (int)$category . "'");
+				
+						if ($query->num_rows) {
+							$url .= '/' . $query->row['keyword'];
+						}							
 					}
+					
+					unset($data[$key]);
 				}
 			}
 		

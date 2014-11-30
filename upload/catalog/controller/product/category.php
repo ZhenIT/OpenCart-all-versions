@@ -173,7 +173,7 @@ class ControllerProductCategory extends Controller {
 					$tax = false;
 				}				
 				
-				if ($this->config->get('config_review_status')) {
+				if ($this->config->get('config_review')) {
 					$rating = (int)$result['rating'];
 				} else {
 					$rating = false;

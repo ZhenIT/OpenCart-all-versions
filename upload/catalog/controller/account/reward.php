@@ -68,7 +68,7 @@ class ControllerAccountReward extends Controller {
 				'order_id'    => $result['order_id'],
 				'points'      => $result['points'],
 				'description' => $result['description'],
-				'date_added'  => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+				'date_added'  => date('d/m/Y', strtotime($result['date_added'])),
 				'href'        => $this->url->link('account/order/info', 'order_id=' . $result['order_id'], 'SSL')
 			);
 		}	
@@ -77,12 +77,11 @@ class ControllerAccountReward extends Controller {
 		$pagination->total = $reward_total;
 		$pagination->page = $page;
 		$pagination->limit = 10; 
-		$pagination->text = $this->language->get('text_pagination');
 		$pagination->url = $this->url->link('account/reward', 'page={page}', 'SSL');
 			
 		$this->data['pagination'] = $pagination->render();
 		
-		$this->data['total'] = (int)$this->customer->getRewardPoints();
+		$this->data['total'] = $this->customer->getRewardPoints();
 		
 		$this->data['continue'] = $this->url->link('account/account', '', 'SSL');
 		

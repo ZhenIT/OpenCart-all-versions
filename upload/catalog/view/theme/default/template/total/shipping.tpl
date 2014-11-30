@@ -40,11 +40,11 @@ $('#button-quote').bind('click', function() {
 		dataType: 'json',		
 		beforeSend: function() {
 			$('.success, .warning').remove();
-			$('#button-quote').attr('disabled', true);
+			$('#button-quote').attr('disabled', 'disabled');
 			$('#button-quote').after('<span class="wait">&nbsp;<img src="catalog/view/theme/default/image/loading.gif" alt="" /></span>');
 		},
 		complete: function() {
-			$('#button-quote').attr('disabled', false);
+			$('#button-quote').attr('disabled', '');
 			$('.wait').remove();
 		},		
 		success: function(json) {
@@ -121,11 +121,11 @@ $('#button-shipping').live('click', function() {
 		dataType: 'json',		
 		beforeSend: function() {
 			$('.warning').remove();
-			$('#button-shipping').attr('disabled', true);
+			$('#button-shipping').attr('disabled', 'disabled');
 			$('#button-shipping').after('<span class="wait">&nbsp;<img src="catalog/view/theme/default/image/loading.gif" alt="" /></span>');
 		},
 		complete: function() {
-			$('#button-shipping').attr('disabled', false);
+			$('#button-shipping').attr('disabled', '');
 			$('.wait').remove();
 		},		
 		success: function(json) {

@@ -36,10 +36,4 @@
   <div class="right"><a id="button-payment" class="button"><span><?php echo $button_continue; ?></span></a></div>
 </div>
 <?php } ?>
-<script type="text/javascript"><!--
-$('.fancybox').fancybox({
-	width: 560,
-	height: 560,
-	autoDimensions: false
-});
-//--></script>  
+<script type="text/javascript">tb_init('a.thickbox');</script>

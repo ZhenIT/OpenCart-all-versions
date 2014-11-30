@@ -9,7 +9,7 @@ class ControllerModuleBanner extends Controller {
 		
 		$this->load->model('setting/setting');
 				
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->validate())) {
 			$this->model_setting_setting->editSetting('banner', $this->request->post);		
 					
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -162,7 +162,7 @@ class ControllerModuleBanner extends Controller {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		if ($this->request->post['banner_module'] !== '') {
+		if ($this->request->post['banner_module']) {
 			$modules = explode(',', $this->request->post['banner_module']);
 		} else {
 			$modules = array();
