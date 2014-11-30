@@ -6,6 +6,7 @@ final class Mail {
 	protected $subject;
 	protected $text;
 	protected $html;
+	protected $headers = array();
 	protected $attachments = array();
 	public $protocol = 'mail';
 	public $hostname;
@@ -103,6 +104,10 @@ final class Mail {
 		$header .= 'MIME-Version: 1.0' . $this->newline;
 		$header .= 'Content-Type: multipart/mixed; boundary="' . $boundary . '"' . $this->newline;
 
+		foreach ($this->headers as $value) {
+			$header .= $value . $this->newline;
+		}
+		
 		if (!$this->html) {
 			$message  = '--' . $boundary . $this->newline;
 			$message .= 'Content-Type: text/plain; charset="utf-8"' . $this->newline;

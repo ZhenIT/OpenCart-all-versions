@@ -201,8 +201,6 @@ class ControllerStep3 extends Controller {
 			$this->error['password'] = 'Password required!';
 		}
 
-		$pattern = '/^([a-z0-9])(([-a-z0-9._])*([a-z0-9]))*\@([a-z0-9])(([a-z0-9-])*([a-z0-9]))+(\.([a-z0-9])([-a-z0-9_-])?([a-z0-9])+)+$/i';
-
 		if (!preg_match(EMAIL_PATTERN, $this->request->post['email'])) {
 			$this->error['email'] = 'Invalid E-Mail!';
 		}

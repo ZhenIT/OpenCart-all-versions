@@ -339,7 +339,7 @@ class ControllerLocalisationWeightClass extends Controller {
 		$this->data['languages'] = $this->model_localisation_language->getLanguages();
 		
 		if (isset($this->request->post['weight_class_description'])) {
-			$this->data['weight_class_description'] = $this->request->post['weight_class'];
+			$this->data['weight_class_description'] = $this->request->post['weight_class_description'];
 		} elseif (isset($this->request->get['weight_class_id'])) {
 			$this->data['weight_class_description'] = $this->model_localisation_weight_class->getWeightClassDescriptions($this->request->get['weight_class_id']);
 		} else {

@@ -2,14 +2,17 @@
 class ModelAccountCustomer extends Model {
 	public function addCustomer($data) {
       	
-		$data['firstname'] = ucwords(strtolower(trim($data['firstname'])));
-		$data['lastname'] = ucwords(strtolower(trim($data['lastname'])));
-		$data['company'] = ucwords(strtolower(trim($data['company'])));
-		$data['address_1'] = ucwords(strtolower(trim($data['address_1'])));
-		$data['address_2'] = ucwords(strtolower(trim($data['address_2'])));
-		$data['city'] = ucwords(strtolower(trim($data['city'])));
-		$data['postcode'] = strtoupper(trim($data['postcode']));
-	
+		// Properly format customer details with Title case
+		if (function_exists('mb_convert_case')) {
+			$data['company'] 	= trim($data['company']);
+			$data['firstname'] 	= mb_convert_case(trim($data['firstname']), MB_CASE_TITLE, 'UTF-8');
+			$data['lastname'] 	= mb_convert_case(trim($data['lastname']), MB_CASE_TITLE, 'UTF-8');
+			$data['address_1'] 	= mb_convert_case(trim($data['address_1']), MB_CASE_TITLE,'UTF-8');
+			$data['address_2'] 	= mb_convert_case(trim($data['address_2']), MB_CASE_TITLE,'UTF-8');
+			$data['city'] 		= mb_convert_case(trim($data['city']), MB_CASE_TITLE, 'UTF-8');
+			$data['postcode'] 	= mb_convert_case(trim($data['postcode']), MB_CASE_TITLE, 'UTF-8');
+		}
+		
 		$this->db->query("INSERT INTO " . DB_PREFIX . "customer SET store_id = '" . (int)$this->config->get('config_store_id') . "', firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', password = '" . $this->db->escape(md5($data['password'])) . "', newsletter = '" . (int)$data['newsletter'] . "', customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "', status = '1', date_added = NOW()");
       	
 		$customer_id = $this->db->getLastId();
@@ -47,7 +50,7 @@ class ModelAccountCustomer extends Model {
 	}
 	
 	public function getTotalCustomersByEmail($email) {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer WHERE email = '" . $this->db->escape($email) . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer WHERE LCASE(email) = '" . $this->db->escape(strtolower($email)) . "'");
 		
 		return $query->row['total'];
 	}

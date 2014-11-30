@@ -97,6 +97,7 @@
                 <input type="text" name="quantity" size="3" value="<?php echo $minimum; ?>" />
                 <a onclick="$('#product').submit();" id="add_to_cart" class="button"><span><?php echo $button_add_to_cart; ?></span></a>
                 <?php if ($minimum > 1) { ?><br/><small><?php echo $text_minimum; ?></small><?php } ?>
+				<?php if (!empty($maximum)) { ?><br/><small><?php echo $text_maximum; ?></small><?php } ?>
               </div>
               <div>
                 <input type="hidden" name="product_id" value="<?php echo $product_id; ?>" />

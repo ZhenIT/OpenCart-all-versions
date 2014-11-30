@@ -99,6 +99,10 @@
             <td><input type="text" name="minimum" value="<?php echo $minimum; ?>" size="2" /></td>
           </tr>
 		  <tr>
+            <td><?php echo $entry_maximum; ?></td>
+            <td><input type="text" name="maximum" value="<?php echo $maximum; ?>" size="2" /></td>
+          </tr>
+		  <tr>
 		    <td><?php echo $entry_subtract; ?></td>
 		    <td><select name="subtract">
 			  <?php if ($subtract) { ?>

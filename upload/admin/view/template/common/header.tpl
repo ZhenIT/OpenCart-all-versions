@@ -53,12 +53,6 @@ $(document).ready(function(){
 	});
 });
 </script>
-
-<script type="text/javascript">
-$(document).ready(function() {
-  $(".list tr:even").css("background-color", "#F4F4F8");
-});
-</script>
 </head>
 <body>
 <div id="container">
@@ -221,7 +215,4 @@ $(document).ready(function() {
   <?php echo $breadcrumb['separator']; ?><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a>
   <?php } ?>
 </div>
-<?php } ?>
-<?php if (isset($install) && $install) { ?>
-<div class="warning"><?php echo $error_install; ?></div>
 <?php } ?>

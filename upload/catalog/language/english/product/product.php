@@ -25,6 +25,7 @@ $_['text_wait']           = 'Please Wait!';
 $_['text_search']         = 'Search';
 $_['text_tags']           = 'Tags:';
 $_['text_minimum']        = '(This product has a minimum quantity of %s)';
+$_['text_maximum']        = '(This product has a maximum quantity of %s)';
 
 // Entry
 $_['entry_name']          = 'Your Name:';

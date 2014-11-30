@@ -35,8 +35,31 @@ final class Cart {
 
       			$option_data = array();
       
+				// Verify existing options are valid and that product in cart has options if they exist. Otherwise remove the product from cart
+				// Do not push this code into OC 1.5.x as the new global options is different.
+				$product_option_value_query = $this->db->query("SELECT product_option_value_id FROM " . DB_PREFIX . "product_option_value WHERE product_id = '". (int)$product_id ."'");
+				if ($product_option_value_query->num_rows) {
+					if (empty($options)) {
+						$this->remove($key); //remove product if it should have options but doesn't
+					} else {
+						$product_option_values = array();
+
+						foreach ($product_option_value_query->rows as $product_option_value) {
+							$product_option_values[] = $product_option_value['product_option_value_id'];
+						}
+
+						foreach ($options as $option) {
+							if (!in_array($option, $product_option_values)) {
+								$this->remove($key); //remove product if it has options but they are not current
+								break;
+							}
+						}
+					}
+				} 
+	  
       			foreach ($options as $product_option_value_id) {
-        		 	$option_value_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_option_value pov LEFT JOIN " . DB_PREFIX . "product_option_value_description povd ON (pov.product_option_value_id = povd.product_option_value_id) WHERE pov.product_option_value_id = '" . (int)$product_option_value_id . "' AND pov.product_id = '" . (int)$product_id . "' AND povd.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY pov.sort_order");
+        		 	
+					$option_value_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_option_value pov LEFT JOIN " . DB_PREFIX . "product_option_value_description povd ON (pov.product_option_value_id = povd.product_option_value_id) WHERE pov.product_option_value_id = '" . (int)$product_option_value_id . "' AND pov.product_id = '" . (int)$product_id . "' AND povd.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY pov.sort_order");
 					
 					if ($option_value_query->num_rows) {
 						$option_query = $this->db->query("SELECT pod.name FROM " . DB_PREFIX . "product_option po LEFT JOIN " . DB_PREFIX . "product_option_description pod ON (po.product_option_id = pod.product_option_id) WHERE po.product_option_id = '" . (int)$option_value_query->row['product_option_id'] . "' AND po.product_id = '" . (int)$product_id . "' AND pod.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY po.sort_order");
@@ -107,6 +130,12 @@ final class Cart {
 					$stock = FALSE;
 				}
 				
+				$quantity = max($quantity, $product_query->row['minimum']);
+				
+				if ($product_query->row['maximum'] != '0') {
+					$quantity = min($quantity, $product_query->row['maximum']);
+				}
+			
       			$product_data[$key] = array(
         			'key'          => $key,
         			'product_id'   => $product_query->row['product_id'],
@@ -118,6 +147,7 @@ final class Cart {
 					'download'     => $download_data,
         			'quantity'     => $quantity,
         			'minimum'      => $product_query->row['minimum'],
+					'maximum'      => $product_query->row['maximum'],
 					'subtract'     => $product_query->row['subtract'],
 					'stock'        => $stock,
         			'price'        => ($price + $option_price),
@@ -152,7 +182,6 @@ final class Cart {
       			$this->session->data['cart'][$key] += (int)$qty;
     		}
 		}
-		$this->setMinQty();
   	}
 
   	public function update($key, $qty) {
@@ -161,7 +190,6 @@ final class Cart {
     	} else {
 	  		$this->remove($key);
 		}
-		$this->setMinQty();
   	}
 
   	public function remove($key) {
@@ -185,14 +213,6 @@ final class Cart {
 	
 		return $weight;
 	}
-
-	public function setMinQty() {
-		foreach ($this->getProducts() as $product) {
-			if ($product['quantity'] < $product['minimum']) {
-				$this->session->data['cart'][$product['key']] = $product['minimum'];
-			}
-		}
-  	}
 	
   	public function getSubTotal() {
 		$total = 0;

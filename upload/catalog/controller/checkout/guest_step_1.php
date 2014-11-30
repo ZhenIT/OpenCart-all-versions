@@ -481,7 +481,7 @@ class ControllerCheckoutGuestStep1 extends Controller {
       		$this->error['address_1'] = $this->language->get('error_address_1');
     	}
 
-    	if ((strlen(utf8_decode($this->request->post['city'])) < 3) || (strlen(utf8_decode($this->request->post['city'])) > 128)) {
+    	if ((strlen(utf8_decode($this->request->post['city'])) < 2) || (strlen(utf8_decode($this->request->post['city'])) > 128)) {
       		$this->error['city'] = $this->language->get('error_city');
     	}
 		

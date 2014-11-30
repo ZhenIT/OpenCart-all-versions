@@ -35,6 +35,12 @@ class ControllerCommonHome extends Controller {
 		
 		$this->data['entry_range'] = $this->language->get('entry_range');
 
+		if (is_dir(dirname(DIR_APPLICATION) . '/install')) {
+			$this->data['error_warning'] = $this->language->get('error_warning');
+		} else {
+			$this->data['error_warning'] = '';
+		}
+		
 		$this->document->breadcrumbs = array();
 
    		$this->document->breadcrumbs[] = array(

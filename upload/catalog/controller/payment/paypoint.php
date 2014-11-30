@@ -51,7 +51,7 @@ class ControllerPaymentPaypoint extends Controller {
 		$this->data['order_id'] = $encryption->encrypt($this->session->data['order_id']);
 		
 		switch ($this->config->get('paypoint_test')) {
-			case 'production':
+			case 'live':
 				$status = 'live';
 				break;
 			case 'successful':

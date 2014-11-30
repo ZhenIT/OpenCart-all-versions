@@ -28,7 +28,7 @@ class ControllerPaymentPPStandard extends Controller {
 
 
 		# Check for supported currency, otherwise convert to USD.
-		$currencies = array('AUD','CAD','EUR','GBP','JPY','USD','NZD','CHF','HKD','SGD','SEK','DKK','PLN','NOK','HUF','CZK','ILS','MXN','MYR','BRL','PHP','PLN','TWD','THB');
+		$currencies = array('AUD','CAD','EUR','GBP','JPY','USD','NZD','CHF','HKD','SGD','SEK','DKK','PLN','NOK','HUF','CZK','ILS','MXN','MYR','BRL','PHP','TWD','THB','TRY');
 		if (in_array($this->order_info['currency'], $currencies)) {
 			$currency = $this->order_info['currency'];
 		} else {
@@ -188,8 +188,8 @@ class ControllerPaymentPPStandard extends Controller {
 			$this->data['fields']['address1'] = html_entity_decode($this->order_info['shipping_address_1'], ENT_QUOTES, 'UTF-8');
 			$this->data['fields']['address2'] = html_entity_decode($this->order_info['shipping_address_2'], ENT_QUOTES, 'UTF-8');
 			$this->data['fields']['city'] = html_entity_decode($this->order_info['shipping_city'], ENT_QUOTES, 'UTF-8');
-			$this->data['fields']['zip'] = html_entity_decode($this->order_info['payment_postcode'], ENT_QUOTES, 'UTF-8');
-			$this->data['fields']['country'] = $this->order_info['payment_iso_code_2'];
+			$this->data['fields']['zip'] = html_entity_decode($this->order_info['shipping_postcode'], ENT_QUOTES, 'UTF-8');
+			$this->data['fields']['country'] = $this->order_info['shipping_iso_code_2'];
 			if ($this->order_info['shipping_iso_code_2'] == 'US') {
 				$this->load->model('localisation/zone');
 				$zone = $this->model_localisation_zone->getZone($this->order_info['shipping_zone_id']);

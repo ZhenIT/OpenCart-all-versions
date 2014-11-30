@@ -167,7 +167,7 @@ CREATE TABLE `oc_country` (
   `postcode_required` int(1) NOT NULL DEFAULT '0',
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`country_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=240 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=243 ;
 
 --
 -- Dumping data for table `oc_country`
@@ -216,7 +216,6 @@ INSERT INTO `oc_country` (`country_id`, `name`, `iso_code_2`, `iso_code_3`, `add
 (40, 'Cayman Islands', 'KY', 'CYM', '', 0, 1),
 (41, 'Central African Republic', 'CF', 'CAF', '', 0, 1),
 (42, 'Chad', 'TD', 'TCD', '', 0, 1),
-(240, 'Channel Islands', 'CI', 'CHI', '', 0, 1),
 (43, 'Chile', 'CL', 'CHL', '', 0, 1),
 (44, 'China', 'CN', 'CHN', '', 1, 1),
 (45, 'Christmas Island', 'CX', 'CXR', '', 1, 1),
@@ -413,8 +412,10 @@ INSERT INTO `oc_country` (`country_id`, `name`, `iso_code_2`, `iso_code_3`, `add
 (236, 'Yugoslavia', 'YU', 'YUG', '', 1, 1),
 (237, 'Democratic Republic of Congo', 'CD', 'COD', '', 1, 1),
 (238, 'Zambia', 'ZM', 'ZMB', '', 0, 1),
-(239, 'Zimbabwe', 'ZW', 'ZWE', '', 0, 1);
-
+(239, 'Zimbabwe', 'ZW', 'ZWE', '', 0, 1),
+(240, 'Channel Islands', 'CI', 'CHI', '', 0, 1),
+(241, 'Serbia (Republic of)', 'RS', 'SRB', '', 0, 1),
+(242, 'Montenegro (Republic of)', 'ME', 'MNE', '', 0, 1);
 -- --------------------------------------------------------
 
 --
@@ -1093,6 +1094,7 @@ CREATE TABLE `oc_product` (
   `sort_order` int(11) NOT NULL DEFAULT '0',
   `subtract` int(1) NOT NULL DEFAULT '1',
   `minimum` int(11) NOT NULL DEFAULT '1',
+  `maximum` int(11) NOT NULL DEFAULT '0',
   `cost` DECIMAL(15,4) NOT NULL DEFAULT '0.0000',
   PRIMARY KEY (`product_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=49 ;
@@ -1603,7 +1605,7 @@ INSERT INTO `oc_setting` (`setting_id`, `group`, `key`, `value`) VALUES
 (NULL, 'shipping', 'shipping_sort_order', '3'),
 (NULL, 'shipping', 'shipping_status', '1'),
 (NULL, 'cod', 'cod_sort_order', '1'),
-(NULL, 'sub_total', 'sub_total_sort_order', '1'),
+(NULL, 'sub_total', 'sub_total_sort_order', '0'),
 (NULL, 'cod', 'cod_status', '1'),
 (NULL, 'cod', 'cod_geo_zone_id', '0'),
 (NULL, 'coupon', 'coupon_status', '1'),
@@ -1611,7 +1613,7 @@ INSERT INTO `oc_setting` (`setting_id`, `group`, `key`, `value`) VALUES
 (NULL, 'cod', 'cod_order_status_id', '1'),
 (NULL, 'tax', 'tax_status', '1'),
 (NULL, 'tax', 'tax_sort_order', '5'),
-(NULL, 'total', 'total_sort_order', '6'),
+(NULL, 'total', 'total_sort_order', '99'),
 (NULL, 'total', 'total_status', '1'),
 (NULL, 'category', 'category_sort_order', '1'),
 (NULL, 'category', 'category_status', '1'),

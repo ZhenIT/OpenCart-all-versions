@@ -206,13 +206,7 @@ class ModelSaleCustomer extends Model {
 			return array();	
 		}
 	}
-	
-	public function getAddresses($keyword) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "address WHERE customer_id = '" . (int)$customer_id . "'");
-	
-		return $query->rows;
-	}
-	
+		
 	public function getTotalCustomers($data = array()) {
       	$sql = "SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer";
 		

@@ -221,7 +221,7 @@ class ControllerPaymentSagepayDirect extends Controller {
 
 		$data = array();
 		
-		$response_data = split(chr(10), $response);
+		$response_data = explode(chr(10), $response);
 
 		foreach ($response_data as $string) {
 			if (strpos($string, '=')) {
@@ -310,7 +310,7 @@ class ControllerPaymentSagepayDirect extends Controller {
 			
 			$data = array();
 			
-			$response_data = split(chr(10), $response);
+			$response_data = explode(chr(10), $response);
 	
 			foreach ($response_data as $string) {
 				if (strpos($string, '=')) {

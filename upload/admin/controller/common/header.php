@@ -68,16 +68,11 @@ class ControllerCommonHeader extends Controller {
 		$this->data['text_opencart'] = $this->language->get('text_opencart');
       	$this->data['text_zone'] = $this->language->get('text_zone');
 		
-		$this->data['error_install'] = $this->language->get('error_install');
-		
 		if (!$this->user->isLogged() || !isset($this->request->get['token']) || !isset($this->session->data['token']) || ($this->request->get['token'] != $this->session->data['token'])) {
 			$this->data['logged'] = '';
 			
 			$this->data['home'] = HTTPS_SERVER . 'index.php?route=common/login';
 		} else {
-			
-			$this->data['install'] = is_dir(dirname(DIR_APPLICATION) . '/install');
-		
 			$this->data['logged'] = sprintf($this->language->get('text_logged'), $this->user->getUserName());
 
 			$this->data['home'] = HTTPS_SERVER . 'index.php?route=common/home&token=' . $this->session->data['token']; 

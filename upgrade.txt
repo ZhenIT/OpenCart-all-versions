@@ -56,9 +56,9 @@ STEP 8. Clear any cookies in your browser to avoid getting token errors.
 
 STEP 9. Load the admin page & press Ctrl+F5 to force the browser to update the css changes.
 
-STEP 10. Admin User Groups and Edit all user groups to add access and modify to new modules and controllers
+STEP 10. Goto Admin->Users->User Groups and Edit the Top Adminstrator group. Check All boxes.
 
-STEP 11. Goto Admin and Edit the main System Settings. Update all fields and click save. Be sure to choose any custom mods from the Ignore Token list to avoid any token warnings.
+STEP 11. Goto Admin and Edit the main System Settings. Update all fields and click save, even if nothing changed.
 
 STEP 12. Load the store front & press Ctrl+F5 to force the browser to update the css changes.
 

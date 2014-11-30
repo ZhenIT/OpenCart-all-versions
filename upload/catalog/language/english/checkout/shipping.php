@@ -13,5 +13,5 @@ $_['text_comments']         = 'Add Comments About Your Order';
 
 // Error
 $_['error_shipping']        = 'Error: Shipping method required!';
-$_['error_no_shipping']     = 'Error: No Shipping options are available. Please <a href="index.php?route=information/contact">contact us</a> for assistance!';
+$_['error_no_shipping']     = 'No Shipping options are available. Please <a href="index.php?route=information/contact">contact us</a> for assistance!';
 ?>

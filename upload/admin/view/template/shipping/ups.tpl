@@ -601,6 +601,20 @@
               </div>
             </div></td>
         </tr>
+		<tr>
+          <td><?php echo $entry_insurance; ?></td>
+          <td><?php if ($ups_insurance) { ?>
+            <input type="radio" name="ups_insurance" value="1" checked="checked" />
+            <?php echo $text_yes; ?>
+            <input type="radio" name="ups_insurance" value="0" />
+            <?php echo $text_no; ?>
+            <?php } else { ?>
+            <input type="radio" name="ups_insurance" value="1" />
+            <?php echo $text_yes; ?>
+            <input type="radio" name="ups_insurance" value="0" checked="checked" />
+            <?php echo $text_no; ?>
+            <?php } ?></td>
+        </tr>
         <tr>
           <td><?php echo $entry_display_weight; ?></td>
           <td><?php if ($ups_display_weight) { ?>
@@ -630,6 +644,38 @@
               <?php } ?>
               <?php } ?>
             </select></td>
+        </tr>
+		<tr>
+          <td><?php echo $entry_measurement_code; ?></td>
+          <td><select name="ups_measurement_code">
+		  <?php if (!$ups_measurement_code || $ups_measurement_code == 'CM') { ?>
+          <option value="CM" selected="selected">CM</option>
+		  <option value="IN">IN</option>
+          <?php } else { ?>
+		  <option value="CM">CM</option>
+          <option value="IN" selected="selected">IN</option>
+          <?php } ?>
+		  </select></td>
+        </tr>
+        <tr>
+          <td><?php echo $entry_measurement_class; ?></td>
+          <td><select name="ups_measurement_class">
+              <?php foreach ($length_classes as $length_class) { ?>
+              <?php if ($length_class['unit'] == $ups_measurement_class) { ?>
+              <option value="<?php echo $length_class['unit']; ?>" selected="selected"><?php echo $length_class['title']; ?></option>
+              <?php } else { ?>
+              <option value="<?php echo $length_class['unit']; ?>"><?php echo $length_class['title']; ?></option>
+              <?php } ?>
+              <?php } ?>
+            </select></td>
+        </tr>
+		<tr>
+          <td><?php echo $entry_dimension; ?></td>
+          <td>
+		    <input type="text" name="ups_length" value="<?php echo $ups_length; ?>" size="4" />
+            <input type="text" name="ups_width" value="<?php echo $ups_width; ?>" size="4" />
+            <input type="text" name="ups_height" value="<?php echo $ups_height; ?>" size="4" />
+		  </td>
         </tr>
         <tr>
           <td><?php echo $entry_tax; ?></td>

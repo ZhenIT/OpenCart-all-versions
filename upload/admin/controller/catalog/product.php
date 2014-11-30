@@ -3,7 +3,7 @@ class ControllerCatalogProduct extends Controller {
 	private $error = array();
 
   	public function index() {
-		$this->load->language('catalog/product');
+		$this->data = array_merge($this->data, $this->load->language('catalog/product'));
 
 		$this->document->title = $this->language->get('heading_title');
 
@@ -384,26 +384,6 @@ class ControllerCatalogProduct extends Controller {
 			);
     	}
 
-		$this->data['heading_title'] = $this->language->get('heading_title');
-
-		$this->data['text_enabled'] = $this->language->get('text_enabled');
-		$this->data['text_disabled'] = $this->language->get('text_disabled');
-		$this->data['text_no_results'] = $this->language->get('text_no_results');
-		$this->data['text_image_manager'] = $this->language->get('text_image_manager');
-
-		$this->data['column_image'] = $this->language->get('column_image');
-		$this->data['column_name'] = $this->language->get('column_name');
-    	$this->data['column_model'] = $this->language->get('column_model');
-    	$this->data['column_price'] = $this->language->get('column_price');
-		$this->data['column_quantity'] = $this->language->get('column_quantity');
-		$this->data['column_status'] = $this->language->get('column_status');
-		$this->data['column_action'] = $this->language->get('column_action');
-
-		$this->data['button_copy'] = $this->language->get('button_copy');
-		$this->data['button_insert'] = $this->language->get('button_insert');
-		$this->data['button_delete'] = $this->language->get('button_delete');
-		$this->data['button_filter'] = $this->language->get('button_filter');
-
  		$this->data['token'] = $this->session->data['token'];
 
  		if (isset($this->error['warning'])) {
@@ -517,115 +497,26 @@ class ControllerCatalogProduct extends Controller {
   	}
 
   	private function getForm() {
-    	$this->data['heading_title'] = $this->language->get('heading_title');
+	
+    	$this->data = array_merge($this->data, $this->load->language('catalog/product'));
 
-    	$this->data['text_enabled'] = $this->language->get('text_enabled');
-    	$this->data['text_disabled'] = $this->language->get('text_disabled');
-    	$this->data['text_none'] = $this->language->get('text_none');
-    	$this->data['text_yes'] = $this->language->get('text_yes');
-    	$this->data['text_no'] = $this->language->get('text_no');
-		$this->data['text_plus'] = $this->language->get('text_plus');
-		$this->data['text_minus'] = $this->language->get('text_minus');
-		$this->data['text_default'] = $this->language->get('text_default');
-		$this->data['text_image_manager'] = $this->language->get('text_image_manager');
-		$this->data['text_option'] = $this->language->get('text_option');
-		$this->data['text_option_value'] = $this->language->get('text_option_value');
-		$this->data['text_select'] = $this->language->get('text_select');
-		$this->data['text_none'] = $this->language->get('text_none');
-
-		$this->data['tab_shipping'] = $this->language->get('tab_shipping');
-		$this->data['tab_links'] = $this->language->get('tab_links');
-
-		$this->data['entry_name'] = $this->language->get('entry_name');
-		$this->data['entry_meta_keywords'] = $this->language->get('entry_meta_keywords');
-		$this->data['entry_meta_description'] = $this->language->get('entry_meta_description');
-		$this->data['entry_description'] = $this->language->get('entry_description');
-		$this->data['entry_store'] = $this->language->get('entry_store');
-		$this->data['entry_keyword'] = $this->language->get('entry_keyword');
-    	$this->data['entry_model'] = $this->language->get('entry_model');
-		$this->data['entry_sku'] = $this->language->get('entry_sku');
-		$this->data['entry_location'] = $this->language->get('entry_location');
-		$this->data['entry_minimum'] = $this->language->get('entry_minimum');
-		$this->data['entry_manufacturer'] = $this->language->get('entry_manufacturer');
-    	$this->data['entry_shipping'] = $this->language->get('entry_shipping');
-    	$this->data['entry_date_available'] = $this->language->get('entry_date_available');
-    	$this->data['entry_quantity'] = $this->language->get('entry_quantity');
-		$this->data['entry_stock_status'] = $this->language->get('entry_stock_status');
-    	$this->data['entry_status'] = $this->language->get('entry_status');
-    	$this->data['entry_tax_class'] = $this->language->get('entry_tax_class');
-    	$this->data['entry_price'] = $this->language->get('entry_price');
-		$this->data['entry_cost'] = $this->language->get('entry_cost');
-		$this->data['entry_subtract'] = $this->language->get('entry_subtract');
-    	$this->data['entry_weight_class'] = $this->language->get('entry_weight_class');
-    	$this->data['entry_weight'] = $this->language->get('entry_weight');
-		$this->data['entry_dimension'] = $this->language->get('entry_dimension');
-		$this->data['entry_length'] = $this->language->get('entry_length');
-    	$this->data['entry_image'] = $this->language->get('entry_image');
-    	$this->data['entry_download'] = $this->language->get('entry_download');
-    	$this->data['entry_category'] = $this->language->get('entry_category');
-		$this->data['entry_related'] = $this->language->get('entry_related');
-		$this->data['entry_option'] = $this->language->get('entry_option');
-		$this->data['entry_option_value'] = $this->language->get('entry_option_value');
-		$this->data['entry_sort_order'] = $this->language->get('entry_sort_order');
-		$this->data['entry_prefix'] = $this->language->get('entry_prefix');
-		$this->data['entry_customer_group'] = $this->language->get('entry_customer_group');
-		$this->data['entry_date_start'] = $this->language->get('entry_date_start');
-		$this->data['entry_date_end'] = $this->language->get('entry_date_end');
-		$this->data['entry_priority'] = $this->language->get('entry_priority');
-		$this->data['entry_tags'] = $this->language->get('entry_tags');
-
-    	$this->data['button_save'] = $this->language->get('button_save');
-    	$this->data['button_cancel'] = $this->language->get('button_cancel');
-		$this->data['button_add_option'] = $this->language->get('button_add_option');
-		$this->data['button_add_option_value'] = $this->language->get('button_add_option_value');
-		$this->data['button_add_discount'] = $this->language->get('button_add_discount');
-		$this->data['button_add_special'] = $this->language->get('button_add_special');
-		$this->data['button_add_image'] = $this->language->get('button_add_image');
-		$this->data['button_remove'] = $this->language->get('button_remove');
-
-    	$this->data['tab_general'] = $this->language->get('tab_general');
-    	$this->data['tab_data'] = $this->language->get('tab_data');
-		$this->data['tab_discount'] = $this->language->get('tab_discount');
-		$this->data['tab_special'] = $this->language->get('tab_special');
-		$this->data['tab_option'] = $this->language->get('tab_option');
-    	$this->data['tab_image'] = $this->language->get('tab_image');
-
- 		if (isset($this->error['warning'])) {
-			$this->data['error_warning'] = $this->error['warning'];
-		} else {
-			$this->data['error_warning'] = '';
+		$errors = array(
+			'warning',
+			'name',
+			'meta_description',
+			'description',
+			'model',
+			'date_available'
+		);
+		
+		foreach ($errors as $error) {
+			if (isset($this->error[$error])) {
+				$this->data['error_' . $error] = $this->error[$error];
+			} else {
+				$this->data['error_' . $error] = '';
+			}
 		}
-
- 		if (isset($this->error['name'])) {
-			$this->data['error_name'] = $this->error['name'];
-		} else {
-			$this->data['error_name'] = '';
-		}
-
- 		if (isset($this->error['meta_description'])) {
-			$this->data['error_meta_description'] = $this->error['meta_description'];
-		} else {
-			$this->data['error_meta_description'] = '';
-		}
-
-   		if (isset($this->error['description'])) {
-			$this->data['error_description'] = $this->error['description'];
-		} else {
-			$this->data['error_description'] = '';
-		}
-
-   		if (isset($this->error['model'])) {
-			$this->data['error_model'] = $this->error['model'];
-		} else {
-			$this->data['error_model'] = '';
-		}
-
-		if (isset($this->error['date_available'])) {
-			$this->data['error_date_available'] = $this->error['date_available'];
-		} else {
-			$this->data['error_date_available'] = '';
-		}
-
+		
 		$url = '';
 
 		if (isset($this->request->get['filter_name'])) {
@@ -691,7 +582,7 @@ class ControllerCatalogProduct extends Controller {
 		$this->load->model('localisation/language');
 
 		$this->data['languages'] = $this->model_localisation_language->getLanguages();
-
+		
 		if (isset($this->request->post['product_description'])) {
 			$this->data['product_description'] = $this->request->post['product_description'];
 		} elseif (isset($product_info)) {
@@ -810,6 +701,14 @@ class ControllerCatalogProduct extends Controller {
       		$this->data['minimum'] = $product_info['minimum'];
     	} else {
 			$this->data['minimum'] = 1;
+		}
+		
+		if (isset($this->request->post['maximum'])) {
+      		$this->data['maximum'] = $this->request->post['maximum'];
+    	} elseif (isset($product_info)) {
+      		$this->data['maximum'] = $product_info['maximum'];
+    	} else {
+			$this->data['maximum'] = 0;
 		}
 
 		if (isset($this->request->post['subtract'])) {

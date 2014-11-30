@@ -6,6 +6,9 @@
     <h1 style="background-image: url('view/image/home.png');"><?php echo $heading_title; ?></h1>
   </div>
   <div class="content">
+    <?php if ($error_warning) { ?>
+	<div class="warning"><?php echo $error_warning; ?></div>
+	<?php } ?>
     <div style="display: inline-block; width: 100%; margin-bottom: 15px; clear: both;">
       <div style="float: left; width: 49%;">
         <div style="background: #547C96; color: #FFF; border-bottom: 1px solid #8EAEC3; padding: 5px; font-size: 14px; font-weight: bold;"><?php echo $text_overview; ?></div>

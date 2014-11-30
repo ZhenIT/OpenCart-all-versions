@@ -149,6 +149,7 @@ class ModelSaleOrder extends Model {
 				$mail->hostname = $this->config->get('config_smtp_host');
 				$mail->username = $this->config->get('config_smtp_username');
 				$mail->password = $this->config->get('config_smtp_password');
+				$mail->parameter = $this->config->get('config_mail_parameter');
 				$mail->port = $this->config->get('config_smtp_port');
 				$mail->timeout = $this->config->get('config_smtp_timeout');
 				$mail->setTo($order_query->row['email']);
@@ -353,7 +354,7 @@ class ModelSaleOrder extends Model {
 		}
 
 		if (isset($data['filter_name']) && !is_null($data['filter_name'])) {
-			$sql .= " AND CONCAT(firstname, ' ', lastname) LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
+			$sql .= " AND LCASE(CONCAT(firstname, ' ', lastname)) LIKE '%" . $this->db->escape(strtolower($data['filter_name'])) . "%'";
 		}
 
 		if (isset($data['filter_date_added']) && !is_null($data['filter_date_added'])) {

@@ -1,6 +1,6 @@
 <?php
 class ModelShippingUps extends Model {
-	function getQuote($address) {
+	function getQuote($address, $weight = false, $dimensions = false) {
 		$this->load->language('shipping/ups');
 		
 		if ($this->config->get('ups_status')) {
@@ -20,9 +20,25 @@ class ModelShippingUps extends Model {
 		$method_data = array();
 		
 		if ($status) {
-			$weight = $this->weight->convert($this->cart->getWeight(), $this->config->get('config_weight_class'), $this->config->get('ups_weight_class'));
+			
+			// If weight passed in through function, use that, otherwise use cart weight
+			if (!(float)$weight) {
+				$weight = $this->cart->getWeight();
+			}
+			
+			$weight = $this->weight->convert($weight, $this->config->get('config_weight_class'), $this->config->get('ups_weight_class'));
 			
 			$weight = ($weight < 0.1 ? 0.1 : $weight);
+			
+			// If dimensions passed in through function, use those, otherwise use default
+			$length = (isset($dimensions['length'])) ? $dimensions['length'] : $this->config->get('ups_length');
+			$length = $this->length->convert($length, $this->config->get('config_length_class'), $this->config->get('ups_measurement_class'));
+			
+			$width  = (isset($dimensions['width'])) ? $dimensions['width'] : $this->config->get('ups_width');
+			$width  = $this->length->convert($width, $this->config->get('config_length_class'), $this->config->get('ups_measurement_class'));
+			
+			$height = (isset($dimensions['height'])) ? $dimensions['height'] : $this->config->get('ups_height');
+			$height = $this->length->convert($height, $this->config->get('config_length_class'), $this->config->get('ups_measurement_class'));
 			
 			$service_code = array(
 				// US Origin
@@ -159,6 +175,15 @@ class ModelShippingUps extends Model {
 			$xml .= '				<Code>' . $this->config->get('ups_packaging') . '</Code>';
 			$xml .= '			</PackagingType>';
 
+			$xml .= '		    <Dimensions>';
+    		$xml .= '				<UnitOfMeasurement>';
+    		$xml .= '					<Code>' . $this->config->get('ups_measurement_code') . '</Code>';
+    		$xml .= '				</UnitOfMeasurement>';
+    		$xml .= '				<Length>' . $length . '</Length>';
+    		$xml .= '				<Width>' . $width . '</Width>';
+    		$xml .= '				<Height>' . $height . '</Height>';
+    		$xml .= '			</Dimensions>';
+			
 			$xml .= '			<PackageWeight>';
 			$xml .= '				<UnitOfMeasurement>';
 			$xml .= '					<Code>' . $this->config->get('ups_weight_code') . '</Code>';
@@ -232,19 +257,21 @@ class ModelShippingUps extends Model {
 
 						$total_charges = $rated_shipment->getElementsByTagName('TotalCharges')->item(0);
 							
-						$cost = $total_charges->getElementsByTagName('MonetaryValue')->item(0)->nodeValue;	
+						$cost = $total_charges->getElementsByTagName('MonetaryValue')->item(0)->nodeValue;
+						
+						$currency = $total_charges->getElementsByTagName('CurrencyCode')->item(0)->nodeValue;
 						
 						if (!($code && $cost)) {
 							continue;
 						}
-													
+							
 						if ($this->config->get('ups_' . strtolower($this->config->get('ups_origin')) . '_' . $code)) {
 							$quote_data[$code] = array(
 								'id'           => 'ups.' . $code,
 								'title'        => $service_code[$this->config->get('ups_origin')][$code],
-								'cost'         => $this->currency->convert($cost, 'USD', $this->currency->getCode()),
+								'cost'         => $this->currency->convert($cost, $currency, $this->config->get('config_currency')),
 								'tax_class_id' => $this->config->get('ups_tax_class_id'),
-								'text'         => $this->currency->format($this->tax->calculate($this->currency->convert($cost, 'USD', $this->currency->getCode()), $this->config->get('ups_tax_class_id'), $this->config->get('config_tax')))
+								'text'         => $this->currency->format($this->tax->calculate($this->currency->convert($cost, $this->config->get('config_currency'), $this->currency->getCode()), $this->config->get('ups_tax_class_id'), $this->config->get('config_tax')))
 							);
 						}
 					}
@@ -254,7 +281,7 @@ class ModelShippingUps extends Model {
 			$title = $this->language->get('text_title');
 			
 			if ($this->config->get('ups_display_weight')) {	  
-				$title .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+				$title .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('ups_weight_class')) . ')';
 			}
 		
 			$method_data = array(

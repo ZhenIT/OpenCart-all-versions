@@ -54,7 +54,4 @@ $_['text_user_group']        = 'User Groups';
 $_['text_weight_class']      = 'Weight Classes';
 $_['text_length_class']      = 'Length Classes';
 $_['text_zone']              = 'Zones';
-
-// Error
-$_['error_install']          = 'WARNING: INSTALL FOLDER STILL EXISTS!';
 ?>

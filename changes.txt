@@ -1,3 +1,35 @@
+== OpenCart v1.4.9.5 ==
+
+FIXES:
+- Fixed Regression Weight Class Description saving in admin
+- Fixed Missing mail parameter admin order update
+- Fixed setting.php and installer to use common Email regex
+- Fixed firstclass for USPS new V4 api and international settings
+- Fixed css for alternating row colors in admin
+- Fixed paypoint live method
+- updated royal mail rates
+- Fixed store breadcrumb page not found issue
+- Updated sagepay_direct to use explode instead of split()
+- Admin category cache updated to be separate from the catalog
+
+ADDED:
+- Added some additional htaccess override options for those that can't use php.ini.
+- Reduced admin user name validation to 1 char
+- Updated UPS admin controller to use optimized coding method
+- Added UPS insurance & avg dimensions
+- Added new paypal standard currency
+- Additional weight-based mail features
+- Additional Flat Rate & Free Shipping features
+- Added product option validation for products in the cart to avoid product with no option
+- Updated admin product controller to use new array_merge languages
+- Added Max Qty for products
+- Added callback code to nochex
+
+DELETED:
+- setMinQty() function removed. Min and Max qty check moved and simplified in main the getProducts() function in the cart library
+
+
+
 == OpenCart v1.4.9.4 ==
 
 FIXES:

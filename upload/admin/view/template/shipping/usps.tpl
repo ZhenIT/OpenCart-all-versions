@@ -389,15 +389,42 @@
               <?php } ?>
             </select></td>
         </tr>
-        <tr>
-          <td><?php echo $entry_dimension; ?></td>
-          <td><input type="text" name="usps_length" value="<?php echo $usps_length; ?>" size="4" />
-            <input type="text" name="usps_width" value="<?php echo $usps_width; ?>" size="4" />
-            <input type="text" name="usps_height" value="<?php echo $usps_height; ?>" size="4" /></td>
+		<tr>
+          <td><?php echo $entry_firstclass; ?></td>
+          <td><select name="usps_firstclass_type">
+              <?php foreach ($firstclass_types as $firstclass_type) { ?>
+              <?php if ($firstclass_type['value'] == $usps_firstclass_type) { ?>
+              <option value="<?php echo $firstclass_type['value']; ?>" selected="selected"><?php echo $firstclass_type['text']; ?></option>
+              <?php } else { ?>
+              <option value="<?php echo $firstclass_type['value']; ?>"><?php echo $firstclass_type['text']; ?></option>
+              <?php } ?>
+              <?php } ?>
+            </select></td>
         </tr>
         <tr>
-          <td><?php echo $entry_girth; ?></td>
-          <td><input type="text" name="usps_girth" value="<?php echo $usps_girth; ?>" size="4" /></td>
+          <td><span class="required">*</span> <?php echo $entry_dimension; ?></td>
+          <td>
+		    <input type="text" name="usps_length" value="<?php echo $usps_length; ?>" size="4" />
+            <input type="text" name="usps_width" value="<?php echo $usps_width; ?>" size="4" />
+            <input type="text" name="usps_height" value="<?php echo $usps_height; ?>" size="4" />
+			<?php if ($error_width) { ?>
+            <span class="error"><?php echo $error_width; ?></span>
+            <?php } ?>
+			<?php if ($error_length) { ?>
+            <span class="error"><?php echo $error_length; ?></span>
+            <?php } ?>
+			<?php if ($error_height) { ?>
+            <span class="error"><?php echo $error_height; ?></span>
+            <?php } ?>
+		  </td>
+        </tr>
+        <tr>
+          <td><span class="required">*</span> <?php echo $entry_girth; ?></td>
+          <td><input type="text" name="usps_girth" value="<?php echo $usps_girth; ?>" size="4" />
+		    <?php if ($error_girth) { ?>
+            <span class="error"><?php echo $error_girth; ?></span>
+            <?php } ?>
+		  </td>
         </tr>
         <tr>
           <td><?php echo $entry_display_time; ?></td>
@@ -426,7 +453,7 @@
             <input type="radio" name="usps_display_weight" value="0" checked="checked" />
             <?php echo $text_no; ?>
             <?php } ?></td>
-        </tr>        
+        </tr>
         <tr>
           <td><?php echo $entry_weight_class; ?></td>
           <td><select name="usps_weight_class">
@@ -480,6 +507,18 @@
         <tr>
           <td><?php echo $entry_sort_order; ?></td>
           <td><input type="text" name="usps_sort_order" value="<?php echo $usps_sort_order; ?>" size="1" /></td>
+        </tr>
+		<tr>
+          <td><?php echo $entry_debug; ?></td>
+          <td><select name="usps_debug">
+              <?php if ($usps_debug) { ?>
+              <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
+              <option value="0"><?php echo $text_disabled; ?></option>
+              <?php } else { ?>
+              <option value="1"><?php echo $text_enabled; ?></option>
+              <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
+              <?php } ?>
+            </select></td>
         </tr>
       </table>
     </form>
