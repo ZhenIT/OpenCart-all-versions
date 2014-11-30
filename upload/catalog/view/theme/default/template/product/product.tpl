@@ -300,8 +300,6 @@
   </div>
   <?php } ?>
   <?php echo $content_bottom; ?></div>
-<script type="text/javascript" src="catalog/view/javascript/jquery/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
-<link rel="stylesheet" type="text/css" href="catalog/view/javascript/jquery/fancybox/jquery.fancybox-1.3.4.css" media="screen" />  
 <script type="text/javascript"><!--
 $('.fancybox').fancybox({cyclic: true});
 //--></script>
@@ -409,11 +407,11 @@ $('#button-review').bind('click', function() {
 		data: 'name=' + encodeURIComponent($('input[name=\'name\']').val()) + '&text=' + encodeURIComponent($('textarea[name=\'text\']').val()) + '&rating=' + encodeURIComponent($('input[name=\'rating\']:checked').val() ? $('input[name=\'rating\']:checked').val() : '') + '&captcha=' + encodeURIComponent($('input[name=\'captcha\']').val()),
 		beforeSend: function() {
 			$('.success, .warning').remove();
-			$('#button-review').attr('disabled', 'disabled');
+			$('#button-review').attr('disabled', true);
 			$('#review-title').after('<div class="attention"><img src="catalog/view/theme/default/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
 		},
 		complete: function() {
-			$('#button-review').attr('disabled', '');
+			$('#button-review').attr('disabled', false);
 			$('.attention').remove();
 		},
 		success: function(data) {

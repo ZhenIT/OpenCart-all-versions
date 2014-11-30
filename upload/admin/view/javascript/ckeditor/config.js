@@ -1,22 +1,14 @@
 ﻿/*
-
-Copyright (c) 2003-2009, CKSource - Frederico Knabben. All rights reserved.
-
+Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
-
 */
 
-
-
 CKEDITOR.editorConfig = function( config )
-
 {
 	// Define changes to default configuration here. For example:
-
 	// config.language = 'fr';
-
 	// config.uiColor = '#AADC6E';
-
+	
 	config.filebrowserBrowseUrl = 'index.php?route=common/filemanager';
 	config.filebrowserImageBrowseUrl = 'index.php?route=common/filemanager';
 	config.filebrowserFlashBrowseUrl = 'index.php?route=common/filemanager';
@@ -45,8 +37,7 @@ CKEDITOR.editorConfig = function( config )
 		['Image','Table','HorizontalRule']
 	];
 	
-	config.toolbar_Full =
-	[
+	config.toolbar_Full = [
 		['Source','-','Save','NewPage','Preview','-','Templates'],
 		['Cut','Copy','Paste','PasteText','PasteFromWord','-','Print', 'SpellChecker', 'Scayt'],
 		['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
@@ -63,4 +54,3 @@ CKEDITOR.editorConfig = function( config )
 		['Maximize', 'ShowBlocks','-','About']
 	];
 };
-
