@@ -31,10 +31,10 @@ class ModelCatalogCategory extends Model {
 		$query = $this->db->query("SELECT category_id FROM category WHERE parent_id = '" . (int)$category_id . "'");
 
 		foreach ($query->rows as $result) {
-			$this->deleteCategory($result['category_id']);
+			$this->delete($result['category_id']);
 		}
 		
-		$this->cache->delete('category');
+		$this->cache->deleteCategory('category');
 	}
 
 	public function getCategory($category_id) {

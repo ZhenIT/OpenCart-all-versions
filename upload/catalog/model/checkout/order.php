@@ -130,10 +130,14 @@ class ModelCheckoutOrder extends Model {
 	
 	public function complete($order_id) {
 		if ($this->config->get('config_stock_subtract')) {
-			$query = $this->db->query("SELECT * FROM order_product WHERE order_id = '" . (int)$order_id . "' AND confirm = '1'");
+			$query = $this->db->query("SELECT * FROM `order` WHERE order_id = '" . (int)$order_id . "' AND confirm = '1'");
+
+			if ($query->num_rows) {
+				$query = $this->db->query("SELECT * FROM order_product WHERE order_id = '" . (int)$order_id . "'");
 			
-			foreach ($query->rows as $result) {
-				$this->db->query("UPDATE product SET quantity = (quantity - " . (int)$result['quantity'] . ") WHERE product_id = '" . (int)$result['product_id'] . "'");
+				foreach ($query->rows as $result) {
+					$this->db->query("UPDATE product SET quantity = (quantity - " . (int)$result['quantity'] . ") WHERE product_id = '" . (int)$result['product_id'] . "'");
+				}
 			}
 		}
 	}

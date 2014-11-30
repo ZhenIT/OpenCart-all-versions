@@ -31,16 +31,6 @@ INSTALL
 
 6. Delete the install directory.
 
----------------------
-FURTHER CONFIGURATION
----------------------
-
-URL Alias
----------
-
-1. To use URL Alias you need to be running apache with mod_rewrite enabled. 
-
-2. Ensure you have permissions to use .htaccess, and that it is setup correctly.
 
 For any support issues please visit: http://www.opencart.com
 
