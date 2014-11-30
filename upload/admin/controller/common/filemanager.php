@@ -40,7 +40,7 @@ class ControllerCommonFileManager extends Controller {
 		}
 		
 		if (isset($this->request->get['CKEditorFuncNum'])) {
-			$this->data['fckeditor'] = true;
+			$this->data['fckeditor'] = $this->request->get['CKEditorFuncNum'];
 		} else {
 			$this->data['fckeditor'] = false;
 		}

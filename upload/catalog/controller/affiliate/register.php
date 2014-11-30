@@ -309,7 +309,7 @@ class ControllerAffiliateRegister extends Controller {
 			$information_info = $this->model_catalog_information->getInformation($this->config->get('config_affiliate_id'));
 			
 			if ($information_info) {
-				$this->data['text_agree'] = sprintf($this->language->get('text_agree'), $this->url->link('information/information/info', 'information_id=' . $this->config->get('config_affiliate_id')), $information_info['title'], $information_info['title']);
+				$this->data['text_agree'] = sprintf($this->language->get('text_agree'), $this->url->link('information/information/info', 'information_id=' . $this->config->get('config_affiliate_id'), 'SSL'), $information_info['title'], $information_info['title']);
 			} else {
 				$this->data['text_agree'] = '';
 			}
@@ -350,7 +350,7 @@ class ControllerAffiliateRegister extends Controller {
       		$this->error['lastname'] = $this->language->get('error_lastname');
     	}
 
-    	if ((strlen(utf8_decode($this->request->post['email'])) > 96) || !preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i', $this->request->post['email'])) {
+    	if ((strlen(utf8_decode($this->request->post['email'])) > 96) || !preg_match('/^[^\@]+@.*\.[a-z]{2,6}$/i', $this->request->post['email'])) {
       		$this->error['email'] = $this->language->get('error_email');
     	}
 
@@ -394,10 +394,10 @@ class ControllerAffiliateRegister extends Controller {
       		$this->error['confirm'] = $this->language->get('error_confirm');
     	}
 		
-		if ($this->config->get('config_account_id')) {
+		if ($this->config->get('config_affiliate_id')) {
 			$this->load->model('catalog/information');
 			
-			$information_info = $this->model_catalog_information->getInformation($this->config->get('config_account_id'));
+			$information_info = $this->model_catalog_information->getInformation($this->config->get('config_affiliate_id'));
 			
 			if ($information_info && !isset($this->request->post['agree'])) {
       			$this->error['warning'] = sprintf($this->language->get('error_agree'), $information_info['title']);
