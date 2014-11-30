@@ -41,6 +41,8 @@ $_['entry_image_product']     = 'Product List Size:';
 $_['entry_image_additional']  = 'Additional Product Image Size:';
 $_['entry_image_related']     = 'Related Product Image Size:';
 $_['entry_image_cart']        = 'Cart Image Size:';
+$_['entry_catalog_limit'] 	  = 'Default Items per Page (Catalog):<br /><span class="help">Determines how many catalog items are shown per page (products, categories, etc)</span>';
+$_['entry_cart_weight']       = 'Display Weight on Cart Page:';
 
 // Button
 $_['button_add_store']        = 'Create A New Store';
@@ -59,4 +61,6 @@ $_['error_image_additional']  = 'Additional Product Image Size dimensions requir
 $_['error_image_related']     = 'Related Product Image Size dimensions required!';
 $_['error_image_cart']        = 'Cart Image Size dimensions required!';
 $_['error_store']             = 'Warning: This Store cannot be deleted as it is currently assigned to %s orders!';
+$_['error_required_data']     = 'Required Data has not been entered. Check for field errors!';
+$_['error_limit']       	  = 'Limit required!';
 ?>

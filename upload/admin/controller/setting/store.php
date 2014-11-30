@@ -98,6 +98,8 @@ class ControllerSettingStore extends Controller {
 		$this->data['entry_image_related'] = $this->language->get('entry_image_related');
 		$this->data['entry_image_cart'] = $this->language->get('entry_image_cart');
 		$this->data['entry_ssl'] = $this->language->get('entry_ssl');
+		$this->data['entry_catalog_limit'] = $this->language->get('entry_catalog_limit');
+		$this->data['entry_cart_weight'] = $this->language->get('entry_cart_weight');
 		
 		$this->data['button_save'] = $this->language->get('button_save');
 		$this->data['button_cancel'] = $this->language->get('button_cancel');
@@ -175,6 +177,12 @@ class ControllerSettingStore extends Controller {
 			$this->data['error_image_cart'] = $this->error['image_cart'];
 		} else {
 			$this->data['error_image_cart'] = '';
+		}
+		
+		if (isset($this->error['catalog_limit'])) {
+			$this->data['error_catalog_limit'] = $this->error['catalog_limit'];
+		} else {
+			$this->data['error_catalog_limit'] = '';
 		}
 		
   		$this->document->breadcrumbs = array();
@@ -448,7 +456,23 @@ class ControllerSettingStore extends Controller {
 		} else {
 			$this->data['stock_subtract'] = '';
 		}
-
+		
+		if (isset($this->request->post['catalog_limit'])) {
+			$this->data['catalog_limit'] = $this->request->post['catalog_limit'];
+		} elseif (isset($store_info)) {
+			$this->data['catalog_limit'] = $store_info['catalog_limit'];	
+		} else {
+			$this->data['catalog_limit'] = '12';
+		}
+		
+		if (isset($this->request->post['cart_weight'])) {
+			$this->data['cart_weight'] = $this->request->post['cart_weight'];
+		} elseif (isset($store_info)) {
+			$this->data['cart_weight'] = $store_info['cart_weight'];	
+		} else {
+			$this->data['cart_weight'] = '';
+		}
+		
 		$this->load->model('localisation/order_status');
 		
 		$this->data['order_statuses'] = $this->model_localisation_order_status->getOrderStatuses();
@@ -664,9 +688,16 @@ class ControllerSettingStore extends Controller {
 			$this->error['image_cart'] = $this->language->get('error_image_cart');
 		}
 		
+		if (!$this->request->post['catalog_limit']) {
+			$this->error['catalog_limit'] = $this->language->get('error_limit');
+		}
+		
 		if (!$this->error) {
 			return TRUE;
 		} else {
+			if (!isset($this->error['warning'])) {
+				$this->error['warning'] = $this->language->get('error_required_data');
+			}
 			return FALSE;
 		}
 	}
