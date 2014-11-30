@@ -14,7 +14,7 @@ class ControllerExtensionTotal extends Controller {
    		);
 
    		$this->document->breadcrumbs[] = array(
-       		'href'      => $this->url->https('extention/total'),
+       		'href'      => $this->url->https('extension/total'),
        		'text'      => $this->language->get('heading_title'),
       		'separator' => ' :: '
    		);
@@ -31,6 +31,10 @@ class ControllerExtensionTotal extends Controller {
 		$this->data['success'] = @$this->session->data['success'];
 		
 		unset($this->session->data['success']);
+		
+    	$this->data['error'] = @$this->session->data['error'];
+    
+		unset($this->session->data['error']);
 
 		$this->load->model('setting/extension');
 
@@ -40,38 +44,40 @@ class ControllerExtensionTotal extends Controller {
 				
 		$files = glob(DIR_APPLICATION . 'controller/total/*.php');
 		
-		foreach ($files as $file) {
-			$extension = basename($file, '.php');
-			
-			$this->load->language('total/' . $extension);
-
-			$action = array();
-			
-			if (!in_array($extension, $extensions)) {
-				$action[] = array(
-					'text' => $this->language->get('text_install'),
-					'href' => $this->url->https('extension/total/install&extension=' . $extension)
-				);
-			} else {
-				$action[] = array(
-					'text' => $this->language->get('text_edit'),
-					'href' => $this->url->https('total/' . $extension)
-				);
-							
-				$action[] = array(
-					'text' => $this->language->get('text_uninstall'),
-					'href' => $this->url->https('extension/total/uninstall&extension=' . $extension)
+		if ($files) {
+			foreach ($files as $file) {
+				$extension = basename($file, '.php');
+				
+				$this->load->language('total/' . $extension);
+	
+				$action = array();
+				
+				if (!in_array($extension, $extensions)) {
+					$action[] = array(
+						'text' => $this->language->get('text_install'),
+						'href' => $this->url->https('extension/total/install&extension=' . $extension)
+					);
+				} else {
+					$action[] = array(
+						'text' => $this->language->get('text_edit'),
+						'href' => $this->url->https('total/' . $extension)
+					);
+								
+					$action[] = array(
+						'text' => $this->language->get('text_uninstall'),
+						'href' => $this->url->https('extension/total/uninstall&extension=' . $extension)
+					);
+				}
+										
+				$this->data['extensions'][] = array(
+					'name'       => $this->language->get('heading_title'),
+					'status'     => $this->config->get($extension . '_status') ? $this->language->get('text_enabled') : $this->language->get('text_disabled'),
+					'sort_order' => $this->config->get($extension . '_sort_order'),
+					'action'     => $action
 				);
 			}
-									
-			$this->data['extensions'][] = array(
-				'name'       => $this->language->get('heading_title'),
-				'status'     => $this->config->get($extension . '_status') ? $this->language->get('text_enabled') : $this->language->get('text_disabled'),
-				'sort_order' => $this->config->get($extension . '_sort_order'),
-				'action'     => $action
-			);
 		}
-													
+		
 		$this->id       = 'content';
 		$this->template = 'extension/total.tpl';
 		$this->layout   = 'common/layout';
@@ -80,27 +86,39 @@ class ControllerExtensionTotal extends Controller {
 	}
 	
 	public function install() {
-		$this->load->model('setting/extension');
+		if (!$this->user->hasPermission('modify', 'extension/total')) {
+			$this->session['error'] = $this->language->get('error_permission'); 
+			
+			$this->redirect($this->url->https('extension/total'));
+		} else {				
+			$this->load->model('setting/extension');
 		
-		$this->model_setting_extension->install('total', $this->request->get['extension']);
+			$this->model_setting_extension->install('total', $this->request->get['extension']);
 
-		$this->load->model('user/user_groupr');
+			$this->load->model('user/user_group');
 		
-		$this->model_user_user_group->addPermission($this->user->getId(), 'access', 'total/' . $this->request->get['extension']);
-		$this->model_user_user_group->addPermission($this->user->getId(), 'modify', 'total/' . $this->request->get['extension']);
+			$this->model_user_user_group->addPermission($this->user->getId(), 'access', 'total/' . $this->request->get['extension']);
+			$this->model_user_user_group->addPermission($this->user->getId(), 'modify', 'total/' . $this->request->get['extension']);
 
-		$this->redirect($this->url->https('extension/total'));
+			$this->redirect($this->url->https('extension/total'));
+		}
 	}
 	
 	public function uninstall() {
-		$this->load->model('setting/extension');
-		$this->load->model('setting/setting');
+		if (!$this->user->hasPermission('modify', 'extension/total')) {
+			$this->session['error'] = $this->language->get('error_permission'); 
+			
+			$this->redirect($this->url->https('extension/total'));
+		} else {			
+			$this->load->model('setting/extension');
+			$this->load->model('setting/setting');
 		
-		$this->model_setting_extension->uninstall('total', $this->request->get['extension']);
+			$this->model_setting_extension->uninstall('total', $this->request->get['extension']);
 		
-		$this->model_setting_setting->deleteSetting($this->request->get['extension']);
+			$this->model_setting_setting->deleteSetting($this->request->get['extension']);
 		
-		$this->redirect($this->url->https('extension/total'));	
+			$this->redirect($this->url->https('extension/total'));
+		}
 	}	
 }
 ?>

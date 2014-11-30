@@ -40,7 +40,7 @@ final class Loader {
 			
 			Registry::set(str_replace('/', '_', $driver), new $class());
 		} else {
-			exit('Error: Could not load database ' . $drvier . '!'); 
+			exit('Error: Could not load database ' . $driver . '!'); 
 		}
 	}
 	

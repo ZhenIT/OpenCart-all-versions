@@ -14,7 +14,7 @@ class ControllerExtensionModule extends Controller {
    		);
 
    		$this->document->breadcrumbs[] = array(
-       		'href'      => $this->url->https('extention/module'),
+       		'href'      => $this->url->https('extension/module'),
        		'text'      => $this->language->get('heading_title'),
       		'separator' => ' :: '
    		);
@@ -33,6 +33,10 @@ class ControllerExtensionModule extends Controller {
 		
 		unset($this->session->data['success']);
 
+    	$this->data['error'] = @$this->session->data['error'];
+    
+		unset($this->session->data['error']);
+
 		$this->load->model('setting/extension');
 
 		$extensions = $this->model_setting_extension->getInstalled('module');
@@ -41,39 +45,49 @@ class ControllerExtensionModule extends Controller {
 						
 		$files = glob(DIR_APPLICATION . 'controller/module/*.php');
 		
-		foreach ($files as $file) {
-			$extension = basename($file, '.php');
-			
-			$this->load->language('module/' . $extension);
-
-			$action = array();
-			
-			if (!in_array($extension, $extensions)) {
-				$action[] = array(
-					'text' => $this->language->get('text_install'),
-					'href' => $this->url->https('extension/module/install&extension=' . $extension)
-				);
-			} else {
-				$action[] = array(
-					'text' => $this->language->get('text_edit'),
-					'href' => $this->url->https('module/' . $extension)
-				);
-							
-				$action[] = array(
-					'text' => $this->language->get('text_uninstall'),
-					'href' => $this->url->https('extension/module/uninstall&extension=' . $extension)
+		if ($files) {
+			foreach ($files as $file) {
+				$extension = basename($file, '.php');
+				
+				$this->load->language('module/' . $extension);
+	
+				$action = array();
+				
+				if (!in_array($extension, $extensions)) {
+					$action[] = array(
+						'text' => $this->language->get('text_install'),
+						'href' => $this->url->https('extension/module/install&extension=' . $extension)
+					);
+				} else {
+					$action[] = array(
+						'text' => $this->language->get('text_edit'),
+						'href' => $this->url->https('module/' . $extension)
+					);
+								
+					$action[] = array(
+						'text' => $this->language->get('text_uninstall'),
+						'href' => $this->url->https('extension/module/uninstall&extension=' . $extension)
+					);
+				}
+				
+				$postion = $this->config->get($extension . '_position');						
+				
+				if ($postion == 'left') {
+					$postion = $this->language->get('text_left');
+				} elseif ($postion == 'right') {
+					$postion = $this->language->get('text_right');
+				}
+				
+				$this->data['extensions'][] = array(
+					'name'        => $this->language->get('heading_title'),
+					'position'    => $postion,
+					'status'      => $this->config->get($extension . '_status') ? $this->language->get('text_enabled') : $this->language->get('text_disabled'),
+					'sort_order'  => $this->config->get($extension . '_sort_order'),
+					'action'      => $action
 				);
 			}
-									
-			$this->data['extensions'][] = array(
-				'name'        => $this->language->get('heading_title'),
-				'position'    => $this->config->get($extension . '_position'),
-				'status'      => $this->config->get($extension . '_status') ? $this->language->get('text_enabled') : $this->language->get('text_disabled'),
-				'sort_order'  => $this->config->get($extension . '_sort_order'),
-				'action'      => $action
-			);
 		}
-						
+		
 		$this->id       = 'content';
 		$this->template = 'extension/module.tpl';
 		$this->layout   = 'common/layout';
@@ -82,27 +96,39 @@ class ControllerExtensionModule extends Controller {
 	}
 	
 	public function install() {
-		$this->load->model('setting/extension');
+		if (!$this->user->hasPermission('modify', 'extension/module')) {
+			$this->session['error'] = $this->language->get('error_permission'); 
+			
+			$this->redirect($this->url->https('extension/module'));
+		} else {
+			$this->load->model('setting/extension');
 		
-		$this->model_setting_extension->install('module', $this->request->get['extension']);
+			$this->model_setting_extension->install('module', $this->request->get['extension']);
 
-		$this->load->model('user/user_group');
+			$this->load->model('user/user_group');
 		
-		$this->model_user_user_group->addPermission($this->user->getId(), 'access', 'module/' . $this->request->get['extension']);
-		$this->model_user_user_group->addPermission($this->user->getId(), 'modify', 'module/' . $this->request->get['extension']);
+			$this->model_user_user_group->addPermission($this->user->getId(), 'access', 'module/' . $this->request->get['extension']);
+			$this->model_user_user_group->addPermission($this->user->getId(), 'modify', 'module/' . $this->request->get['extension']);
 
-		$this->redirect($this->url->https('extension/module'));
+			$this->redirect($this->url->https('extension/module'));
+		}
 	}
 	
 	public function uninstall() {
-		$this->load->model('setting/extension');
-		$this->load->model('setting/setting');
+		if (!$this->user->hasPermission('modify', 'extension/module')) {
+			$this->session['error'] = $this->language->get('error_permission'); 
+			
+			$this->redirect($this->url->https('extension/module'));
+		} else {		
+			$this->load->model('setting/extension');
+			$this->load->model('setting/setting');
 		
-		$this->model_setting_extension->uninstall('module', $this->request->get['extension']);
+			$this->model_setting_extension->uninstall('module', $this->request->get['extension']);
 		
-		$this->model_setting_setting->deleteSetting($this->request->get['extension']);
+			$this->model_setting_setting->deleteSetting($this->request->get['extension']);
 		
-		$this->redirect($this->url->https('extension/module'));	
+			$this->redirect($this->url->https('extension/module'));	
+		}
 	}
 }
 ?>
