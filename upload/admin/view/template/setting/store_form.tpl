@@ -32,6 +32,20 @@
               <?php } ?></td>
           </tr>        
           <tr>
+            <td><?php echo $entry_ssl; ?></td>
+            <td><?php if ($ssl) { ?>
+              <input type="radio" name="ssl" value="1" checked="checked" />
+              <?php echo $text_yes; ?>
+              <input type="radio" name="ssl" value="0" />
+              <?php echo $text_no; ?>
+              <?php } else { ?>
+              <input type="radio" name="ssl" value="1" />
+              <?php echo $text_yes; ?>
+              <input type="radio" name="ssl" value="0" checked="checked" />
+              <?php echo $text_no; ?>
+              <?php } ?></td>
+          </tr>          
+          <tr>
             <td><span class="required">*</span> <?php echo $entry_title; ?></td>
             <td><input type="text" name="title" value="<?php echo $title; ?>" />
               <?php if ($error_title) { ?>
@@ -45,11 +59,11 @@
           <tr>
             <td><?php echo $entry_template; ?></td>
             <td><select name="template" onchange="$('#template').load('index.php?route=setting/store/template&template=' + encodeURIComponent(this.value));">
-                <?php foreach ($templates as $template) { ?>
-                <?php if ($template == $template) { ?>
-                <option value="<?php echo $template; ?>" selected="selected"><?php echo $template; ?></option>
+                <?php foreach ($templates as $templates) { ?>
+                <?php if ($templates == $template) { ?>
+                <option value="<?php echo $templates; ?>" selected="selected"><?php echo $templates; ?></option>
                 <?php } else { ?>
-                <option value="<?php echo $template; ?>"><?php echo $template; ?></option>
+                <option value="<?php echo $templates; ?>"><?php echo $templates; ?></option>
                 <?php } ?>
                 <?php } ?>
               </select></td>

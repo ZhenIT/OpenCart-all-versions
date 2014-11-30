@@ -13,7 +13,8 @@ $_['column_action']           = 'Action';
 
 // Entry
 $_['entry_name']              = 'Store Name:';
-$_['entry_url']               = 'Store URL:<br /><span class="help">Include the full URL to your store. Make sure to add \'/\' at the end. Example: http://wwww.yourdomain.com/path/</span>';
+$_['entry_url']               = 'Store URL:<br /><span class="help">Include the full URL to your store. Make sure to add \'/\' at the end. Example: http://www.yourdomain.com/path/</span>';
+$_['entry_ssl']               = 'Use SSL:<br /><span class="help">To use SSL check with your host if a SSL certificate is installed.</span>';
 $_['entry_title']             = 'Title:';
 $_['entry_meta_description']  = 'Meta Tag Description:';
 $_['entry_template']          = 'Template:';

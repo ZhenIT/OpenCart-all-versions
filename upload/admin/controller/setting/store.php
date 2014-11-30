@@ -271,6 +271,7 @@ class ControllerSettingStore extends Controller {
 		
 		$this->data['entry_name'] = $this->language->get('entry_name');
 		$this->data['entry_url'] = $this->language->get('entry_url');		
+		$this->data['entry_ssl'] = $this->language->get('entry_ssl');
 		$this->data['entry_title'] = $this->language->get('entry_title');
 		$this->data['entry_meta_description'] = $this->language->get('entry_meta_description');
 		$this->data['entry_template'] = $this->language->get('entry_template');
@@ -426,6 +427,14 @@ class ControllerSettingStore extends Controller {
 			$this->data['url'] = $this->request->server['HTTP_HOST'];
 		}
 
+		if (isset($this->request->post['ssl'])) {
+			$this->data['ssl'] = $this->request->post['ssl'];
+		} elseif (isset($store_info)) {
+			$this->data['ssl'] = $store_info['ssl'];
+		} else {
+			$this->data['ssl'] = '';
+		}
+		
 		if (isset($this->request->post['title'])) {
 			$this->data['title'] = $this->request->post['title'];
 		} elseif (isset($store_info)) {
