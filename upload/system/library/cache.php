@@ -19,7 +19,7 @@ final class Cache {
   	}
 
 	public function get($key) {
-		$files = glob(DIR_CACHE . 'cache.' . $key . '.*');
+		$files = glob(DIR_CACHE . 'cache.' . preg_replace('/[^A-Z0-9\._-]/i', '', $key) . '.*');
 
 		if ($files) {
 			$cache = file_get_contents($files[0]);
@@ -30,7 +30,7 @@ final class Cache {
   	public function set($key, $value) {
     	$this->delete($key);
 		
-		$file = DIR_CACHE . 'cache.' . $key . '.' . (time() + $this->expire);
+		$file = DIR_CACHE . 'cache.' . preg_replace('/[^A-Z0-9\._-]/i', '', $key) . '.' . (time() + $this->expire);
     	
 		$handle = fopen($file, 'w');
 
@@ -40,7 +40,7 @@ final class Cache {
   	}
 	
   	public function delete($key) {
-		$files = glob(DIR_CACHE . 'cache.' . $key . '.*');
+		$files = glob(DIR_CACHE . 'cache.' . preg_replace('/[^A-Z0-9\._-]/i', '', $key) . '.*');
 		
 		if ($files) {
     		foreach ($files as $file) {
