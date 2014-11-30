@@ -38,7 +38,14 @@
       <?php if ($error_enquiry) { ?>
       <span class="error"><?php echo $error_enquiry; ?></span>
       <?php } ?>
-    </div>
+      <br />
+      <?php echo $entry_verification; ?><br />
+      <input type="text" name="verification" value="<?php echo $verification; ?>" />
+      <br />
+      <?php if ($error_verification) { ?>
+      <span class="error"><?php echo $error_verification; ?></span>
+      <?php } ?>
+      <img src="index.php?route=product/product/verification" /></div>
     <div class="buttons">
       <table>
         <tr>

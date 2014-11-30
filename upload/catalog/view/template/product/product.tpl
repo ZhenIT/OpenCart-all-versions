@@ -92,7 +92,7 @@
       <b><?php echo $entry_verification; ?></b><br />
       <input type="text" name="verification" value="" />
       <br />
-      <img src="index.php?route=product/product/verification" id="verification" /> </div>
+      <img src="index.php?route=product/product/verification" id="verification" /></div>
     <div class="buttons">
       <table>
         <tr>

@@ -430,6 +430,8 @@ switch ($step) {
 			if (!$error) {
 				mysql_query("SET CHARATER SET utf8", $connection);
 				
+				mysql_query("SET @@session.sql_mode = 'MYSQL40'", $connection);
+				
 				mysql_query("DELETE FROM from user WHERE user_id = '1'");
 				
 				mysql_query("INSERT INTO `user` SET user_id = '1', user_group_id = '1', username = '" . mysql_real_escape_string($_POST['username']) . "', password = '" . mysql_real_escape_string(md5($_POST['password'])) . "', date_added = NOW()", $connection);
